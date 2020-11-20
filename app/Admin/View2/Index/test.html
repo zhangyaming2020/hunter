@@ -1,0 +1,19 @@
+<HTML> 
+<HEAD> 
+<TITLE>WalkingPoison's Word-to-HTML sample</TITLE> 
+<script language=javascript> 
+function saveword() 
+{ 
+var oWordApp=new ActiveXObject("Word.Application"); 
+var oDocument=oWordApp.Documents.Open("C:\\antiword\test.doc"); 
+oDocument.SaveAs("C:\\test.html", 8) 
+oWordApp.Quit(); 
+} 
+</script> 
+</HEAD> 
+<BODY> 
+点击保存按钮就可以将C:\test.doc文件转成C:\test.htm文件了。 
+<input type=button onclick="saveword()" value=保存> 
+<P> </P> 
+</BODY> 
+</HTML> 

@@ -1,0 +1,204 @@
+<if condition="$search['custom_id'] or $search['resume_id']">
+	<else />
+	<include file="Public:header" />
+</if>
+
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+	<if condition="$search['is_tab'] neq 1 and $search['is_add'] neq 1">
+		<a href="javascript:;" class="reloadButton" <if condition="$search['custom_id'] or $search['resume_id']"><else />onclick="parent.refresh_page();"</if>>刷新</a>
+		<if condition="$search['type'] neq 2">	
+		<a href="javascript:;"   style="color:#fff;"    class="J_showdialog  addNewButton" data-uri="{:U('Project/add',array('custom_id'=>$search['custom_id']))}" data-title="新增项目" data-id="add" data-editor="1" data-width="700" data-height="500">新增项目</a>
+		</if>
+	</if>
+	
+	
+	<ul class="submenu project_index" id="submenu">
+		<if condition="$search['resume_id']">
+		<li class="current" dataid="-4">
+		<if condition="$search['is_tab'] neq 1"><a href="javascript:;">我的项目</a></if>
+		</li>
+		<else />
+		<li  <if condition="$search['status'] eq -4">class="current"</if> dataid="-4">
+			<a href="{:U('project/index',array('prtaFunnel'=>-4,'type'=>$search['type']))}">启用中 ({$status_nums[-4]})</a>
+		</li>
+		<volist name="status" id="val">
+		<li  <if condition="$search['status'] eq $val['id']">class="current"</if> dataid="{$val.id}">
+			<a href="{:U('project/index',array('prtaFunnel'=>$val['id'],'type'=>$search['type']))}">{$val.name} ({$status_nums[$val['id']]})</a>
+		</li>
+		</volist>
+		<li  <if condition="$search['status'] eq -3">class="current"</if>  dataid="-1">
+			<a href="{:U('project/index',array('prtaFunnel'=>-3,'type'=>$search['type']))}">未启用 ({$status_nums[-3]})</a>
+		</li>
+		<li  <if condition="$search['status'] eq -1">class="current"</if> dataid="-2">
+			<a href="{:U('project/index',array('prtaFunnel'=>-1,'type'=>$search['type']))}">已完成 ({$status_nums[-1]})</a>
+		</li>
+		<li dataid="0" <if condition="$search['status'] eq -2">class="current"</if>>
+			<a href="{:U('project/index',array('prtaFunnel'=>-2,'type'=>$search['type']))}">全部 ({$status_nums[-2]})</a>
+		</li>
+		<!--<li dataid="-3">
+			<a href="javascript:;">已删除 (24)</a>
+		</li>-->
+		
+		</if>
+		
+	</ul>
+	<if condition="$search['is_tab'] neq 1">
+	<div class="sTableOptions">
+		<div class="form_default">
+			<form id="searchFrom">
+				<input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="project" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="type" value="{$search['type']}" />
+				<if condition="$search['custom_id']">
+					项目名称关键字：
+					<else />
+					项目名称/项目编号关键字：
+				</if>
+				<input type="text" name="keyword" value="{$search.keyword}" id="projectSearchKeyword" class="sf" style="width:180px;">
+				<select name="prtalevel" id="level">
+					<option value="0">职位级别</option>
+					<volist name="job_level" id="val">
+					<option value="{$val.id}" <if condition="$val['id'] eq $search['prtalevel']">selected="selected"</if>>{$val.name}</option>	
+					</volist>
+
+				</select>
+				<select name="prtatype" id="type">
+					<option value="0">职位类别</option>
+
+					<volist name="job_cate" id="val">
+					<option value="{$val.id}" <if condition="$val['id'] eq $search['prtatype']">selected="selected"</if>>{$val.name}</option>	
+					</volist>
+
+				</select>
+				<if condition="$search['custom_id']">
+					<select name="sort" id="sort">
+						<option value="1">选择用户</option>
+						<option value="0">管理员</option>
+						<option value="2">按跟进时间排序</option>
+					</select>
+					<else />
+				</if>
+				
+				<!--<select name="sort" id="sort">
+					<option value="0">默认排序</option>
+					<option value="1">按客户排序</option>
+					<option value="2">按跟进时间排序</option>
+				</select>-->
+				<input type="<if condition="$search['custom_id']">button<else />submit</if>" id="searchFromBtn" class="button button_red" value=" 查询 ">
+			</form>
+		</div>
+	</div>
+	</if>
+		
+	<!--sTableOptions-->
+	<div id="listpage">
+
+		<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td width="80" align="center" style="min-width:24px;">项目编号</td>
+					<td width="100">项目名称</td>
+					<if condition="$search['custom_id']">
+					<else />
+					<td width="110">所属客户</td>
+					</if>
+					<td width="60">招聘人数</td>
+					<td width="60">工作地点</td>
+					<td width="60">职位类别</td>
+					<td width="60">职位级别</td>
+					<td width="60">候选人数</td>
+					<td width="70">offer数量</td>
+					<td width="60">报告数量</td>
+					<td width="60" id="ownerText">所有者</td>
+
+					<td width="100">创建时间</td>
+					<if condition="$search['resume_id'] and $search['is_tab'] neq 1">
+					<td width="100">请选择</td>
+					<else />
+					</if>
+				</tr>
+			</thead>
+			<tbody>
+
+				<volist name="list" id="val">
+				<tr>
+					<td align="center">{$val.prtacode}</td>
+					<td>
+						<!--<a href="javascript:;"  style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="{:U('project/detail', array('id'=>$val['id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500">{$val.prtaname}</a>
+-->
+						<a href="javascript:;"  style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="{:U('project/detail', array('id'=>$val['id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500">{$val.prtaname}</a>
+						<if condition="$val['progress'][0]['content']">
+            			<p style="color:#777;">{$val['progress'][0]['content']}（<?php echo M('admin')->where(array('id'=>$val['progress'][0]['creator_id']))->getField('username');?> {$val['progress'][0]['add_time']|date='Y-m-d',###} {$val['progress'][0]['add_time']|date='H:i',###}）
+            			</p>
+            			</if>
+					</td>
+					<if condition="$search['custom_id']">
+					<else />
+					<td>
+						<a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('custom/detail', array('id'=>$val['custom_id']))}" data-title="{$val.cutaname}" data-id="detail" data-width="1000" data-height="500">{$val.cutaname}</a>
+						
+					
+					</td>
+					</if>
+					
+					<td>{$val.prtapositionnum}</td>
+					<td>{$val.prtaworkcity}</td>
+					<td><?php echo M('dic')->where(array('id'=>$val['prtatype']))->getField('name');?></td>
+					<td><?php echo M('dic')->where(array('id'=>$val['prtalevel']))->getField('name');?></td>
+					<td>
+						<a href="javascript:;"   style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="{:U('project/detail', array('tab_index'=>1,'id'=>$val['id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500"><?php echo count($val['candidate']);?></a>
+					</td>
+					<td>
+						<a href="javascript:;"    style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="{:U('project/detail', array('tab_index'=>3,'id'=>$val['id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500"><?php echo count($val['offer']);?></a>
+					</td>
+					<td>
+						<a href="javascript:;"    style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="{:U('project/detail', array('tab_index'=>2,'id'=>$val['id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500"><?php echo count($val['report']);?></a>
+					</td>
+					<td>{$val.username}</td>
+
+					<td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+					<if condition="$search['resume_id'] and $search['is_tab'] neq 1">
+					<td width="100">
+					<a href="javascript:void(0);" style="color: #069;cursor:pointer;" class="J_confirmurl" data-uri="{:u('candidate/resume_project', array('id'=>$val['id'],'resume_id'=>$search['resume_id']))}" data-acttype="ajax" data-msg="确定选择该项目吗">选择</a></td>
+					</td>
+					<else />
+					</if>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+
+		<br clear="all">
+		
+		
+		<div class="<if condition="$search['custom_id'] or $search['resume_id']">ajax_pagination<else />pagination</if>">
+		<if condition="$list">
+		{$page}
+		<else />
+		暂未数据
+		</if>
+		</div><!--left-->
+	</div>
+</div>
+<if condition="$search['custom_id'] or $search['resume_id']">
+	<else />
+	<include file="Public:footer" />
+</if>

@@ -1,0 +1,79 @@
+<include file="Public:header" />
+<form id="info_form" action="{:u('task/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+
+		<div class="J_panes">
+            <table width="100%" cellspacing="0" class="table_form">
+                <tr>
+                    <th>店铺名称 :</th>
+                    <td>
+                        <select class="mr10" name="merchant_bind_id">
+                            <volist name="bind" id="val">
+                                <option value="{$val.id}">{$val.account}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>订单类型 :</th>
+                    <td>
+                        <select class="mr10" name="task_type_id">
+                            <volist name="task_type" id="val">
+                                <option value="{$key}">{$val}</option>
+                            </volist>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th width="120">{:L('article_abst')} :</th>
+                    <td><textarea name="intro" id="abst" style="width:68%;height:50px;resize:none;">{$info.title}</textarea></td>
+                </tr>
+
+                <tr>
+                    <th>qq :</th>
+                    <td><input type="text" name="qq" class="input-text" size="30" value="{$info.qq}"></td>
+                </tr>
+                <tr>
+                    <th>支付宝 :</th>
+                    <td><input type="text" name="alipay_account" class="input-text" size="30" value="{$info.alipay_account}"></td>
+                </tr>
+                <tr>
+                    <th>财付通 :</th>
+                    <td><input type="text" name="tenpay_account" class="input-text" size="30" value="{$info.tenpay_account}"></td>
+                </tr>
+                <tr>
+                    <th>上架 :</th>
+                    <td>
+                        <label><input type="radio" name="status" class="radio_style" value="1" <if condition="$info.status eq '1'">checked="checked"</if>> {:L('yes')}</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="status" class="radio_style" value="0" <if condition="$info.status eq '0'">checked="checked"</if>> {:L('no')}</label>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>详细内容 :</th>
+                    <td><textarea name="info" id="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.content}</textarea></td>
+                </tr>
+            </table>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="Public:footer" />
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<script>
+$('.J_cate_select').cate_select('请选择');
+$(function() {
+	KindEditor.create('#info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+</script>
+</body>
+</html>

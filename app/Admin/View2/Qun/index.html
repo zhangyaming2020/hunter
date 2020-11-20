@@ -1,0 +1,113 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="/theme/admin/css/style.css" />
+<style>
+	body{
+		background:white;
+	}
+</style>
+
+	
+    <div class="left">
+        <a href="javascript:;" class="reloadButton" onclick="parent.refresh_page();">刷新</a>
+        
+        <a  href="javascript:;"  style="color:#fff;"    class="J_showdialog  addNewButton"  data-uri="{:U('Qun/add')}" data-title="新增客户" data-id="add" data-width="900" data-height="500" >新增群</a>
+        
+      
+        
+        <ul class="submenu">
+            <li dataid="58" class="<if condition="$search['funnel'] eq -1">current</if>"><a href="{:U('custom/index',array('list_type'=>$type,'funnel'=>-1))}">全部  ({$status_nums[-1]})</a></li>	
+            
+            <volist name="funnel" id="val">
+             <li dataid="58" class="<if condition="$search['funnel'] eq $val['id']">current</if>"><a href="{:U('custom/index',array('list_type'=>$type,'funnel'=>$val['id']))}">{$val.name} ({$status_nums[$val['id']]})</a></li>	
+            </volist>
+           
+           
+        </ul>
+
+        <div class="sTableOptions">
+        	<div class="searchform form_default">
+            	<form id="searchFrom">
+        		<input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="custom" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="list_type" value="{$type}" />
+            	<input type="hidden" value="0" name="state" id="customerState">
+            	
+            	<input type="hidden" value="" name="ispublic" id="ispublic">
+            	关键字：<input type="text" name="cutaname" id="customerSearchKeyword" class="sf" style="width:180px;" value="{$search['uname']}">
+            	<select name="contractState" id="contractState">
+            		<option value="">群状态</option>
+                  <option value="0">待审核</option>
+                  <option value="1">审核通过</option>
+                  <option value="2">审核拒绝</option>
+                </select>
+                
+                <select class="J_cate_place_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$spid}"></select>
+				<input type="hidden" name="pid" id="J_pid" />
+                <!--<select name="sort" id="sort">
+                  <option value="0">默认排序</option>
+                  <option value="1">按跟进时间排序</option>
+                </select>-->
+                <input type="submit" name="search" id="searchFromBtn" class="button button_red" value=" 查询 ">
+                </form>
+            </div>
+            <if condition="$type eq 1">
+            <div class="pp">
+		        
+		        <a class="button series_delete delete"   data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('custom/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" ><span>{:L('delete')}</span></a>
+        		 <a class="button recover" style="display:none;"><span>恢复</span></a>
+		        
+		    </div>
+            </if>
+		</div><!--sTableOptions-->
+        <div id="listpage">
+
+
+
+<form id="listFrom">
+<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr>
+            <td align="center" width="50"><input type="checkbox" class="J_checkall checkall"></td>
+            <td width="60">logo</td>
+            <td style="min-width:200px;">群名称</td>
+            <td width="60">群类型</td>
+            <td width="120">所在地区</td>
+            <td width="80">创建者</td>
+            <td width="150">创建时间</td>
+            <td width="150">状态</td>
+    	</tr>
+    </thead>
+    <tbody>
+        <volist name="list" id="val">
+        <tr>
+            <td align="center"><input type="checkbox" class="J_checkitem" <if condition="in_array($val['id'],$resu)">checked</if> value="{$val.id}"></td>
+           
+            </td>
+            <td><?php echo M('dic')->where(array('id'=>$val['cutafunnel']))->getField('name');?></td>
+            <td>{$val.username}</td>
+            <td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+            <td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+            <td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+            <td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+       	</tr>
+        </volist>
+    </tbody>
+</table>
+</form>
+<br clear="all">
+<div class="pagination">
+{$page}
+</div><!--left-->
+    
+<br clear="all">
+<include file="Public:footer" />
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+<script>
+	$(function(){
+		$('.J_cate_place_select').cate_select({top_option:lang.all,field:'J_pid',target_class:'J_cate_place_select'}); //分类联动
+		
+	})
+</script>
+</body>
+</html>

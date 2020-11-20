@@ -1,0 +1,532 @@
+<include file="Public/header" />
+
+<link href="__PUBLIC_ADMIN__css/style.css" rel="stylesheet"/>
+<style type="text/css">
+	.shares{overflow:hidden; zoom:1;}
+	.shares li{float:left; width:49%; display:inline;}
+	.shares li span{color:#999; font-size:10px;}
+	.shares li a{padding-left:15px; background: url("/images/arrow.png") 0px 5px no-repeat;}
+	.sharesWidth li{width:33%;}
+	</style>
+	<div class="two_third maincontent_inner ">
+	    	<div class="left">
+	        
+	        	<div class="notification msginfo">
+	            	<h3>牧通人才网管理系统（内部版）</h3>
+	            	<p>欢迎您：<b>{$admin['nickname']?$admin['nickname']:$admin['username']}<!--(manager)--></b> <font color="#ff0000">({$admin['rolename']})</font> </p>
+	            	
+	            	<!--<p>所属部门：总公司</p>-->
+	            	
+	            	
+	            	<p>登录次数：{$info['login_nums']}次&nbsp;&nbsp;最后登录时间：{$info['last_time']|date='Y-m-d',###} {$info['last_time']|date='H:i',###}&nbsp;&nbsp;</p>
+	            </div>
+	            
+	            <div id="myCounts">
+	
+	
+	
+	<div class="reporter">
+		<b>我的统计(总数)：</b> 客户({$data['custom']})&nbsp;&nbsp;简历({$data['resume']})&nbsp;&nbsp;项目({$data['project']})&nbsp;&nbsp;报告({$data['report']})&nbsp;&nbsp;offer({$data['offer']})&nbsp;&nbsp;<!--跟进(1432)&nbsp;&nbsp;寻访(16)-->
+		<!--<a href="javascript:;" onclick="moreBraph();">&gt;&gt;更多</a>-->
+	</div></div>
+	            
+	            <!-- START WIDGET LIST -->
+	            <ul class="widgetlist">
+	                
+	                <li><a href="javascript:;" id="newCustomer"   class="J_showdialog" data-uri="{:U('custom/add')}" data-title="新增客户" data-id="add" data-width="900" data-height="500"><img src="http://ee.headhunterclub.com/images/plus_64.png" alt="新增客户"><span>新增客户</span></a></li>
+	                
+	                
+	                <li><a href="javascript:;"    class="J_showdialog" data-uri="{:U('project/add')}" data-title="新增项目" data-id="add" data-width="900" data-height="500" id="newProject"><img src="http://ee.headhunterclub.com/images/tag_add_64.png" alt="新增项目"><span>新增项目</span></a></li>
+	                
+	                <li><a  href="{:U('email/index',array('menuid'=>511))}"><img src="http://ee.headhunterclub.com/images/mail.png" alt="邮件中心"><span>邮件中心</span></a></li>
+	                
+	                <!--<li><a href="javascript:;" onclick="$('#calendarLink').click();"><img src="http://ee.headhunterclub.com/images/calendar_64.png" alt="我的日历"><span>我的日历</span></a></li>
+	            -->
+	            </ul>
+	            <!-- END WIDGET LIST -->
+	            <div class="clear"></div>
+	            
+	            <!-- shares -->
+	            <div id="shares" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all" style="margin-top:-10px;">
+	                <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+	                    
+	                    <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="#tabs-88">list</a></li>
+	                    
+	                    <li class="ui-state-default ui-corner-top"><a href="#tabs-89">共享资料</a></li>
+	                    
+	                    <li class="ui-state-default ui-corner-top ui-state-hover"><a href="#tabs-90">内部资料</a></li>
+	                    
+	                    <li class="ui-state-default ui-corner-top"><a href="#tabs-2827">jjjj</a></li>
+	                    
+	                    <li class="ui-state-default ui-corner-top"><a href="#tabs-2879">共享项目</a></li>
+	                    
+	                    <div style="float:right; margin:8px 10px 0 0;">
+	                    	<a class="iconlink2" href="javascript:;" id="createShareFile">上传文档</a>
+	                    	<a class="iconlink2" href="javascript:;" id="createShareArticle">新增文章</a>
+	                    </div>
+	                </ul>
+	                
+	                <div id="tabs-88" class="ui-tabs-panel ui-widget-content ui-corner-bottom" style="padding:10px;">
+	                    
+	                    <ul class="shares sharesWidth">
+	                    	
+	                    	<li><a href="javascript:sharePreview('b98ec92d-2c8e-441b-b2f1-f51100ae95bd','test')">test</a>&nbsp;&nbsp;<span>18-5-9 16:37</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('21b0fb79-950f-4a74-826c-8382ecb86941','aaaaaaaaaaa')">aaaaaaaaaaa</a>&nbsp;&nbsp;<span>17-9-11 15:16</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('3768f4b0-8d84-4548-b899-f9fa63cd7e30','益田集团')">益田集团</a>&nbsp;&nbsp;<span>14-5-16 1:5</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('3dea26bf-bc60-4ce1-aa93-f9cc464c291f','欢迎使用远扬猎头管理系统企业版')">欢迎使用远扬猎头管理系统企业版</a>&nbsp;&nbsp;<span>14-4-23 23:7</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('39635b40-fee4-49a5-ad2c-07ce554b4f24','益田集团通讯录汇总表')">益田集团通讯录汇总表</a>&nbsp;&nbsp;<span>13-11-13 18:15</span></li>
+	                    	
+	                    </ul>
+	                    
+	                    
+	                </div>
+	                
+	                <div id="tabs-89" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="padding:10px;">
+	                    
+	                    <ul class="shares sharesWidth">
+	                    	
+	                    	<li><a href="javascript:sharePreview('dfe290e3-6b24-47b1-a04c-cf09b8d0a3aa','附带的答案是')">附带的答案是</a>&nbsp;&nbsp;<span>17-5-16 22:27</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('76e5febe-1d52-40bb-9751-e427fa42906d','aaaaaaaaaaa')">aaaaaaaaaaa</a>&nbsp;&nbsp;<span>16-10-10 12:9</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('097d258b-cbce-496c-a99a-bccd26435d75','对于纺织行业人才培养的思考')">对于纺织行业人才培养的思考</a>&nbsp;&nbsp;<span>16-7-31 13:16</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('6e582feb-af2d-4f7e-9f13-55ebd43f5422','华侨城通讯录')">华侨城通讯录</a>&nbsp;&nbsp;<span>14-7-3 16:47</span></li>
+	                    	
+	                    </ul>
+	                    
+	                    
+	                </div>
+	                
+	                <div id="tabs-90" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="padding:10px;">
+	                    
+	                    <ul class="shares sharesWidth">
+	                    	
+	                    	<li><a href="javascript:sharePreview('4b482fbb-5947-43ac-a1a7-d52bddb2405a','软件研发高级总工')">软件研发高级总工</a>&nbsp;&nbsp;<span>17-12-5 14:39</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('a79c859e-a2d3-454d-b8f6-236188555ae3','安抚')">安抚</a>&nbsp;&nbsp;<span>17-11-6 14:14</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('2a2b782b-7c9d-4a2a-96ca-83fce04ba0dc','共享资料内部')">共享资料内部</a>&nbsp;&nbsp;<span>17-9-25 0:56</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('0d6bbd35-7fee-4f15-ba63-a7f9ec5750e2','同时')">同时</a>&nbsp;&nbsp;<span>15-8-27 22:34</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('852c31fa-4ea9-43ee-a8b9-71d046a190bb','圭圭')">圭圭</a>&nbsp;&nbsp;<span>15-5-14 17:28</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('bddc2deb-fcb4-44a3-a144-31bd4847e775','abc')">abc</a>&nbsp;&nbsp;<span>13-7-15 9:20</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('2af83496-bf90-49ae-93f2-5cbef36fe8b1','test11')">test11</a>&nbsp;&nbsp;<span>13-7-12 15:54</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('227c55c3-7df7-494b-b975-b29292f58c7d','test10')">test10</a>&nbsp;&nbsp;<span>13-7-12 15:54</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('7e268084-672a-4839-a7a3-164b49fec190','test9')">test9</a>&nbsp;&nbsp;<span>13-7-12 15:54</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('9960270b-d772-4169-992a-af8a09eda573','test8')">test8</a>&nbsp;&nbsp;<span>13-7-12 15:54</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('ba1c2619-41b6-486b-a506-7cd28cdfe667','test7')">test7</a>&nbsp;&nbsp;<span>13-7-12 15:53</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('cf4076f8-1259-4614-8741-ffad9ffc633b','test6')">test6</a>&nbsp;&nbsp;<span>13-7-12 15:53</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('bb9f2f33-4c3d-4d24-bea2-6814b0688d69','test5')">test5</a>&nbsp;&nbsp;<span>13-7-12 15:53</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('ab46623f-43c7-4b6a-b41f-6da47d8c5564','test4')">test4</a>&nbsp;&nbsp;<span>13-7-12 15:53</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('4c1fbd86-017e-42c7-8ede-e35f4d690738','test3')">test3</a>&nbsp;&nbsp;<span>13-7-12 15:53</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('f02b8a02-ad42-40a9-b243-318a38703b99','test1')">test1</a>&nbsp;&nbsp;<span>13-7-12 15:52</span></li>
+	                    	
+	                    </ul>
+	                    
+	                    
+	                </div>
+	                
+	                <div id="tabs-2827" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="padding:10px;">
+	                    
+	                    
+	                    <p>没有jjjj数据.</p>
+	                    
+	                </div>
+	                
+	                <div id="tabs-2879" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide" style="padding:10px;">
+	                    
+	                    <ul class="shares sharesWidth">
+	                    	
+	                    	<li><a href="javascript:sharePreview('14479d98-5910-471e-ba23-6431fd0a396e','12312')">12312</a>&nbsp;&nbsp;<span>18-3-7 10:52</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('fb04f33b-0c17-4a00-ac4c-d5043083939a','需求项目经理一名，求推荐')">需求项目经理一名，求推荐</a>&nbsp;&nbsp;<span>17-11-6 14:50</span></li>
+	                    	
+	                    	<li><a href="javascript:sharePreview('a0ada41b-2237-499a-83b5-4bb071f5e388','项目经理')">项目经理</a>&nbsp;&nbsp;<span>17-11-6 14:45</span></li>
+	                    	
+	                    </ul>
+	                    
+	                    
+	                </div>
+	                
+	            </div>
+	            <!-- shares end -->
+	            
+	            <div class="clear"></div>
+	            
+	            <div class="widgetbox">
+	            	<h3 class=""><span>待面试</span></h3>
+	                <div class="content nopadding ohidden">
+	                	<table cellpadding="0" cellspacing="0" class="sTable3" width="100%">
+	                        <thead>
+	                            <tr>
+	                                <td>客户名称</td>
+	                                <td>项目名称</td>
+	                                <td>候选人</td>
+	                                <td align="right">面试时间</td>
+	                                <td>推荐人</td>
+	                                <td>负责人</td>
+	                                <td>创建时间</td>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <volist name="interview" id="val">
+	                            	<?php $cus_id=M('project')->where(array('id'=>$val['pro_id']))->getField('custom_id');$cus_name="未知";$cus_id&&$cus_name=M('custom')->where(array('id'=>$cus_id))->getField('cutaname');$pro_name=M('project')->where(array('id'=>$val['pro_id']))->getField('prtaname');$res_name=M('resume')->where(array('id'=>$val['res_id']))->getField('resuname');?>
+	                            <tr>
+	                                <td>
+	                                	<a   href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="/index.php?m=admin&c=custom&a=detail&type=1&id=<?php echo $cus_id;?>" data-title="<?php echo $cus_name;?>" data-id="detail" data-width="1000" data-height="500"><?php echo $cus_name;?></a>
+	                                </td>
+	                                <td>
+	                                	<a href="javascript:;"   style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="/index.php?m=admin&c=project&a=detail&id={$val['pro_id']}&custom_id=<?php echo $cus_id;?>" data-title="<?php echo $pro_name;?>" data-id="project_detail" data-width="1000" data-height="500"><?php echo $pro_name;?></a></a>
+	                                </td>
+	                                <td>
+	                                	<a href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('report/detail', array('status'=>$val['status'],'id'=>$val['id']))}" data-title="<?php echo $res_name;?>" data-id="detail" data-width="860" data-height="492"><?php echo $res_name;?></a>
+	                                </td>
+	                                <td align="right">
+	                                	<if condition="$val['interview'][0]['interdate'] neq 0">
+	                                		{$val['interview'][0]['interdate']|date='Y-m-d',###} {$val['interview'][0]['interdate']|date='H:i',###}
+	                                		<else />
+	                                		暂无安排
+	                                	</if>
+	                                </td>
+	                                <td>{$val.recommend_name}</td>
+	                                <td>{$val.recommend_name}</td>
+	                                <td>{$val.add_time|date='Y-m-d H:i:s',###} {$val.add_time|date='H:i',###}</td>
+	                            </tr>
+	                            </volist>
+	                           
+	                            
+	                            
+	                        </tbody>
+	                    </table>
+	                </div><!-- content -->
+	
+	            </div><!-- widgetbox2 -->
+	            
+	            <div class="widgetbox">
+	            	<h3><span>待处理offer</span></h3>
+	                <div class="content nopadding ohidden">
+	                	<table cellpadding="0" cellspacing="0" class="sTable3" width="100%">
+	                        <thead>
+	                            <tr>
+	                                <td>客户名称</td>
+	                                <td>项目名称</td>
+	                                <td>候选人</td>
+	                                <td align="right">年薪</td>
+	                                <td>当前状态</td>
+	                                <td>创建人</td>
+	                                <td>创建时间</td>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                            <volist name="offer" id="val"> 
+	                            	<?php $cus_id=M('project')->where(array('id'=>$val['project_id']))->getField('custom_id');$cus_name="未知";$cus_id&&$cus_name=M('custom')->where(array('id'=>$cus_id))->getField('cutaname');?>
+	                            <tr>
+	                            	<td>
+	                            		<a href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail" data-uri="{:U('custom/detail', array('id'=>$cus_id))}" data-title="{$cus_name}" data-id="detail" data-width="1000" data-height="500">{$cus_name}</a>
+	                            	</td>
+	                                <td>
+	                                	<a href="javascript:;"  style="cursor:pointer;color:#069;" class="dialog_open" data-uri="{:U('project/detail', array('id'=>$val['project_id'],'custom_id'=>$val['custom_id']))}" data-title="{$val.prtaname}" data-id="project_detail" data-width="1000" data-height="500">{$val.prtaname}</a>
+	                                </td>
+	                                <td>
+	                                	<a href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_open" data-uri="{:U('offer/detail', array('id'=>$val['id'],'oftaState'=>$val['oftaState']))}" data-title="{$val.resuname}" data-id="offer_detail" data-width="860" data-height="500">{$val.resuname}</a>
+	                                </td>
+	                                <td align="right">{$val.money}</td>
+	                                <td>
+	                                	
+							           	<font color="#ff6600">{$status[$val['oftastate']]}</font>
+							           	
+										
+							           	
+	                                </td>
+	                                <td>{$val.username}</td>
+	                                <td>{$val.add_time|date='Y-m-d',###} {$val.add_time|date='H:i',###}</td>
+	                            </tr>
+	                            </volist>
+	                            
+	                            
+	                            
+	                        </tbody>
+	                    </table>
+	                </div><!-- content -->
+	
+	            </div><!-- widgetbox2 -->
+	            
+	            
+	            	
+	            <!-- widgetbox2 -->
+	            
+	        </div><!-- left -->            
+	    </div><!-- two_third -->
+	    
+	    <div class="one_third last">
+	
+	    	<div class="right">
+	        	<div class="widgetbox3">
+	                <h3><span>公告&amp;通知<a class="iconlink2" href="javascript:;" onclick="noticeManager();" style="float:right;">公告管理</a></span></h3>
+	                <div class="content messagelist">
+		                <ul>
+		                	
+		                	
+		                	<li style="word-break:break-all; cursor: pointer;" onclick="noticeDetail(' 人力资源管理系统是一套构建JavaJ2E上的猎头公司办公业务管理软件',15);">
+		                		<a href="javascript:;" style="color:#006699;"> 人力资源管理系统是一套构建JavaJ2E上的猎头公司办公业务管理软件</a>
+		                		<span>管理员&nbsp;&nbsp;2018-4-28 8:39</span>
+		                	</li>
+		                	
+		                	<li style="word-break:break-all; cursor: pointer;" onclick="noticeDetail('2018年五一节假日放假通知',12);">
+		                		<a href="javascript:;" style="color:#006699;">2018年五一节假日放假通知</a>
+		                		<span>管理员&nbsp;&nbsp;2017-5-24 19:18</span>
+		                	</li>
+		                	
+		                	<li style="word-break:break-all; cursor: pointer;" onclick="noticeDetail('关于五一出游活动的通知',10);">
+		                		<a href="javascript:;" style="color:#006699;">关于五一出游活动的通知</a>
+		                		<span>管理员&nbsp;&nbsp;2017-5-24 19:17</span>
+		                	</li>
+		                	
+		                	<li style="word-break:break-all; cursor: pointer;" onclick="noticeDetail('欢迎测试使用人力资源管理系统',3);">
+		                		<a href="javascript:;" style="color:#006699;">欢迎测试使用人力资源管理系统</a>
+		                		<span>管理员&nbsp;&nbsp;2013-11-5 16:37</span>
+		                	</li>
+		                	
+		                </ul>
+	                </div>
+	            </div>
+	           
+	            <div class="widgetbox">
+	                <h3 class=""><span>本月收入预计</span></h3>
+	                <div class="content">
+	                    <h1 class="prize">0.00</h1>
+	                    <p>业绩提成（注：当前结算设置为：<font color="#ff0000">到帐即结算</font>）</p>
+	                	
+	                    <br>
+						
+						<h1 class="prize">0.00</h1>
+	                    <p>扣除，可在提成明细中查看相关明细。</p>
+	                	
+	                    <br>
+	                    
+	                	<div class="one_half bright">
+	                    	<h2 class="prize">0.00</h2>
+	                        <small>基本工资</small>
+	                    </div><!--one_half-->
+	                    
+	                    <div class="one_half last">
+	                    	<h2 class="prize">0.00</h2>
+	                        <small>收入预计总合</small>
+	
+	                    </div><!--one_half--> 
+	                    
+	                </div><!-- content -->
+	            </div><!-- widgetbox -->
+	            
+	            <div id="myTasks">
+	
+	
+	
+	<!--<div class="accordion ui-accordion ui-widget ui-helper-reset ui-accordion-icons" id="deskTasks" role="tablist">
+		
+			<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-state-active ui-corner-top" role="tab" aria-expanded="true" aria-selected="true" tabindex="0"><span class="ui-icon ui-icon-triangle-1-s"></span><a href="javascript:;">
+		    	我的任务
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	（2017-05-01至2020-05-31）
+		    </a></h3>
+		    <div class="content ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" role="tabpanel" style="height: 286px;">
+		        
+		        	<p>测试任务</p>
+		        
+		        <div class="progress">
+		              业绩(任务：150000，已完成：418629.22)
+		            <div class="bar2"><div class="value greenbar" style="width: 100%;"><small>279.09%</small></div></div>
+		        </div>
+		        
+		        <div class="progress">
+		        	客户(任务：50家，已完成：18)
+		            <div class="bar2"><div class="value redbar" style="width: 36.0%;"><small>36.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	上传简历(任务：50份，已完成：523)
+		            <div class="bar2"><div class="value greenbar" style="width: 100%;"><small>1046.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	推荐报告(任务：50份，已完成：66)
+		            <div class="bar2"><div class="value greenbar" style="width: 100%;"><small>132.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	offer(任务：50个，已完成：32)
+		            <div class="bar2"><div class="value bluebar" style="width: 64.0%;"><small>64.0%</small></div></div>
+		        </div>
+		        
+		    </div>
+		
+		
+	    
+	    	<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="javascript:;">
+	    	团队任务
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	（2018-02-01至2019-02-28）
+	    	</a></h3>
+	    	<div class="content ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 286px; display: none;">
+		        
+		        	<p>555555</p>
+		        
+		        <div class="progress">
+		              业绩(任务：500000，已完成：16799.99)
+		            <div class="bar2"><div class="value redbar" style="width: 3.36%;"><small>3.36%</small></div></div>
+		        </div>
+		        
+		        <div class="progress">
+		        	客户(任务：20家，已完成：18)
+		            <div class="bar2"><div class="value bluebar" style="width: 90.0%;"><small>90.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	上传简历(任务：5000份，已完成：246)
+		            <div class="bar2"><div class="value redbar" style="width: 4.92%;"><small>4.92%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	推荐报告(任务：200份，已完成：31)
+		            <div class="bar2"><div class="value redbar" style="width: 15.5%;"><small>15.5%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	offer(任务：50个，已完成：11)
+		            <div class="bar2"><div class="value redbar" style="width: 22.0%;"><small>22.0%</small></div></div>
+		        </div>
+		        
+		    </div>
+	    
+	    	<h3 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="javascript:;">
+	    	团队任务
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	（2018-05-01至2021-05-31）
+	    	</a></h3>
+	    	<div class="content ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 286px; display: none;">
+		        
+		        	<p>本月业绩目标</p>
+		        
+		        <div class="progress">
+		              业绩(任务：500000，已完成：10499.99)
+		            <div class="bar2"><div class="value redbar" style="width: 2.1%;"><small>2.1%</small></div></div>
+		        </div>
+		        
+		        <div class="progress">
+		        	客户(任务：10家，已完成：10)
+		            <div class="bar2"><div class="value greenbar" style="width: 100.0%;"><small>100.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	上传简历(任务：400份，已完成：227)
+		            <div class="bar2"><div class="value bluebar" style="width: 56.75%;"><small>56.75%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	推荐报告(任务：20份，已完成：14)
+		            <div class="bar2"><div class="value bluebar" style="width: 70.0%;"><small>70.0%</small></div></div>
+		        </div>
+		        
+		        
+		        <div class="progress">
+		        	offer(任务：5个，已完成：3)
+		            <div class="bar2"><div class="value bluebar" style="width: 60.0%;"><small>60.0%</small></div></div>
+		        </div>
+		        
+		    </div>
+	    
+	    
+	</div></div>
+	            -->
+	            <p>&nbsp;</p>
+	            
+	    	</div><!--right-->
+	    </div><!--one_third last-->
+	    
+	    <br clear="all">
+<include file="Public/footer" />
+<script src="/theme/admin/js/jquery/plugins/listTable.js"></script>
+
+<script src="/theme/admin/js/kindeditor/kindeditor.js"></script>
+
+<script>
+var editor;  //全局变量
+$(function(){
+	 
+$('.J_tablelist').listTable();
+editor =KindEditor.create('.info', {
+		uploadJson : '/jradmin.php?m=Admin&c=attachment&a=editer_upload',
+		fileManagerJson : '/jradmin.php?m=Admin&c=attachment&a=editer_manager',
+		allowFileManager : true,
+		 items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','fullscreen']
+
+});
+
+});
+</script><script src="/theme/admin/js/kindeditor/kindeditor.js"></script>
+<script>
+	/**
+	 * Widget Box Toggle
+	**/
+	$('.widgetbox h3, .widgetbox2 h3').hover(function(){
+		$(this).addClass('arrow');
+		return false;
+	},function(){
+		$(this).removeClass('arrow');
+		return false;
+	});
+	
+	$('.widgetbox h3, .widgetbox2 h3').toggle(function(){
+		$(this).next().slideUp('fast');
+		$(this).css({MozBorderRadius: '3px', 
+						  WebkitBorderRadius: '3px',
+						  borderRadius: '3px'});
+		return false;
+	},function(){
+		$(this).next().slideDown('fast');
+		$(this).css({MozBorderRadius: '3px 3px 0 0', 
+						  WebkitBorderRadius: '3px 3px 0 0',
+						  borderRadius: '3px 3px 0 0'});
+		return false;
+	});
+</script>

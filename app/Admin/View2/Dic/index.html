@@ -1,0 +1,102 @@
+<include file="Public:header" />
+
+<!--网站设置-->
+<style>
+	body{
+		background:#fff;
+	}
+	.dictset dl dd  {
+	float: left;
+    padding: 5px;
+    width: 45%;
+    line-height: 23px;
+    display: inline;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    }
+    .dictset dl dd p{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+    word-spacing: break-word;
+    word-break: normal;
+    word-break: break-all;
+	}
+	dd{
+	 -webkit-margin-start: 25px;
+	}
+	.dictset dl {
+    float: left;
+    list-style-type: decimal;
+    width: 90%;
+    }
+    dl {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+	}
+	.ui-tabs-nav li  a{
+		border-bottom: 0px !important;
+	}
+</style>
+<br />
+<div class="breadcrumbs" style="margin:0 !important;">
+    	<a href="javascript:;" onclick="$('.tabmenu li').eq(0).click();">我的桌面</a>
+        <span>字典设置</span>
+</div>
+
+<br />
+<div class="left">
+
+	<h1 class="pageTitle">字典设置</h1>
+	<div id="tabs" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all">
+		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<volist name="dic" id="val">
+			<li class="ui-state-default ui-corner-top <if condition="$i eq 1">ui-state-active</if>">
+				<a href="javascript:;">{$val.name}</a>
+			</li>
+			</volist>
+		</ul>
+		<volist name="dic" id="val">
+		<div  class="ui-tabs-hide dictset clearfix ui-tabs-panel ui-widget-content ui-corner-bottom">
+			<dl>
+				<volist name="val['child']" id="v">
+				<dd   class="dialog_detail" data-width="500" data-height="400" data-uri="{:U('dic/detail', array('remark'=>$v['remark'],'id'=>$v['id']))}" data-title="{$v.name}" data-id="detail" >
+					{$i}. {$v.name}
+					<p>{$v.remark}</p>
+				</dd>
+				</volist>
+			</dl>
+		</div>
+		</volist>
+	</div>
+	<!-- tabs -->
+</div>
+<include file="Public:footer" />
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+<script src="/theme/admin/js/jquery/plugins/jquery.treetable.js"></script>
+
+<script>
+$(function(){
+    $('.J_change_status').live('click', function(){
+        if($(this).val() == '0'){
+            $('#J_closed_reason').fadeIn();
+        }else{
+            $('#J_closed_reason').fadeOut();
+        }
+    });
+    //tab键切换
+    $('.dictset').eq(0).show();
+$('.ui-state-default').click(function(){
+	var index=$(this).index();
+	$(this).addClass('ui-state-active').siblings('.ui-state-default').removeClass('ui-state-active');
+	$('.dictset').eq(index).show().siblings('.dictset').hide();
+})
+});
+</script>
+</body>
+</html>

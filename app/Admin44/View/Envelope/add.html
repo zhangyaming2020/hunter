@@ -1,0 +1,43 @@
+
+<div class="dialog_content">
+    <form id="info_form" name="info_form" action="{:u('envelope/add')}" method="post">
+    <table width="100%" class="table_form">
+        <tr>
+            <th width="80">标题 :</th>
+            <td><input type="text" name="title" id="title" class="input-text" size="50"></td>
+        </tr>
+        <tr>
+            <th width="80">金额 :</th>
+            <td><input type="text" name="amount" id="amount" class="input-text">元</td>
+        </tr>
+        <tr>
+            <th width="80">备注 :</th>
+            <td><textarea name="remark" id="remark" style="width:67%;height:50px;resize:none;"></textarea></td>
+        </tr>
+
+        <tr>
+            <th>{:L('enabled')} :</th>
+            <td>
+                <input type="radio" name="status" class="radio_style" value="1" checked="checked"> &nbsp;{:L('yes')}&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="status" class="radio_style" value="0"> &nbsp;{:L('no')}
+            </td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+<script>
+    $(function(){
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.status == 1){
+                $.dialog.get(result.dialog).close();
+                $.pinphp.tip({content:result.msg});
+                window.location.reload();
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'alert'});
+            }
+        }
+    });
+</script>

@@ -1,0 +1,105 @@
+<!--添加管理员-->
+<div class="dialog_content">
+	<form id="info_form" name="info_form" action="{:u('recommend/add')}" method="post">
+	<table width="100%" class="table_form">
+	    <tr> 
+	      <th width="80">选择分类 :</th>
+	      <td>
+	      	<select name="cate_id">
+            	<option value="">请选择</option>
+	      		<volist name="item_cate"  id="val">
+	      			<option value="{$val['id']}">{$val['name']}</option>
+	      		</volist>	      			
+	      	</select>
+            <select name="field_type">
+            	<option value="">请选择</option>
+	      			<option value="1">香型</option>
+                    <option value="2">品牌</option>
+                    <option value="3">产地</option>
+	      	</select>
+	      </td>
+	    </tr>
+	    <tr>
+			<th>状态 :</th>
+            <td>
+                <label><input type="radio" name="status" value="0"> 无效</label>&nbsp;&nbsp;
+                <label><input type="radio" name="status" value="1" checked> 有效</label>
+            </td>
+        </tr>
+	</table>
+    <input type="hidden" name="field_name" id="field_name" />
+	</form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+$(function(){
+	$("select[name=cate_id]").change(function(){
+		$('.action').remove();
+		$("select[name=field_type]").val('请选择');
+		var id=$(this).val();
+		id!=2&&$("select[name=field_type]").find('option').eq(1).hide();
+		id==2&&$("select[name=field_type]").find('option').eq(1).show();
+	})
+	$("select[name=field_type]").change(function(){
+		$('.action').remove();
+		var cate_id=$("select[name=cate_id]").val();
+		var id=$(this).val();
+		var url="{:U('Recommend/ajax_find')}";
+		if(cate_id&&id){
+			$.post(url,{cid:cate_id,type:id},function(msg){
+				if(msg){
+					$('.action').remove();
+					$("select[name=field_type]").after(msg['str']);
+					$('#field_name').val($('.action').find('option').eq(0).text());
+				}
+			})
+		}
+	})
+	$(document).delegate('.action','change',function(){
+		$('#field_name').val($(this).find('option:checked').text());
+	})
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+    
+    
+     var uploader = new qq.FileUploaderBasic({
+    	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('item_cate/ajax_upload_img')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+        	typeError: lang.upload_type_error,
+        	sizeError: lang.upload_size_error,
+        	minSizeError: lang.upload_minsize_error,
+        	emptyError: lang.upload_empty_error,
+        	noFilesError: lang.upload_nofile_error,
+        	onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+        	$.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+        	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+        	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+        		$('#J_img').val(result.data);
+        	} else {
+        		$.pinphp.tip({content:result.msg, icon:'error'});
+        	}
+        }
+    });
+    
+});
+</script>

@@ -1,0 +1,132 @@
+<if condition="$search['type_id']">
+	<else />
+	<include file="Public:header" />
+</if>
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+	<input type="hidden" value="" id="pageSC">
+	<a href="javascript:;" class="reloadButton" onclick="pageReload();">刷新</a>
+	<a href="javascript:;" class="addNewButton dialog_detail"  data-uri="{:U('email/add',array('type'=>$type,'type_id'=>$type_id))}" data-title="发送邮件" data-id="add" data-width="990"  data-height="517">撰写新邮件</a>
+	<ul class="submenu">
+		<li dataid="0" class="current">
+			<a href="javascript:;">发件箱</a>
+		</li>
+		<li dataid="0">
+			<a href="javascript:;">收件箱</a>
+		</li>
+		<li dataid="2">
+			<a href="javascript:;">草稿箱</a>
+		</li>
+		<li dataid="3">
+			<a href="javascript:;">垃圾邮件</a>
+		</li>
+		<li dataid="4">
+			<a href="javascript:;">已删除</a>
+		</li>
+	</ul>
+
+	<div class="sTableOptions">
+		<div class="pp">
+			<a class="button blue" id="getEmail"><span>收取邮件</span></a>
+			<a class="button" id="rubbishEmail"><span>垃圾邮件</span></a>
+			<a class="button" id="deleteEmail"><span>删除</span></a>
+			<a class="button" id="thoroughgoingDeleteEmail"><span>彻底删除</span></a>
+			<a class="button" id="signEmailNotNew"><span>标记为已读</span></a>
+			<div style="float:right;">
+				<form id="emailSearchFrom">
+					<input type="hidden" value="0" name="type" id="type">
+					<input type="hidden" value="" name="dataType" id="dataType">
+					<input type="hidden" value="" name="dataIds" id="dataIds"> 邮件标题/发件人关键字：
+					<input type="text" name="keyword" id="keyword" class="sf" style="width:180px;">
+					<input type="button" id="searchFromBtn" class="button button_red" value=" 查询 ">
+				</form>
+			</div>
+		</div>
+	</div>
+	<!--sTableOptions-->
+	<div id="emailListPage">
+
+		<style>
+			.sTable2 tbody tr td {
+				padding: 3px 10px;
+				cursor: pointer;
+			}
+			
+			.sTable2 tbody tr.new td {
+				font-weight: bold;
+			}
+		</style>
+		<form id="emailListFrom">
+			<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<td width="14" style="min-width:14px;"><input type="checkbox" id="selAllMail"></td>
+						<td width="60">&nbsp;</td>
+						<td width="200">收件人</td>
+						<td width="*">邮件标题</td>
+						<td width="150">发送时间</td>
+					</tr>
+				</thead>
+				<tbody id="emailTbody">
+
+					<volist name="list" id="val">
+						<tr caogao="0" emailid="103" emailtitle="15000-25000元/月-忙不忙-推荐报告" class="even">
+							<td><input type="checkbox" name="emtaId" value="103"></td>
+							<td class="click">
+								<a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('email/detail', array('id'=>$val['id']))}" data-title="{$val.title}" data-id="email_detail" data-width="763" data-height="500">
+								<img src="http://ee.headhunterclub.com/images/mail-read.png" title="已读邮件" id="mailIcon">
+								<if condition="$val['attachment']">
+								<img src="http://ee.headhunterclub.com/images/mail-attachment.png" title="有附件">
+							
+								</if>
+								</a>
+							</td>
+							<td >
+							<a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('email/detail', array('id'=>$val['id']))}" data-title="{$val.title}" data-id="email_detail" data-width="763" data-height="500">	
+								{$val.addressor_email}
+							</a>
+							</td>
+							<td>
+							<a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('email/detail', array('id'=>$val['id']))}" data-title="{$val.title}" data-id="email_detail" data-width="763" data-height="500">
+								{$val.title}
+							</a>
+							</td>
+							<td>19-2-12 8:41:16</td>
+						</tr>	
+					</volist>
+
+				</tbody>
+			</table>
+		</form>
+		<br clear="all">
+		
+		
+		<div class="<if condition="$search['custom_id'] or $search['resume_id']">ajax_pagination<else />pagination</if>">
+		<if condition="$list">
+		{$page}
+		<else />
+		暂未数据
+		</if>
+		</div><!--left-->
+	</div>
+</div>
+<if condition="$search['custom_id'] or $search['resume_id']">
+	<else />
+	<include file="Public:footer" />
+</if>

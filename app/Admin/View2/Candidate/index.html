@@ -1,0 +1,153 @@
+<if condition="$search['project_id']">
+	<else />
+	<include file="Public:header" />
+</if>
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+
+	<a href="javascript:;" class="reloadButton">刷新</a>
+	<a href="javascript:;" class="addNewButton" id="uploadButton" dataid="186">上传简历</a>
+	<a href="javascript:;" class="addNewButton" id="addNewButton" dataid="186">新增简历</a>
+	<a href="javascript:;" class="addNewButton" id="projectResumeSearchButton" dataid="186">查询简历库</a>
+	<a href="javascript:;" class="addNewButton" id="addNewCopyButton" dataid="186">解析简历</a>
+
+	<ul class="submenu" id="resumeTabs">
+		<li class="current" dataid="0">
+			<a href="javascript:;">全部 (6)</a>
+		</li>
+
+		<li dataid="18">
+			<a href="javascript:;">意向强烈 (2)</a>
+		</li>
+
+		<li dataid="19">
+			<a href="javascript:;">一般1 (0)</a>
+		</li>
+
+		<li dataid="78">
+			<a href="javascript:;">待联系 (3)</a>
+		</li>
+
+		<li dataid="79">
+			<a href="javascript:;">暂无意向 (0)</a>
+		</li>
+
+		<li dataid="2794">
+			<a href="javascript:;">有问题 (0)</a>
+		</li>
+
+		<li dataid="2862">
+			<a href="javascript:;">意向不明 (0)</a>
+		</li>
+
+		<li dataid="2896">
+			<a href="javascript:;">abc (1)</a>
+		</li>
+
+	</ul>
+	<div class="sTableOptions">
+		<div class="form_default">
+			<form id="projectResumeSearchFrom">
+				<input type="hidden" name="prtype" id="prtype" value="0">
+				<input type="hidden" name="pjId" id="pjId" value="186"> 姓名：
+				<input type="text" name="keyword" id="projectResumeSearchKeyword" class="sf" style="width:180px;"> 简历编号：
+				<input type="text" name="no" id="no" style="width:60px;"> 当前公司：
+				<input type="text" name="curCompany" id="curCompany" style="width:60px;">
+				<input type="button" id="searchFromBtn" class="button button_red" value=" 查询 ">
+				<div style="float:right;">
+					<input type="button" id="copyResumes" class="button button_red" value="复制到其他项目">
+					<input type="button" id="moveResumes" class="button button_red" value="移动到其他项目">
+				</div>
+			</form>
+
+		</div>
+	</div>
+	<!--sTableOptions-->
+	<div id="projectResumePage">
+
+		<form id="projectResumesForm">
+			<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+				<thead>
+					<tr>
+						<td><input type="checkbox" name="checkAll1" id="checkAll1" value="1" onclick="checkAll(this);"></td>
+						<td width="40" style="min-width:40px;">编号</td>
+						<td width="*">姓名</td>
+						<td width="40">性别</td>
+						<td width="40">学历</td>
+						<td width="80" align="center">出生年份</td>
+						<td width="80" align="center">当前公司</td>
+						<td width="60">所有者</td>
+						<td width="60">推荐人</td>
+						<td width="140">推荐时间</td>
+						<td width="140">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+				<volist name="list" id="val">
+					<tr>
+						<td align="center"><input type="checkbox" name="resuId" value="3243"></td>
+						<td>3243</td>
+						<td>
+							<a href="javascript:;" class="dialog_open" data-uri="{:U('resume/detail', array('id'=>$val['resume_id']))}" data-title="{$val.resuname}" data-id="detail" data-width="1200" data-height="500">{$val.resuname}<span style="color:#ff0000">(已出报告)</span></a>
+							<!--<p style="color:#777;">nih （管理员 2019-01-31 09:50）</p>-->
+						</td>
+						<td>男</td>
+						<td>{$val.educations}</td>
+						<td></td>
+						<td></td>
+						<td>管理员</td>
+						<td>管理员</td>
+						<td>2019-01-08 16:44:26</td>
+						<td>
+							<select onchange="changetype('487',this)" origin="78">
+
+								<option value="18">意向强烈</option>
+
+								<option value="19">一般1</option>
+
+								<option value="78" selected="">待联系</option>
+
+								<option value="79">暂无意向</option>
+
+								<option value="2794">有问题</option>
+
+								<option value="2862">意向不明</option>
+
+								<option value="2896">abc</option>
+
+							</select>
+
+						</td>
+					</tr>
+				</volist>
+
+				</tbody>
+			</table>
+		</form>
+		<br clear="all">
+		<div class="ajax_pagination">
+			{$page}
+		</div>
+	</div>
+</div>
+
+<if condition="$search['project_id']">
+	<else />
+	<include file="Public:footer" />
+</if>

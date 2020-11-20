@@ -1,0 +1,306 @@
+<include file="Public:header" />
+<!--网站设置-->
+<div class="pad_lr_10">
+	<form id="info_form" action="{:u('setting/edit')}" method="post">
+	<table width="100%" class="table_form">
+        <tr>
+            <th width="150">版权所有 :</th>
+            <td><input type="text" name="setting[site_name]" class="input-text" size="50" value="{:C('pin_site_name')}"></td>
+            
+        </tr>
+        <tr>
+            <th>{:L('site_name')}|{:L('seo_title')} :</th>
+            <td><input type="text" name="setting[site_title]" class="input-text" size="50" value="{:C('pin_site_title')}"></td>
+            
+        </tr>
+        <tr>
+            <th>{:L('seo_keys')} :</th>
+            <td><input type="text" name="setting[site_keyword]" class="input-text" size="50" value="{:C('pin_site_keyword')}"></td>
+            
+        </tr>
+        <tr>
+            <th>{:L('seo_desc')} :</th>
+            <td><textarea rows="3" cols="50" name="setting[site_description]">{:C('pin_site_description')}</textarea></td>
+            
+        </tr>
+        <tr>
+            <th>{:L('site_icp')} :</th>
+            <td><input type="text" name="setting[site_icp]" class="input-text" size="50" value="{:C('pin_site_icp')}"></td>
+            
+        </tr>
+        <tr>
+            <th>{:L('statistics_code')} :</th>
+            <td><textarea rows="3" cols="50" name="setting[statistics_code]">{:C('pin_statistics_code')}</textarea></td>
+            
+        </tr>
+		<tr>
+            <th>网址 :</th>
+            <td><input type="text" name="setting[site_url]" class="input-text" size="50" value="{:C('pin_site_url')}">不带http://</td>
+            
+        </tr>
+		<tr>
+            <th>邮箱 :</th>
+            <td><input type="text" name="setting[email]" class="input-text" size="50" value="{:C('pin_email')}"></td>
+            
+        </tr>
+		<tr>
+            <th>电话 :</th>
+            <td><input type="text" name="setting[tel]" class="input-text" size="50" value="{:C('pin_tel')}"></td>
+            
+        </tr>
+		<tr>
+            <th>手机 :</th>
+            <td><input type="text" name="setting[mobile]" class="input-text" size="50" value="{:C('pin_mobile')}"></td>
+            
+        </tr>
+        <tr>
+            <th>微信公众号 :</th>
+            <td><input type="text" name="setting[wechat]" class="input-text" size="50" value="{:C('pin_wechat')}"></td>
+            
+        </tr>
+		<tr>
+            <th>QQ :</th>
+            <td><input type="text" name="setting[qq]" class="input-text" size="50" value="{:C('pin_qq')}"></td>
+            
+        </tr>
+        <tr>
+            <th>服务热线 :</th>
+            <td><input type="text" name="setting[phone]" class="input-text" size="50" value="{:C('pin_phone')}"></td>
+
+        </tr>
+        <tr>
+            <th>投诉热线 :</th>
+            <td><input type="text" name="setting[phones]" class="input-text" size="50" value="{:C('pin_phones')}"></td>
+
+        </tr>
+        <!--<tr>-->
+            <!--<th>QQ群 :</th>-->
+            <!--<td><input type="text" name="setting[qq_group]" class="input-text" size="50" value="{:C('pin_qq_group')}"></td>-->
+            <!---->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th>一级分销 :</th>-->
+            <!--<td><input type="text" name="setting[level_one]" class="input-text" size="10" value="{:C('pin_level_one')}">%</td>-->
+            <!---->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th>二级分销 :</th>-->
+            <!--<td><input type="text" name="setting[level_two]" class="input-text" size="10" value="{:C('pin_level_two')}">%</td>-->
+            <!---->
+        <!--</tr>     -->
+        <!--<tr>-->
+            <!--<th>备注消息 :</th>-->
+            <!--<td><input type="text" name="setting[beizhu]" class="input-text" size="50" value="{:C(pin_beizhu)}"></td>-->
+            <!---->
+        <!--</tr>-->
+        <!---->
+        <!---->
+        <!--<tr>-->
+            <!--<th>店铺类型 :</th>-->
+            <!--<td><input type="text" name="setting[shoptype]" class="input-text" size="50" value="{:C('pin_shoptype')}"></td>-->
+            <!---->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<th>营业时间 :</th>-->
+            <!--<td><input type="text" name="setting[work_time]" class="input-text" size="50" value="{:C('pin_work_time')}"></td>-->
+            <!---->
+        <!--</tr>-->
+         <!--<tr>
+            <th>停止下单开始时间 :</th>
+            <td><input type="text" name="setting[deadline]" class="input-text" size="5" value="{:C('pin_deadline')}">       
+            
+            </td>
+            
+        </tr>
+         <tr>
+            <th>停止下单结束时间 :</th>
+            <td><input type="text" name="setting[deadline_out]" class="input-text" size="5" value="{:C('pin_deadline_out')}">       
+            
+            </td>
+            
+        </tr>-->
+		<tr>
+            <th>地址 :</th>
+            <td><input type="text" name="setting[address]" class="input-text" size="50" value="{:C('pin_address')}"></td>
+            
+        </tr>
+         <tr>
+            <th>爆款:</th>
+            <td>&nbsp;&nbsp;商品销量数达&nbsp;&nbsp;<input type="text" name="setting[hot_limit]" class="input-text" size="10" value="{:C('pin_hot_limit')}">&nbsp;&nbsp;件是为爆款</td>
+            
+        </tr>
+         <tr>
+            <th>运送费:</th>
+            <td><input type="text" name="setting[fee]" class="input-text" size="10" value="{:C('pin_fee')}">元&nbsp;&nbsp;&nbsp;&nbsp;满<input type="text" name="setting[total_price]" class="input-text" size="10" value="{:C('pin_total_price')}">元免邮费</td>
+            
+        </tr>
+        <!--<tr>
+            <th>多分类门槛（ID） :</th>
+            <td><input type="text" name="setting[cate_pid]" class="input-text" size="50" value="{:C('pin_cate_pid')}">(*ID间用英文逗号 “,” 隔开)</td>
+            
+        </tr>
+        <tr>
+            <th>多分类门槛（名称） :</th>
+            <td><input type="text" class="input-text" size="50" value="{$cate_name}" readonly >(*只展示，不能编辑)</td>
+            
+        </tr>
+        <tr>
+            <th>多分类门槛（价格） :</th>
+            <td><input type="text" name="setting[cate_price]" class="input-text" size="10" value="{:C('pin_cate_price')}"> 元</td>
+            
+        </tr>
+        <tr>
+            <th>单分类门槛 :</th>
+            <td colspan="5">
+            	<select name="setting[d_cate]">
+        			<option value="">暂不启用</option>
+            		<volist name="cate" id="val">
+            			<option value="{$val['id']}" <if condition="C('pin_d_cate') eq $val['id']">selected</if> >
+            				{$val['name']}
+            			</option>
+					</volist>            		
+            	</select> ：
+            	<input type="text" name="setting[d_cate_val]" class="input-text" size="6" value="{:C('pin_d_cate_val')}">
+            	&nbsp;&nbsp;&nbsp;&nbsp;
+            	<select name="setting[d_cate1]">
+        			<option value="">暂不启用</option>
+            		<volist name="cate" id="val">
+            			<option value="{$val['id']}" <if condition="C('pin_d_cate1') eq $val['id']">selected</if> >
+            				{$val['name']}
+            			</option>
+					</volist> 
+            	</select> ：
+            	<input type="text" name="setting[d_cate1_val]" class="input-text" size="6" value="{:C('pin_d_cate1_val')}">
+            	&nbsp;&nbsp;&nbsp;&nbsp;
+            	<select name="setting[d_cate2]">
+        			<option value="">暂不启用</option>
+            		<volist name="cate" id="val">
+            			<option value="{$val['id']}" <if condition="C('pin_d_cate2') eq $val['id']">selected</if> >
+            				{$val['name']}
+            			</option>
+					</volist> 
+            	</select> ：
+            	<input type="text" name="setting[d_cate2_val]" class="input-text" size="6" value="{:C('pin_d_cate2_val')}">
+            	&nbsp;&nbsp;&nbsp;&nbsp;
+            	<select name="setting[d_cate3]">
+        			<option value="">暂不启用</option>
+            		<volist name="cate" id="val">
+            			<option value="{$val['id']}" <if condition="C('pin_d_cate3') eq $val['id']">selected</if> >
+            				{$val['name']}
+            			</option>
+					</volist> 
+            	</select> ：
+            	<input type="text" name="setting[d_cate3_val]" class="input-text" size="6" value="{:C('pin_d_cate3_val')}">
+            </td>
+        </tr>  
+        <tr>
+            <th>不满足分类门槛（价格） :</th>
+            <td><input type="text" name="setting[no_cate_price]" class="input-text" size="10" value="{:C('pin_no_cate_price')}"> 元</td>
+            
+        </tr>
+        <tr>
+            <th>餐饮用户起送价 :</th>
+            <td><input type="text" name="setting[start_price]" class="input-text" size="10" value="{:C('pin_start_price')}"> 元</td>
+            
+        </tr>
+        <tr>
+            <th>个人用户起送价 :</th>
+            <td><input type="text" name="setting[ge_price]" class="input-text" size="10" value="{:C('pin_ge_price')}"> 元</td>
+            
+        </tr>
+        <tr>
+            <th>外送费:</th>
+            <td><input type="text" name="setting[freight]" class="input-text" size="10" value="{:C('pin_freight')}"> 元</td>
+            
+        </tr>
+        <tr>
+            <th>服务距离 :</th>
+            <td><input type="text" name="setting[distance]" class="input-text" size="10" value="{:C('pin_distance')}"></td>
+            
+        </tr>
+        <tr>
+            <th>配送区域 :</th>
+            <td><textarea rows="4" cols="50" name="setting[area]">{:C('pin_area')}</textarea>
+            </td>
+            
+        </tr>
+        <tr>
+            <th>下单说明 :</th>
+            <td><textarea rows="4" cols="50" name="setting[explain]">{:C('pin_explain')}</textarea>
+            </td>
+            
+        </tr>-->
+        <!--<tr>-->
+            <!--<th>顾客须知 :</th>-->
+            <!--<td><textarea rows="4" cols="50" name="setting[notice]">{:C('pin_notice')}</textarea>-->
+            <!--</td>-->
+            <!---->
+        <!--</tr>-->
+        <!--<tr>
+            <th>短信推送基数 :</th>
+            <td><input type="text" name="setting[ts_js]" class="input-text" size="10" value="{:C('pin_ts_js')}"></td>
+            
+        </tr>-->
+        <!--<tr>-->
+            <!--<th>短信推送内容:</th>-->
+            <!--<td><textarea rows="4" cols="50" name="setting[ts_ln]">{:C('pin_ts_ln')}</textarea>-->
+            <!--</td>-->
+            <!---->
+        <!--</tr>-->
+        <!--<tr>
+            <th>会员级别规则 :</th>
+            <td colspan="5">VIP会员：月均满 <input type="text" name="setting[vip]" class="input-text" size="10" value="{:C('pin_vip')}">
+            	银卡会员：月均满 <input type="text" name="setting[vip_y]" class="input-text" size="10" value="{:C('pin_vip_y')}">
+            	金卡会员：月均满 <input type="text" name="setting[vip_j]" class="input-text" size="10" value="{:C('pin_vip_j')}">
+            	白金卡会员：月均满 <input type="text" name="setting[vip_b]" class="input-text" size="10" value="{:C('pin_vip_b')}">
+            	钻石卡会员：月均满 <input type="text" name="setting[vip_z]" class="input-text" size="10" value="{:C('pin_vip_z')}">
+            </td>
+        </tr>
+        <tr>
+            <th>刷客咨询QQ :</th>
+            <td><input type="text" name="setting[qq1]" class="input-text" size="50" value="{:C('pin_qq1')}"></td>
+        </tr>
+        <tr>
+            <th>商家咨询QQ :</th>
+            <td><input type="text" name="setting[qq2]" class="input-text" size="50" value="{:C('pin_qq2')}"></td>
+        </tr>
+        <tr>
+            <th>审核客服QQ :</th>
+            <td><input type="text" name="setting[qq3]" class="input-text" size="50" value="{:C('pin_qq3')}"></td>
+        </tr>
+        <tr>
+            <th>投诉建议QQ :</th>
+            <td><input type="text" name="setting[qq4]" class="input-text" size="50" value="{:C('pin_qq4')}"></td>
+        </tr>-->
+    	<tr>
+        	<th>{:L('site_status')} :</th>
+        	<td>
+            	<label><input type="radio" class="J_change_status" <if condition="C('pin_site_status') eq '1'">checked="checked"</if> value="1" name="setting[site_status]"> {:L('open')}</label> &nbsp;&nbsp;
+                <label><input type="radio" class="J_change_status" <if condition="C('pin_site_status') eq '0'">checked="checked"</if> value="0" name="setting[site_status]"> {:L('close')}</label>
+            </td>
+    	</tr>
+        <tr id="J_closed_reason" <if condition="C('pin_site_status') eq 1">class="hidden"</if>>
+        	<th>{:L('closed_reason')} :</th>
+        	<td><textarea rows="4" cols="50" name="setting[closed_reason]" id="closed_reason">{:C('pin_closed_reason')}</textarea></td>
+    	</tr>
+        <tr>
+        	<th></th>
+        	<td><input type="hidden" name="menuid"  value="{$menuid}"/><input type="submit" class="btn btn_submit" value="{:L('submit')}"/></td>
+    	</tr>
+	</table>
+	</form>
+</div>
+<include file="Public:footer" />
+<script>
+$(function(){
+    $('.J_change_status').live('click', function(){
+        if($(this).val() == '0'){
+            $('#J_closed_reason').fadeIn();
+        }else{
+            $('#J_closed_reason').fadeOut();
+        }
+    });
+});
+</script>
+</body>
+</html>

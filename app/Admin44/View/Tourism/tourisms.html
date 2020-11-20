@@ -1,0 +1,168 @@
+<include file="Public:header" />
+<style>
+    .explain_col{ overflow: hidden; padding: 8px;}
+    .explain_col li{ float: left;} 
+
+</style>
+<!--商品列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="post" action="{:u('order/index')}">
+        <table width="100%" cellspacing="0" class="search_form">
+            <tbody>
+            <tr>
+                <td>
+                    <div class="explain_col">
+                        <ul style="overflow: hidden;">
+                            <li  style="width:20%"> 订单编号：
+                                <input name="order_sn" type="text" class="input-text" size="25" value="{$ser.order_sn}" />
+                            </li>
+                            <li>&nbsp;&nbsp;姓 名：
+                                <input name="username" type="text" class="input-text" size="15" value="{$ser.username}"  />
+                            </li>
+                            <li>&nbsp;&nbsp;顾客ID：
+                                <input name="id" type="text" class="input-text" size="10" value="{$ser.id}" />
+                            </li>
+                            <li>&nbsp;&nbsp;电 话：
+                                <input name="tel" type="text" class="input-text" size="15" value="{$ser.tel}"  />
+                            </li>
+                        </ul>
+                        <ul style="overflow: hidden; margin-top: 10px;">
+                            <li>订单状态：
+                                <select name="status">
+                                    <option value="-1">请选择</option>
+                                    <volist name="order_status" id="ice">
+                                        <option value="{$key}" <if condition="$ser.status eq $key ">selected</if>>{$ice}</option>
+                                    </volist>
+                                </select>
+                            </li>
+
+                            <li>&nbsp;&nbsp;下单时间：
+                                <input type="text" name="time_start" id="time_start1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$ser.time_start}">
+                                至  <input type="text" name="time_end" id="time_end1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$ser.time_end}">
+                            </li>
+
+                            <li style="margin-left: 63px;">
+                                <input type="submit" name="search" class="btn" value="搜索" />
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+
+    <div class="content_list">
+        <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+            <table width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th width="10"><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                    <th align="center" width="80"><span data-tdtype="order_by" data-field="title">订单号</span></th>
+                    <!--<th align="center" width="50"><span data-tdtype="order_by" data-field="price">类型</span></th>-->
+                    <th align="center" width="50"><span data-tdtype="order_by" data-field="price">目的地</span></th>
+                    <th align="center" width="50"><span data-tdtype="order_by" data-field="price">人数</span></th>
+                    <th width="40">出游时间</th>
+
+                    <th width="50">酒店</th>
+                    <th width="60">门票</th>
+                    <th width="40">电话</th>
+                    <th width="80">联系人</th>
+                    <th width="70"><span data-tdtype="order_by" data-field="add_time">备注</span></th>
+                    <th width="50">状态</th>
+                    <th width="100">{:L('operations_manage')}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="val" >
+                    <tr>
+                        <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                        <!--<td align="center">{$val.id}</td>-->
+                        <td align="center">{$val.order_sn}</td>
+                        <!--<td align="center">{$val.amount}</td>-->
+                        <td align="center">{$val.address}</td>
+                        <td align="center">{$val.man}</td>
+                        <td align="center">{:date('Y-m-d',$val['data'])}</td>
+                        <td align="center">{$val.hotel}</td>
+                        <td align="center">{$val.tickets}</td>
+                        <td align="center">{$val.mobile}</td>
+                        <td align="center">{$val.name}</td>
+                        <td align="center">{$val.memos}</td>
+                        <td align="center">{$order_status[$val['status']]}</td>
+                        <td align="center">
+                            <if condition="$val['status'] eq 2"><a href="javascript:;" class="J_showdialog" data-uri="{:u('order/confirm',array('id'=>$val['id'],'menuid'=>$menuid))}" data-title="编辑" data-id="edit" data-width="600" data-height="330">确认发货</a> |
+                            </if>
+                            <!--<a href="javascript:;" class="J_showdialog" style="color:#0f6294" data-uri="{:u('tourism/lists',array('id'=>$val['id'],'menuid'=>$menuid))}" data-title="编辑" data-id="{$val.id}" data-width="600" data-height="330">订单详情</a> |-->
+                            <a href="javascript:;" class="J_confirmurl" style="color:#010305" data-uri="{:u('tourism/xtx',array('id'=>$val['id']))}" data-acttype="ajax" data-msg="确定要删除该订单吗？">删除订单</a>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div id="pages">{$page}</div>
+</div>
+
+<include file="Public:footer" />
+
+
+<script type="text/javascript" src="__PUBLIC_ADMIN__js/laydate.js"></script>
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate.css">
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate(1).css">
+<script type="text/javascript">
+    !function(){
+        laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+        laydate({elem: '#demo'});//绑定元素
+    }();
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY-MM-DD',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+
+    var end = {
+        elem: '#end',
+        format: 'YYYY-MM-DD',
+        min: laydate.now(),
+        max: '2099-06-16',
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            start.max = datas; //结束日选好后，充值开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+
+    //自定义日期格式
+    laydate({
+        elem: '#test1',
+        format: 'YYYY年MM月DD日',
+        festival: true, //显示节日
+        choose: function(datas){ //选择日期完毕的回调
+            alert('得到：'+datas);
+        }
+    });
+    //日期范围限定在昨天到明天
+    laydate({
+        elem: '#hello3',
+        min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+        max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+    });
+</script>
+
+</body>
+
+</html>

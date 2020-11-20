@@ -1,0 +1,68 @@
+<include file="Public:header" />
+<!--会员列表-->
+<div class="pad_10">
+	<form name="searchform" method="get">
+		<table width="100%" cellspacing="0" class="search_form">
+			<tbody>
+				<tr>
+					<td>
+						<div class="explain_col">
+							<input type="hidden" name="m" value="admin" />
+							<input type="hidden" name="c" value="member" />
+							<input type="hidden" name="a" value="index" />
+							<input type="hidden" name="menuid" value="{$menuid}" /> &nbsp;会员名 :
+							<input name="keyword" type="text" class="input-text" placeholder="请输入会员名进行搜索" />
+							<input type="submit" class="btn" value="搜索" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table> 
+	</form>
+ 
+	<div class="J_tablelist table_list" data-acturi="{:U('tourism/ajax_edit')}">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="101" align="left"><span data-tdtype="order_by" data-field="id">账单编号</span></th>
+					<th width="110" align="left"><span data-tdtype="order_by" data-field="product_id">店铺名称</span></th>
+					<th width="101">已提现金额</th>
+					<th width="101">未结算金额</th>
+					<th width="101">分成比例</th>
+					<th width="101">平台佣金</th>
+				</tr>
+			</thead>
+			<tr>
+				<td align="center">1000016100</td>
+				<td align="center">天天食品旗舰店</td>
+				<td align="center">5000<a href="javascript:;" class="J_showdialog" data-uri="{:U('Settlement/cash_list')}" data-title="提现明细" data-id="edit" data-width="700" data-height="360">[明细]</a></td>
+				<td align="center">5000<a href="javascript:;" class="J_showdialog" data-uri="{:U('Settlement/outstanding_order')}" data-title="未结算订单明细" data-id="edit" data-width="700" data-height="360">[明细]</a></td>
+				<td align="center">10%</td>
+				<td align="center">500</td>
+			</tr>
+			<tr>
+				<td align="center">1000016200</td>
+				<td align="center">天天食品旗舰店</td>
+				<td align="center">5000<a href="javascript:;" class="J_showdialog" data-uri="{:U('Settlement/cash_list')}" data-title="提现明细" data-id="edit" data-width="700" data-height="360">[明细]</a></td>
+				<td align="center">5000<a href="javascript:;" class="J_showdialog" data-uri="{:U('Settlement/outstanding_order')}" data-title="未结算订单明细" data-id="edit" data-width="700" data-height="360">[明细]</a></td>
+				<td align="center">10%</td>
+				<td align="center">500</td>
+			</tr>
+		</table>
+
+	</div>
+	<div class="songkebor">
+
+		<label class="select_all">
+			<input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+
+		<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('member/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+
+		<div id="pages">{$page}</div>
+
+	</div>
+</div>
+
+<include file="Public:footer" />
+</body>
+</html>

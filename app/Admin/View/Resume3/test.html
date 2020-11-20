@@ -1,0 +1,17 @@
+<textarea name="info" class="info" style="width:98%;height:500px;visibility:hidden;resize:none;"></textarea>
+			                
+<include file="Public:footer" />
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+<script type="text/javascript">
+$(function() {
+	KindEditor.create('.info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+});
+
+</script>
+</body>
+</html>

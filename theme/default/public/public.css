@@ -1,0 +1,123 @@
+
+	*{ padding: 0px; margin: 0px; }
+	body{background: #EFEFEF;}
+	.fz-10{ font-size: 10px!important; }
+	.fz-12{ font-size: 12px!important; }
+	.fz-13{ font-size: 13px!important; }
+	.fz-14{ font-size: 14px!important; }
+	.fz-15{ font-size: 15px!important; }
+	.fz-16{ font-size: 16px!important; }
+	.mui-bar .mui-btn-link{color:#1655bf;}
+	.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before { color: #1655bf; }
+	/*页面主题颜色strat*/
+	.mainRed{ color: #fa4d3e; }
+	/*页面主题颜色end*/
+	/*主题按钮样式start*/
+	.mui-btn-red{ background-color: #1655bf; border-color: #1655bf; }
+	.mui-btn-red:active{ background-color: #ccc!important; border-color: #ccc!important; }
+	.mui-btn-blue{ background-color: #3EB5AC; border-color: #3EB5AC; }
+	/*主题红色按钮样式end*/
+	/*主页图标样式start*/
+	.head-nav-red .mui-icon.mui-icon-home{ font-size: 20px; font-weight: bold; color: #fff; }
+	.head-nav-white .mui-icon.mui-icon-home{ font-size: 20px; font-weight: bold; color: #666; }
+	/*主页图标样式end*/
+	/* 自动消失提示框start */
+	.mui-toast-message { width: 130px;color: #fff;border-radius: 5px;background-color: rgba(0,0,0,.7);}
+	/* 自动消失提示框end */
+	/*头部导航start*/
+	.mui-bar-nav.mui-bar .mui-icon{ /*margin-left: 86px!important; */}
+	.head-nav-red{ background-color: #1655bf; }
+	.head-nav-white{ background-color: #fff; }
+	.head-nav-red .mui-title{ color: #FFFFFF!important;}
+	.head-nav-white .mui-title{ color: #333!important; }
+	.head-nav-white .head-nav-left{ color: #333!important; }
+	.head-nav-red .head-nav-left{ color: #FFFFFF; }
+	.head-nav-red a.head-nav-left:active{ color: rgba(255,255,255,.8)!important; }
+	.head-nav-right.mui-btn-link{ color: #FFFFFF!important; font-size: 15px!important; }
+	/*头部导航end*/
+	/*底部导航start*/
+	.mui-bar{ box-shadow: 0 0 0px transparent; }
+	.mui-bar-tab .mui-tab-item.mui-active { color: #1655bf!important; }
+	.nav-boder-top{ border-top: 1px solid #eee; }
+	.nav-home{ background: url(../../images/public/nav-home.png) no-repeat 0 0; }
+	.mui-tab-item.mui-active .nav-home{ background-image: url(../../images/public/nav-home-active.png)!important; }
+	.nav-type{ background: url(../../images/public/nav-type.png) no-repeat 0 0; }
+	.mui-tab-item.mui-active .nav-type{ background-image: url(../../images/public/nav-type-active.png)!important;; }
+	.nav-quickDrink{ background: url(../../images/public/nav-quickDrink.png) no-repeat 0 0; }
+	.nav-cart{ background: url(../../images/public/nav-cart.png) no-repeat 0 0; }
+	.mui-tab-item.mui-active .nav-cart{ background-image: url(../../images/public/nav-cart-active.png)!important;; }
+	.nav-member{ background: url(../../images/public/nav-member.png) no-repeat 0 0; }
+	.mui-tab-item.mui-active .nav-member{ background-image: url(../../images/public/nav-member-active.png)!important;; }
+	.mui-bar-tab .mui-tab-item .mui-tab-label { font-size: 12px; display: block; line-height: 1; overflow: hidden; text-overflow: ellipsis; }
+	.nav-home,.nav-drink,.nav-type,.nav-cart,.nav-member{ width: 22px; height: 22px; display: inline-block; background-size: contain; }
+	.nav-drink{ width: 50px!important; }
+	.nav-quickDrink{ width: 50px; height: 50px; position: absolute; top: -20px; background-size: contain; display: block; }
+	.nav-label-drink{/*position: absolute; top: 30px;*/left: 0; text-align: center; width: 100%; font-style: italic; color: #1655bf; font-size: 14px!important; }
+	.index-nub{position: absolute;top:0px;padding: 1px 4px;background-color:#fa4d3e!important;color:#ffffff!important;display:none;}
+	.cart-none{display:none;}
+/*底部导航end*/
+/*整箱购start*/
+.whole-icon{
+		width: 20px;
+		height: 20px;
+		background-image:url(../../images/index/whole-share.png) ;
+		background-size: 20px 20px;
+		margin-top: 12px;
+	}
+	.whole-img{
+	    width: 100%;
+	}
+	.whole-ul{
+		width: 100%;
+		height: 90px;
+		margin-top:-5px;
+		background: white;
+		padding: 0px!important;
+	}
+	.whole-ul li{
+		width: 25%;
+		float: left;
+		margin-top: 10px;
+		padding: 0px!important;
+		list-style: none;
+		margin-right: 0px!important;
+		text-align: center;
+	}
+	.whole-frist-btn{
+		width: 68px;
+		height: 30px;
+		background: #efefef;
+		color:black;
+		border-radius: 3px;
+		font-size: 13px;
+		border:none
+
+	}
+	.whole-second-btn{
+		width: 68px;
+		height: 30px;
+		background: #1655bf;
+		color:white;
+		border-radius: 3px;
+		font-size: 13px;
+		border:none
+	}
+/*整箱购end*/
+/*服务说明弹框start*/
+.div-off-mask { width: 100%; height: 100%; display: none; }
+.mask-off{ width: 100%; height: 100%; background: rgba(0,0,0,.4); position: fixed; top: 0; z-index: 20; left: 0; margin: 0; padding: 0; }
+.div-off-mask .server-mask { width: 90%; height: auto; padding-bottom: 15px; top: 50%; margin-top: -180px; position: fixed; left: 5%; z-index: 25; background: #fff; border-radius: 5px; }
+.div-off-mask .mui-title{ color: #1655bf; font-size: 16px; margin: 0 0 10px 0; position: relative; border-bottom: 1px solid #e0e0e0; }
+.div-off-mask .findtitle { width: 100%; height: 30px; line-height: 30px; font-size: 13px; color: #333; display: block; padding: 0 20px 0 12%; background-position: 5% 7px!important; zoom: 1; }
+.div-off-mask .des-detail { width: 100%; height: auto; padding: 0 20px 0 12%; color: #999; font-size: 12px; margin-bottom: 5px; }
+.div-off-mask .btn-know { width: 90%; margin: 15px auto 0 auto; clear: both; color: #fff; background: #1655bf; border: 0; outline: 0; font-size: 14px; display: block; padding: 8px 0; }
+.div-off-mask .kuaihe { background: url(../../images/classification/kuaihe-icon.png) no-repeat 20px 8px; background-size: 16px 16px; }
+.div-off-mask .secdArr { background: url(../../images/classification/productDetail-time.png) no-repeat 20px 8px; background-size: 16px 16px; }
+.div-off-mask .arrPay { background: url(../../images/classification/productDetail-money.png) no-repeat 20px 8px; background-size: 16px 16px; }
+.div-off-mask .freeYf { background: url(../../images/classification/productDetail-free.png) no-repeat 20px 8px; background-size: 16px 16px; }
+.div-off-mask .zpSave { background: url(../../images/classification/productDetail-zheng.png) no-repeat 20px 8px; background-size: 16px 16px; }
+/*服务说明弹框end*/
+.nodata-div{padding-top:35%;text-align:center;}
+.nodata-div .noRemark{font-size: 14px; color: #999; font-weight: bold;}
+.nodata-div .look{font-size: 12px; color: #999;}
+.nodata-icon{display: block; width: 55px; height: 55px;margin: 0 auto;background-color: #ccc;background-image: url(../../images/public/exclamationMark.png);background-size:12px auto;background-position: 21px 10px;background-repeat:no-repeat;border-radius: 100%;}

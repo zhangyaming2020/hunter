@@ -1,0 +1,79 @@
+<include file="Public:header" />
+<!--商品列表-->
+ <script>Window.onload=window.print(); </script>
+<div class="pad_lr_10" >
+  
+  <form action="{:U('order/goods_export_person1')}" method="post" id="form1">
+  
+    <volist name="list" id="vo">
+    <div class="table_list" style="border:2px dotted #ccc; padding:0 15px; margin:10px 0;">
+   <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+        <tr>
+            <th width="100" style="text-align:right;">订单编号：</th>
+          <td style="text-align:left;">{$vo['dingdan']}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">姓名：</th>
+            <td style="text-align:left;">{$member_name[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">电话：</th>
+            <td style="text-align:left;">{$member_mobile[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">地址：</th>
+            <td style="text-align:left;">{$member_address[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">下单时间：</th>
+            <td style="text-align:left;">{$vo['addtime']|date="Y-m-d h:i:s",###}</td>
+        </tr>
+       <tr>
+            <th style="text-align:right;">备注：</th>
+            <td style="text-align:left;">{$vo['memos']}</td>
+        </tr>
+        
+          <tr>
+            <th style="text-align:right;">配送费：</th>
+            <td style="text-align:left;">￥{:C('pin_freight')}</td>
+        </tr>
+    </table>
+    <table width="100%" cellspacing="0" style="margin: 15px 0;">
+    <thead>
+        <tr>
+            <th width=50>商品</th>
+            <th width=50>数量</th>
+            <th width=50>单位</th>
+      		<th width="80">价格</th>
+            <th width="60">金额</th>    
+        </tr>
+    </thead>
+    <tbody>
+    	<volist name="vo['total']" id="vs">
+        <tr align="center">
+            <td width="200">{$item_title[$vs['jid']]}<if condition="$vs['did'] neq 0">({$item_guige[$vs['did']]})</if></td>
+            <td width="100">{$vs['nums']}</td>
+            <td width="100"><if condition="$vs['did'] neq 0">{$item_guige[$vs['did']]}<else />{$item_unit[$vs['jid']]}</if></td>
+            <td width="100">￥{$vs['prices']}</td>
+            <td width="100">￥<?php echo number_format($vs['nums']*$vs['prices'],2);?></td>
+        </tr>
+        </volist>
+        
+     
+        
+    </tbody>
+	</table>
+	    <tr>
+            <th style="text-align:right;">合计：</th>
+            <td style="text-align:left;">￥<if condition=" $vo['totalprices'] gt C('pin_start_price')">{$vo['totalprices']}<else />{$vo['totalprices']+C('pin_freight')}</if></td>
+        </tr>
+	</div>
+    </volist>
+    </form>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+
+
+</body>
+</html>

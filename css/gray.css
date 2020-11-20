@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* Text color */
+.colr																		{color:#6d6d6d !important;}
+.txthover:hover																{color:#6d6d6d !important;}
+.backcolr																	{background-color:#6d6d6d !important;}
+.backcolrhover:hover														{background-color:#6d6d6d !important;}
+.backcolrdark																{background-color:#6d6d6d !important; background-image:url(../images/black.png);}
+.bordercolr																	{border-color:#6d6d6d !important;}
+.bordercolrover:hover														{border-color:#6d6d6d !important;}
+
+.top-links li a:hover														{color:#6d6d6d !important;}
+.ddsmoothmenu ul li a:hover,
+.ddsmoothmenu ul li a.selected, 
+.ddsmoothmenu ul li.current-menu-item a										{color:#6d6d6d !important;}
+.small-banners:hover .sub-capt h1 a											{background:#6d6d6d !important;}
+.upcoming-classes ul li:hover												{background:#6d6d6d !important;}
+a.buttontwo:hover															{background:#6d6d6d !important;}
+.footer ul li a:hover														{color:#6d6d6d !important;}
+.post .post-opts .title h3 a:hover											{color:#6d6d6d;}
+.blog-links ul li:hover a													{color:#6d6d6d;}
+.recent-post li h3 a:hover													{color:#6d6d6d;}
+.pagination ul li a:hover, .pagination ul li a.active						{color:#6d6d6d;}
+.gallery-list li:hover h2													{background:#6d6d6d;}
+.filter-sec nav a:hover, .filter-sec nav a.active							{color:#6d6d6d !important;}
+.filter-sec ul li a:hover, .filter-sec ul li a.current						{color:#6d6d6d !important;}
+.calendar .shows li.fill:hover												{background:#6d6d6d;}

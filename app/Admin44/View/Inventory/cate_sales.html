@@ -1,0 +1,109 @@
+<include file="Public:header" />
+<!--文章列表-->
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="Inventory" />
+                <input type="hidden" name="a" value="cate_sales" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;分类：
+                <!--<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>-->
+                <select name="pid" >
+                	<option value="">--所有--</option>
+                	<volist name="cate" id="val">
+                		<option value="{$val['id']}" <if condition="$pid eq $val['id']">selected</if> >
+                			{$val['name']}
+                		</option>  
+                	</volist>	
+                </select>
+        		<input type="hidden" name="cate_id" id="J_cate_id" value="{$search.cate_id}" />
+                &nbsp;&nbsp;日期：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$time_end}">
+                &nbsp;&nbsp;业务员编号：
+                <input type="text" name="ywy" class="input-text" size="10" value="{$ywy}">
+                &nbsp;&nbsp;门店编号：
+                <input type="text" name="md" class="input-text" size="10" value="{$md}">
+                &nbsp;&nbsp;客户类型：
+                <input type="text" name="kh" class="input-text" size="10" value="{$kh}">
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="explain_col">  
+	    总金额：<input class="input-text" value="{$z_data |default='0'}"/>  
+    </div>
+
+    <!--<div class="explain_col">  
+	     <form id="addform" action="{:U('Inventory/upload')}" method="post" enctype="multipart/form-data">
+	        <input style=" width:65px;" type="file" name="excelData" value=""  datatype="*4-50" />
+	        <input type="submit" class="btn btn-primary Sub" value="导入" />
+	     </form>
+    	<a href="{:U('Inventory/goods_sale',array('cate_id'=>$cate_id,'time_start'=>$time_start,'time_end'=>$time_end))}" class="btn btn-primary Sub" >导出</a>
+    </div>-->  
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>分类</th>
+                <th>金额</th>
+                <th>百分比</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="cate_sub" id="val" >
+	            <tr>
+	                <td align="center">{$i}</td>
+	                <td align="center">{$val['name']}</td>
+	                <td align="center">{$data[$val['id']] |default="0"}</td>
+					<td align="center">
+						<?php 
+						    echo (round($data[$val['id']]/$z_data,4)*100)."%";	
+						?>	
+					</td>
+	            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <!--<label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

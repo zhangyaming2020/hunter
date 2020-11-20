@@ -1,0 +1,108 @@
+<include file="Public:header" />
+<!--商品列表-->
+ <script>Window.onload=window.print(); </script>
+<div class="pad_lr_10">
+  
+  <form action="{:U('order/goods_export_person1')}" method="post" id="form1">
+  
+    <volist name="list" id="vo">
+    <div class="table_list" style=" padding:0 15px; margin:40px 0;">
+   <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+   		<thead>
+   			<tr>
+   				<th style="color: #000; font-size: 20px; padding: 0 10px; line-height: 40px;" colspan="4">点菜君销售单</th>
+   			</tr>
+   		</thead>
+   		<tr>
+   			<th width="100" style="text-align:right; color: #000; padding: 0 10px; font-size: 18px;  line-height: 42px;">配送时间：</th>
+   			<td colspan="3" style="text-align:left; padding: 0 0 0 10px; font-size: 18px; line-height: 42px;">{:date('Y-m-d',$vo['delivery_time'])} {$vo['deli']['start_time']}-{$vo['deli']['over_time']} </td>
+   		</tr>
+        <tr>
+            <th width="100" style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">订单编号：</th>
+          	<td style="text-align:left; padding: 0 0 0 10px; font-size: 18px; line-height: 42px;">{$vo['dingdan']}</td>
+          	<th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">下单时间：</th>
+            <td style="text-align:left; padding: 0 0 0 10px; font-size: 18px; line-height: 42px;">{$vo['addtime']|date="Y-m-d h:i:s",###}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">店名：</th>
+            <td style="text-align:left; font-size: 18px;">{$member_name[$vo['aid']]}</td>
+            <th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">电话：</th>
+            <td style="text-align:left; font-size: 18px;">{$member_mobile[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">配送地址：</th>
+            <td colspan="3" style="text-align:left; font-size: 18px;">{$member_address[$vo['aid']]}</td>
+        </tr>
+        <tr>
+        	<th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">姓名：</th>
+            <td style="text-align:left; font-size: 18px;">{$vo['realname']}</td>
+            <th style="text-align:right; color: #000; padding: 0 10px; font-size: 18px; line-height: 42px;">支付方式：</th>
+            <td style="text-align:left; font-size: 18px;">{$vo['zftype']}</td>
+        </tr>
+        <tr>
+        	<th style="color: #000;" width="80">商家备注</th>
+        	<td colspan="3" style="text-align:left; font-size: 18px;">{$vo['comment']}</td>  
+        </tr>
+       
+          
+    </table>
+    <table width="100%" cellspacing="0">
+    <thead>
+        <tr>
+        	<th style="color: #000; padding: 3px; font-size: 18px;">序号</th>
+            <th style="color: #000; padding: 3px; font-size: 18px;" width="50">商品名称</th>
+            <th style="color: #000; padding: 3px; font-size: 18px;" width="30">单位</th>
+      		<th style="color: #000; padding: 3px; font-size: 18px;" width="80">单价(元)</th>
+            <th style="color: #000; padding: 3px; font-size: 18px;" width="50">数量</th>
+            <th style="color: #000; padding: 3px; font-size: 18px;" width="60">合计(元)</th> 
+              
+        </tr>
+    </thead>
+    <tbody>
+    	<volist name="vo['list']" id="vs">
+        <tr align="center">
+        	<td width="50" style=" padding: 3px; font-size: 18px;">{$i}</td>
+            <td width="270" style=" padding: 3px; font-size: 18px;">{$item_title[$vs['jid']]}<if condition="$vs['did'] neq 0">({$item_guige[$vs['did']]})</if></td>
+            <td width="70" style=" padding: 3px; font-size: 18px;"><if condition="$vs['did'] neq 0">{$item_guige[$vs['did']]}<else />{:unit_type($item_unit[$vs['jid']],1)}</if></td>
+            <td width="100" style=" padding: 3px; font-size: 18px;">￥{$vs['prices']}</td>
+            <td width="70" style=" padding: 3px; font-size: 18px;">{$vs['nums']}</td>
+            <td width="100" style=" padding: 3px; font-size: 18px;">￥<?php echo number_format($vs['nums']*$vs['prices'],2);?></td>
+            
+        </tr>
+        </volist>
+        <tr>
+        	<td colspan="5" style=" padding: 3px; font-size: 18px; text-align: center;">优惠金额</td>
+        	
+        	<td style="text-align: center; padding: 3px; font-size: 18px;"> <notempty name="vo.coupon">￥ -{$vo['coupon']['price']}</notempty></td>
+        </tr>
+     	<tr>
+     		<td colspan="5" style=" padding: 3px; font-size: 18px; text-align: center;">实收金额</td>
+     		<td style="text-align: center; padding: 3px; font-size: 18px;">
+     			￥{$vo['totalprices'] - $vo['coupon']['price']}</td>    
+     			<!--￥<if condition=" $vo['totalprices'] gt C('pin_start_price')">{$vo['totalprices'] - $vo['coupon']['price']}<else />{$vo['totalprices']+C('pin_freight') - $vo['coupon']['price']}</if></td>-->
+     	</tr>
+        <tr>
+        	<td style="border: none; border-bottom: 1px solid #92dded; padding: 3px; font-size: 18px; border-left: 1px solid #92dded;" colspan="2">配货人:</td>
+        	<td style="border: none; border-bottom: 1px solid #92dded; padding: 3px; font-size: 18px;" colspan="2">送货司机:</td>
+        	<td style="border: none; border-bottom: 1px solid #92dded; padding: 3px; font-size: 18px; border-right: 1px solid #92dded;" colspan="2">司机电话:</td>
+        </tr>
+    </tbody>
+	</table>
+	<p style="margin-top: 10px;font-size: 18px;">
+	如有任何疑问，请直接拨打官方热线：400-1767-660 / 0791-87875126或者添加在线客服小君君微信（账号：junjundiancai），祝您生意兴隆！
+	</p>
+	    <!--<tr>
+            <th style="text-align:right;">合计：</th>
+            <td style="text-align:left;">￥<if condition=" $vo['totalprices'] gt C('pin_start_price')">{$vo['totalprices']}<else />{$vo['totalprices']+C('pin_freight')}</if></td>
+        </tr>-->
+	</div>
+    </volist>
+    </form>
+</div>
+<div style="height: 40px;"></div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+
+
+</body>
+</html>

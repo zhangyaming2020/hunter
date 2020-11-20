@@ -1,0 +1,19 @@
+$map=array();
+$res['email']&&$data['resuEmail']=$map['resuEmail']=$res['email'];
+$data['resuContactInfo']=$map['resuContactInfo']=$res['mobile'];
+if($map){//查重
+	$find=M('resume')->where($map)->getField('id');
+	if($find){
+		@unlink($up_file);//删除文件
+		if($html_path){
+			@unlink($html_path);//删除文件
+		}
+		if($str=='doc' || $str='docx'){//删除临时文件
+			@unlink("./uploads/temp/".$new_name.".".$str);//删除文件
+			if($str=='doc'){
+				@unlink("./uploads/temp/".$new_name.".docx");//删除文件
+			}
+		}
+		IS_AJAX && $this->ajax_return(2, '简历已存在,请不要重复导入',U('Resume/detail',array('id'=>$find)));
+	}
+}

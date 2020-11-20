@@ -1,0 +1,149 @@
+
+<div class="dialog_content">
+	<form id="info_form" action="{:u('member/identity')}" method="post">
+	<table width="100%" class="table_form">
+		<tr>
+			<th width="100">会员昵称 :</th>
+			<td>{$info.nickname}</td>
+		</tr>
+        <tr>
+            <th>真实姓名 :</th>
+            <td>
+                <input type="text" name="real_name" id="J_real_name" class="input-text fl mr10" size="30" value="{$info.identity.real_name}">
+            </td>
+        </tr>
+	    <tr>
+			<th>身份证 :</th>
+			<td>
+            	<input type="text" name="id_card" id="J_id_card" class="input-text fl mr10" size="30" value="{$info.identity.id_card}">
+            </td>
+		</tr>
+
+        <tr>
+            <th>证件1 :</th>
+            <td>
+                <input type="text" name="img_01" id="J_img_01" class="input-text fl mr10" size="30" value="{$info.identity.img_01}">
+                <div id="J_upload_img_01" class="upload_btn"><span>{:L('upload')}</span></div>
+                <notempty name="info['identity']['img_01']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['identity']['img_01'],'identity')}"><a href="{:attach($info['identity']['img_01'],'identity')}" target="_blank"><img src="__STATIC__/images/filetype/image_s.gif" /></a></span></notempty>
+            </td>
+        </tr>
+        <tr>
+            <th>证件2 :</th>
+            <td>
+                <input type="text" name="img_02" id="J_img_02" class="input-text fl mr10" size="30" value="{$info.identity.img_02}">
+                <div id="J_upload_img_02" class="upload_btn"><span>{:L('upload')}</span></div>
+                <notempty name="info['identity']['img_02']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['identity']['img_02'],'identity')}"><a href="{:attach($info['identity']['img_02'],'identity')}" target="_blank"><img src="__STATIC__/images/filetype/image_s.gif" /></a></span></notempty>
+            </td>
+        </tr>
+        <tr>
+            <th>证件3:</th>
+            <td>
+                <input type="text" name="img_03" id="J_img_03" class="input-text fl mr10" size="30" value="{$info.identity.img_03}">
+                <div id="J_upload_img_03" class="upload_btn"><span>{:L('upload')}</span></div>
+                <notempty name="info['identity']['img_03']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['identity']['img_03'],'identity')}"><a href="{:attach($info['identity']['img_03'],'identity')}" target="_blank"><img src="__STATIC__/images/filetype/image_s.gif" /></a></span></notempty>
+            </td>
+        </tr>
+        <tr>
+            <th>证件4:</th>
+            <td>
+                <input type="text" name="img_04" id="J_img_04" class="input-text fl mr10" size="30" value="{$info.identity.img_04}">
+                <div id="J_upload_img_04" class="upload_btn"><span>{:L('upload')}</span></div>
+                <notempty name="info['identity']['img_04']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['identity']['img_04'],'identity')}"><a href="{:attach($info['identity']['img_01'],'identity')}" target="_blank"><img src="__STATIC__/images/filetype/image_s.gif" /></a></span></notempty>
+            </td>
+        </tr>
+	    <tr>
+			<th>{:L('enabled')} :</th>
+			<td>
+				<label><input type="radio" name="status" value="1" <if condition="$info['identity']['status'] eq 1">checked='checked'</if>> 退回</label>&nbsp;&nbsp;
+				<label><input type="radio" name="status" value="2" <if condition="$info['identity']['status'] eq 2">checked='checked'</if>> 审核中</label>
+                <label><input type="radio" name="status" value="3" <if condition="$info['identity']['status'] eq 3">checked='checked'</if>> 确认通过</label>
+			</td>
+		</tr>
+	</table>
+	<input type="hidden" name="id" value="{$info.id}" />
+        <input type="hidden" name="identity_id" value="{$info['identity']['id']}" />
+	</form>
+</div>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script>
+
+var check_id_card_url = "{:U('member/ajax_check_id_card', array('id'=>$info['identity']['id']))}";
+var check_alipay_url = "{:U('member/ajax_alipay', array('id'=>$info['identity']['id']))}";
+var check_mobile_url = "{:U('member/ajax_mobile', array('id'=>$info['identity']['id']))}";
+$(function(){
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#J_id_card").formValidator({onshow:'请填写身份证号',onfocus:'请填写身份证号'}).inputValidator({min:1,onerror:'请填写身份证号'}).ajaxValidator({
+	    type : "get",
+		url : check_id_card_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '身份证号已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+	$("#email").formValidator({onshow:"请填写邮箱",onfocus:"请填写邮箱"}).inputValidator({min:1,onerror:"请填写邮箱"}).regexValidator({regexp:"email",datatype:"enum",onerror:"邮箱格式错误"}).ajaxValidator({
+	    type : "get",
+		url : check_email_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+            if(result.status == 0){
+                return false;
+			}else{
+                return true;
+			}
+		},
+		onerror : '邮箱已经存在',
+		onwait : '正在检测'
+	}).defaultPassed();
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	
+	//上传图片
+    var uploader = new qq.FileUploaderBasic({
+    	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('user/ajax_upload_imgs')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+        	typeError: lang.upload_type_error,
+        	sizeError: lang.upload_size_error,
+        	minSizeError: lang.upload_minsize_error,
+        	emptyError: lang.upload_empty_error,
+        	noFilesError: lang.upload_nofile_error,
+        	onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+        	$.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+        	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+        	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+        		$('#J_img').val(result.data);
+        	} else {
+        		$.pinphp.tip({content:result.msg, icon:'error'});
+        	}
+        }
+    });
+});
+</script>

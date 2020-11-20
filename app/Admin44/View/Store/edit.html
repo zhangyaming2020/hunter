@@ -1,0 +1,707 @@
+<link rel="stylesheet" href="__PUBLIC_ADMIN__getpoint/common.css">
+<link rel="stylesheet" href="__PUBLIC_ADMIN__getpoint/index.css">
+<script src="__PUBLIC_ADMIN__getpoint/jquery-1.9.1.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC_ADMIN__getpoint/jquery-ui.min.css">
+<script src="__PUBLIC_ADMIN__getpoint/jquery-ui-1.10.4.min.js"></script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<include file="Public:header" />
+<!--编辑商品-->
+<form id="info_form" action="{:u('store/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+			<li>店铺选点</li>
+            <li>展示图片</li>
+            <li>购买须知</li>
+		</ul>
+		<div class="J_panes">
+        <div class="content_list pad_10">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			 <tr>
+                            <th>门店名 :</th>
+                            <td><input type="text" name="title" id="J_title" class="input-text" size="60" value="{$info.title}"></td>
+                        </tr>
+                        <tr>
+                            <th>店铺类型 :</th>
+                            <td>
+                             <select name="shop_type">
+                            <volist name="shop_type" id="val">
+                            <option value="{$val.id}" <if condition="$info['shop_type'] eq $val['id']">selected="selected"</if>>{$val.name}</option>
+                            </volist>
+                              </select>
+                            </td>
+                        </tr>
+                         <tr>
+                            <th>Vr链接 :</th>
+                            <!--<td><input type="file" name="img" id="J_img"/></td>-->
+                            <td>
+                                <input type="text" name="lian" id="lian" class="input-text fl mr10" size="30" value="{$info.lian}">
+                           </td>
+                        </tr>
+                        <tr>
+                            <th>店铺主图 :</th>
+                            <td>
+                                 <input type="text" name="logo" id="J_img" class="input-text fl mr10" size="15" value="{$info.logo}">
+                                 <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+                           <!--     <notempty name="info['m_img']"><span class="attachment_icon J_attachment_icon" file-type="image" file-rel="{:attach($info['m_img'], 'activity_cate')}"><img src="__STATIC__/images/filetype/image_s.gif" /></span></notempty>
+                                <!-- <notempty name="info['m_img']"><img src="{:attach($info['m_img'], 'activity_cate')}" width="100" height="100"/><br /></notempty>
+                                <input type="file" name="m_imgs"  value="{$info['m_img']}"/>-->
+                          </td>	
+                        </tr>
+                        <tr>
+                            <th>店铺电话 :</th>
+                            <td><input type="text" name="tel" id="J_tel" class="input-text" size="60" value="{$info.tel}"></td>
+                        </tr>
+                        <tr>
+                            <th>营业时间 :</th>
+                            <td><input type="text" name="office_hours" id="office_hours" class="input-text" size="60" value="{$info.office_hours}"></td>
+                        </tr>
+                         <tr>
+                            <th>最低消费 :</th>
+                            <td><input type="text" name="per_price" id="per_price" class="input-text" size="60" value="{$info.per_price}"></td>
+                        </tr>
+                        <tr>
+                            <th width="120">审核状态:</th>
+                            <td>
+                                <select name="status">
+                                    <option value="">请选择审核状态</option>
+                                    <option value="0" <if condition="$info.status eq 0">selected="selected"</if>>未通过</option>
+                                    <option value="1" <if condition="$info.status eq 1">selected="selected"</if>>通过</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+		         	    <th>商家及店铺介绍 :</th>
+						<td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+						</tr>
+		</table>
+		</div>
+         <div class="content_list pad_10 hidden">
+				<div style="width:912px;position:relative;">
+                        <div style="height:53px;">
+                            <div class="search">
+                                <div class="search_c"><input type="text" class="search_t" onKeyPress="if(event.keyCode==13) {btnSearch.click();return false;}" class="input-text" size="30" value="{$info.address}"/></div>
+                                <div id="btn_search" class="btn_get">搜索</div>
+                            </div>
+                            <div class="poi">
+                                <div class="poi_note">当前坐标：</div>
+                               <input type="text" id="poi_cur" name="long_lat" value="{$info.longitude},{$info.latitude}"/>
+                                <div class="poi_note">当前地址：</div>
+                                <input type="text" id="addr_cur" name="address" value="{$info.address}"/>
+                            </div>
+                        </div>
+                        <div id="main">
+                            <div id="tooles">
+                                <div id="cur_city">
+                                    <strong>北京市</strong><span class="change_city">[<span style="text-decoration:underline;">更换城市</span>]<span id="level">当前缩放等级：10</span></span>
+                                    <include file="Public:city" />
+                                </div>
+                            </div>
+                            <div id="bside_left">
+                                <div id="txt_pannel">
+                                    <h3>功能简介：</h3>
+                                    <p>1、支持地址 精确/模糊 查询；</p>
+                                    <p>2、支持POI点坐标显示；</p>
+                                    <p>3、坐标鼠标跟随显示；</p>
+                                    <h3>使用说明：</h3>
+                                    <p>在搜索框搜索关键词后，地图上会显示相应poi点，同时左侧显示对应该点的信息，点击某点或某信息，右上角会显示相应该点的坐标和地址。</p>
+                                </div>
+                            </div>
+                            <div id="bside_rgiht">
+                                <div id="container"></div>
+                            </div>
+                        </div>
+                    </div>
+		</div>
+        <div class="content_list pad_10 hidden">
+        	<style>
+				.addpic {}
+				.addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+				.addpic a { display:block;}
+            </style>
+            <ul class="addpic">
+            <volist name="img_list" id="val">      
+            <li class="album_{$val['id']}">
+            <a href="javascript:void(0)" onClick="del_album({$val['id']});"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>
+            <a>
+            <input type='hidden' name='imgs[]' value='{$val["url"]}'/>
+            <img src="{:attach($val['url'], 'store')}" style="width:80px;height:60px; border:solid 1px #000; "/></a>
+            </li>
+            </volist>
+            </ul>
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+
+                <tr>
+                    <th class="td_left" style="text-align: left;">
+                        <a class="btn" id="logo_upload_btn" href="javascript:;" style=" width: 80px; margin:10px 0;">上传商品副图</a>
+                    </th>
+                </tr>
+                <tr>
+
+                    <td>
+                        <div id="logo_upload_area" style='width:80%'>
+                            <div id='photos_area' class="photos_area clearfix">
+                                <?php  if (isset($info['imgs'])) {
+				                                      foreach ($img_list as $v) {
+				                         ?>
+                                <div class='item'>
+                                    <input type='hidden' name='imgs[]' value='{$v["url"]}'/>
+                                    <img src='{:attach($v,'store')}'  width='100px' height='100px'/>
+                                    <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+                                </div>
+                                <?php }   }   ?>
+
+                            </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+         <div class="content_list pad_10 hidden">
+				<tr>
+                <td><textarea name="notice" class="notice" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.notice}</textarea></td>
+
+                </tr>
+		</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" value="{$info.id}" />
+</form>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<include file="Public:footer" />
+<link rel="stylesheet" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<script src="__STATIC__/js/fileuploader.js"></script>
+<script type="text/javascript">
+var integral ="{$info['is_jf']}";integral==1?$('.integral').show():$('.integral').hide();
+$('.label input').click(function(){
+	var ind =$(this).index();
+	var is_check =$(this).prop('checked');
+	if(ind==1){
+		is_check==true?$('.group').show():$('.group').hide();$('.integral').hide();
+	}
+	else if(ind==2){
+		is_check==true?$('.integral').show():$('.integral').hide();$('.group').hide();
+	}
+	else{
+		$('.integral').hide();$('.group').hide();
+	}
+	
+	
+})
+  function add_file()
+    {
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+    }
+    function del_file_box(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+     function add_ext()
+    {
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+    }
+    function del_attr(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+$('.J_cate_select').cate_select('请选择');
+$(function() {	
+	KindEditor.create('.info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	KindEditor.create('.notice', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	$('ul.J_tabs').tabs('div.J_panes > div');
+	//自动获取标签
+	$('#J_gettags').live('click', function() {
+		var title = $.trim($('#J_title').val());
+		if(title == ''){
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+			return false;
+		}
+		$.getJSON('{:U("tickets/ajax_gettags")}', {title:title}, function(result){
+			if(result.status == 1){
+				$('#J_tags').val(result.data);
+			}else{
+				$.pinphp.tip({content:result.msg});
+			}
+		});
+	});
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'}).defaultPassed();
+});
+function get_child_cates(obj,to_id)
+{
+	var parent_id = $(obj).val();
+	if( parent_id ){
+		$.get('?m=tickets&a=get_child_cates&g=admin&parent_id='+parent_id,function(data){
+				var obj = eval("("+data+")");
+				$('#'+to_id).html( obj.content );
+	    });
+    }
+}
+
+
+function del_album(id)
+{
+	var url = "{:U('store/delete_album')}";
+    $.get(url+"&album_id="+id, function(data){
+		if(data==1){
+		    $('.album_'+id).remove();
+		};
+    });
+}
+//上传图片
+    var uploader = new qq.FileUploaderBasic({
+    	allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('store/ajax_upload_img')}",
+        inputName: 'logo',
+        forceMultipart: true, //用$_FILES
+        messages: {
+        	typeError: lang.upload_type_error,
+        	sizeError: lang.upload_size_error,
+        	minSizeError: lang.upload_minsize_error,
+        	emptyError: lang.upload_empty_error,
+        	noFilesError: lang.upload_nofile_error,
+        	onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+        	$.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+        	$('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+        	$('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+        		$('#J_img').val(result.data);
+        	} else {
+
+        		$.pinphp.tip({content:result.msg, icon:'error'});
+        	}
+        }
+    });
+</script>
+<script>
+$(document).delegate('.J_cate_select','change',function(){
+	$('.J_cate_select').find('option').each(function(){
+		if($(this).val()==190||$(this).val()==164){
+			$(this).hide();
+		}
+	})
+})
+ var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('store/ajax_store_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/store/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+</script>
+<script type="text/javascript">
+
+    var container = document.getElementById("container");
+    var map = new qq.maps.Map(container, {
+            zoom: 10
+
+        }),
+        label = new qq.maps.Label({
+            map: map,
+            offset: new qq.maps.Size(15,-12),
+            draggable: false,
+            clickable: false
+        }),
+        markerArray = [],
+        curCity = document.getElementById("cur_city"),
+        btnSearch = document.getElementById("btn_search"),
+        bside = document.getElementById("bside_left"),
+        url, query_city,
+        cityservice = new qq.maps.CityService({
+            complete: function (result) {
+                curCity.children[0].innerHTML = result.detail.name;
+                map.setCenter(result.detail.latLng);
+            }
+        });
+    cityservice.searchLocalCity();
+    map.setOptions({
+        draggableCursor: "crosshair"
+    });
+
+    $(container).mouseenter(function () {
+        label.setMap(map);
+    });
+    $(container).mouseleave(function () {
+        label.setMap(null);
+    });
+
+    qq.maps.event.addListener(map, "mousemove", function (e) {
+        var latlng = e.latLng;
+        label.setPosition(latlng);
+        label.setContent(latlng.getLat().toFixed(6) + "," + latlng.getLng().toFixed(6));
+    });
+
+    var url3;
+    qq.maps.event.addListener(map, "click", function (e) {
+        document.getElementById("poi_cur").value = e.latLng.getLat().toFixed(6) + "," + e.latLng.getLng().toFixed(6);
+        url3 = encodeURI("http://apis.map.qq.com/ws/geocoder/v1/?location=" + e.latLng.getLat() + "," + e.latLng.getLng() + "&key=RN5BZ-JAZ2U-FKBVV-4ZPMC-QWM5V-CNBPZ&output=jsonp&&callback=?");
+        $.getJSON(url3, function (result) {
+            if(result.result!=undefined){
+                document.getElementById("addr_cur").value = result.result.address;
+            }else{
+                document.getElementById("addr_cur").value = "";
+            }
+
+        })
+    });
+
+    qq.maps.event.addListener(map, "zoom_changed", function () {
+        document.getElementById("level").innerHTML = "当前缩放等级：" + map.getZoom();
+    });
+    var listener_arr = [];
+    var isNoValue = false;
+    qq.maps.event.addDomListener(btnSearch, 'click', function () {
+        var value = this.parentNode.getElementsByTagName("input")[0].value;
+        var latlngBounds = new qq.maps.LatLngBounds();
+        for(var i= 0,l=listener_arr.length;i<l;i++){
+            qq.maps.event.removeListener(listener_arr[i]);
+        }
+        listener_arr.length = 0;
+        query_city = curCity.children[0].innerHTML;
+        url = encodeURI("http://apis.map.qq.com/ws/place/v1/search?keyword=" + value + "&boundary=region(" + query_city + ",0)&page_size=9&page_index=1&key=RN5BZ-JAZ2U-FKBVV-4ZPMC-QWM5V-CNBPZ&output=jsonp&&callback=?");
+        $.getJSON(url, function (result) {
+
+            if (result.count) {
+                isNoValue = false;
+                bside.innerHTML = "";
+                each(markerArray, function (n, ele) {
+                    ele.setMap(null);
+                });
+                markerArray.length = 0;
+                each(result.data, function (n, ele) {
+                    var latlng = new qq.maps.LatLng(ele.location.lat, ele.location.lng);
+                    latlngBounds.extend(latlng);
+                    var left = n * 27;
+                    var marker = new qq.maps.Marker({
+                        map: map,
+                        position: latlng,
+                        zIndex: 10
+                    });
+                    marker.index = n;
+                    marker.isClicked = false;
+                    setAnchor(marker, true);
+                    markerArray.push(marker);
+                    var listener1 = qq.maps.event.addDomListener(marker, "mouseover", function () {
+                        var n = this.index;
+                        setCurrent(markerArray, n, false);
+                        setCurrent(markerArray, n, true);
+                        label.setContent(this.position.getLat().toFixed(6) + "," + this.position.getLng().toFixed(6));
+                        label.setPosition(this.position);
+                        label.setOptions({
+                            offset: new qq.maps.Size(15, -20)
+                        })
+
+                    });
+                    listener_arr.push(listener1);
+                    var listener2 = qq.maps.event.addDomListener(marker, "mouseout", function () {
+                        var n = this.index;
+                        setCurrent(markerArray, n, false);
+                        setCurrent(markerArray, n, true);
+                        label.setOptions({
+                            offset: new qq.maps.Size(15, -12)
+                        })
+                    });
+                    listener_arr.push(listener2);
+                    var listener3 = qq.maps.event.addDomListener(marker, "click", function () {
+                        var n = this.index;
+                        setFlagClicked(markerArray, n);
+                        setCurrent(markerArray, n, false);
+                        setCurrent(markerArray, n, true);
+                        document.getElementById("addr_cur").value = bside.childNodes[n].childNodes[1].childNodes[1].innerHTML.substring(3);
+                    });
+                    listener_arr.push(listener3);
+                    map.fitBounds(latlngBounds);
+                    var div = document.createElement("div");
+                    div.className = "info_list";
+                    var order = document.createElement("div");
+                    var leftn = -54 - 17 * n;
+                    order.style.cssText = "width:17px;height:17px;margin:3px 3px 0px 0px;float:left;background:url(/theme/admin/getpoint/img/marker_n.png) " + leftn + "px 0px";
+                    div.appendChild(order);
+                    var pannel = document.createElement("div");
+                    pannel.style.cssText = "width:200px;float:left;";
+                    div.appendChild(pannel);
+                    var name = document.createElement("p");
+                    name.style.cssText = "margin:0px;color:#0000CC";
+                    name.innerHTML = ele.title;
+                    pannel.appendChild(name);
+                    var address = document.createElement("p");
+                    address.style.cssText = "margin:0px;";
+                    address.innerHTML = "地址：" + ele.address;
+                    pannel.appendChild(address);
+                    if (ele.tel != undefined) {
+                        var phone = document.createElement("p");
+                        phone.style.cssText = "margin:0px;";
+                        phone.innerHTML = "电话：" + ele.tel;
+                        pannel.appendChild(phone);
+                    }
+                    var position = document.createElement("p");
+                    position.style.cssText = "margin:0px;";
+                    position.innerHTML = "坐标：" + ele.location.lat.toFixed(6) + "，" + ele.location.lng.toFixed(6);
+                    pannel.appendChild(position);
+                    bside.appendChild(div);
+                    div.style.height = pannel.offsetHeight + "px";
+                    div.isClicked = false;
+                    div.index = n;
+                    marker.div = div;
+                    div.marker = marker;
+                });
+                $("#bside_left").delegate(".info_list", "mouseover", function (e) {
+
+                    var n = this.index;
+
+                    setCurrent(markerArray, n, false);
+                    setCurrent(markerArray, n, true);
+                });
+                $("#bside_left").delegate(".info_list", "mouseout", function () {
+                    each(markerArray, function (n, ele) {
+                        if (!ele.isClicked) {
+                            setAnchor(ele, true);
+                            ele.div.style.background = "#fff";
+                        }
+                    })
+                });
+                $("#bside_left").delegate(".info_list", "click", function (e) {
+                    var n = this.index;
+                    setFlagClicked(markerArray, n);
+                    setCurrent(markerArray, n, false);
+                    setCurrent(markerArray, n, true);
+                    map.setCenter(markerArray[n].position);
+                    document.getElementById("addr_cur").value = this.childNodes[1].childNodes[1].innerHTML.substring(3);
+                });
+            } else {
+
+                bside.innerHTML = "";
+                each(markerArray, function (n, ele) {
+                    ele.setMap(null);
+                });
+                markerArray.length = 0;
+                var novalue = document.createElement('div');
+                novalue.id = "no_value";
+                novalue.innerHTML = "对不起，没有搜索到您要找的结果!";
+                bside.appendChild(novalue);
+                isNoValue = true;
+            }
+        });
+    });
+
+    btnSearch.onmousedown = function () {
+        this.className = "btn_active";
+    };
+    btnSearch.onmouseup = function () {
+        this.className = "btn_get";
+    };
+    function setAnchor(marker, flag) {
+        var left = marker.index * 27;
+        if (flag == true) {
+            var anchor = new qq.maps.Point(10, 30),
+                origin = new qq.maps.Point(left, 0),
+                size = new qq.maps.Size(27, 33),
+                icon = new qq.maps.MarkerImage("/theme/admin/getpoint/img/marker10.png", size, origin, anchor);
+            marker.setIcon(icon);
+        } else {
+            var anchor = new qq.maps.Point(10, 30),
+                origin = new qq.maps.Point(left, 35),
+                size = new qq.maps.Size(27, 33),
+                icon = new qq.maps.MarkerImage("/theme/admin/getpoint/img/marker10.png", size, origin, anchor);
+            marker.setIcon(icon);
+        }
+    }
+    function setCurrent(arr, index, isMarker) {
+        if (isMarker) {
+            each(markerArray, function (n, ele) {
+                if (n == index) {
+                    setAnchor(ele, false);
+                    ele.setZIndex(10);
+                } else {
+                    if (!ele.isClicked) {
+                        setAnchor(ele, true);
+                        ele.setZIndex(9);
+                    }
+                }
+            });
+        } else {
+            each(markerArray, function (n, ele) {
+                if (n == index) {
+                    ele.div.style.background = "#DBE4F2";
+                } else {
+                    if (!ele.div.isClicked) {
+                        ele.div.style.background = "#fff";
+                    }
+                }
+            });
+        }
+    }
+    function setFlagClicked(arr, index) {
+        each(markerArray, function (n, ele) {
+            if (n == index) {
+                ele.isClicked = true;
+                ele.div.isClicked = true;
+                var str = '<div style="width:250px;">' + ele.div.children[1].innerHTML.toString() + '</div>';
+                var latLng = ele.getPosition();
+                document.getElementById("poi_cur").value = latLng.getLat().toFixed(6) + "," + latLng.getLng().toFixed(6);
+            } else {
+                ele.isClicked = false;
+                ele.div.isClicked = false;
+            }
+        });
+    }
+    var city = document.getElementById("city");
+
+    curCity.onclick = function (e) {
+        var e = e || window.event,
+            target = e.target || e.srcElement;
+        if (target.innerHTML == "更换城市") {
+            city.style.display = "block";
+            if(isNoValue){
+                bside.innerHTML = "";
+                each(markerArray, function (n, ele) {
+                    ele.setMap(null);
+                });
+                markerArray.length = 0;
+            }
+
+        }
+    };
+
+    var url2;
+    city.onclick = function (e) {
+        var e = e || window.event,
+            target = e.target || e.srcElement;
+        if (target.className == "close") {
+            city.style.display = "none";
+        }
+        if (target.className == "city_name") {
+
+            curCity.children[0].innerHTML = target.innerHTML;
+
+            url2 = encodeURI("http://apis.map.qq.com/ws/geocoder/v1/?region=" + curCity.children[0].innerHTML + "&address=" + curCity.children[0].innerHTML + "&key=RN5BZ-JAZ2U-FKBVV-4ZPMC-QWM5V-CNBPZ&output=jsonp&&callback=?");
+            $.getJSON(url2, function (result) {
+                map.setCenter(new qq.maps.LatLng(result.result.location.lat, result.result.location.lng));
+                map.setZoom(10);
+            });
+            city.style.display = "none";
+        }
+    };
+
+    var url4;
+    $(".search_t").autocomplete({
+        source:function(request,response){
+            url4 = encodeURI("http://apis.map.qq.com/ws/place/v1/suggestion/?keyword=" + request.term + "&region=" + curCity.children[0].innerHTML + "&key=RN5BZ-JAZ2U-FKBVV-4ZPMC-QWM5V-CNBPZ&output=jsonp&&callback=?");
+            $.getJSON(url4,function(result){
+
+                response($.map(result.data,function(item){
+                    return({
+                        label:item.title
+
+                    })
+                }));
+            });
+        }
+    });
+
+    function each(obj, fn) {
+        for (var n = 0, l = obj.length; n < l; n++) {
+            fn.call(obj[n], n, obj[n]);
+        }
+    }
+	
+</script>
+</body>
+</html>

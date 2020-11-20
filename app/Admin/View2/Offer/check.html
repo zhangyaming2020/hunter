@@ -1,0 +1,196 @@
+<div class="dialog_content">
+	<div id="tabs" style="padding:10px;">
+	<body style="background:#fff;padding:10px;">
+		<h1 class="pageTitle">Offer详情</h1>
+	
+		<div class="invoice last">
+			<div class="invoice_inner">
+				<table class="invoicetable" cellspacing="0" cellpadding="0" width="100%">
+					<tbody>
+						<tr>
+							<th>客户名称:</th>
+							<td><if condition="$info.cus_id"><?php echo M('custom')->where(array('id'=>$info['cus_id']))->getField('cutaname');?></if></td>
+							<th>项目名称:</th>
+							<td>{$info.prtaname}</td>
+						</tr>
+						<tr>
+							<th>候选人:</th>
+							<td>{$info.resuname}</td>
+							<th>合同提成点:</th>
+							<td>{$info.cotacommissionpoint} %</td>
+						</tr>
+						<tr>
+							<th>付款比例:</th>
+							<td>{$info.cotaonepoint}% , {$info.cotatwopoint}%</td>
+							<th>offer总应收款:</th>
+							<td>
+								<?php echo sprintf("%.2f",$info['money']*$info['cotacommissionpoint']/100);?>
+	
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<br clear="all">
+	
+				<form id="auditInputForm">
+					<table class="invoicetable" cellspacing="0" cellpadding="0" width="100%">
+						<thead>
+							<tr>
+								<td width="40%">应收款说明</td>
+								<td width="30%" align="right">应收款日期</td>
+								<td width="30%" align="right">应收款金额</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td colspan="3">&nbsp;</td>
+							</tr>
+	
+							<tr>
+								<td>客户[<?php echo M('custom')->where(array('id'=>$info['cus_id']))->getField('cutaname');?></if>],项目[{$info.prtaname}],候选人[{$info.resuname}]-offer-成功后付款</td>
+								<td align="right">{$info.add_time|date='Y-m-d H:i:s',###}</td>
+								<td align="right"><?php echo sprintf("%.2f",$info['money']*$info['cotacommissionpoint']/100);?></td>
+							</tr>
+	
+							<tr>
+								<td class="line" colspan="3">&nbsp;</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<table border="0" cellpadding="3" cellspacing="1" bgcolor="#dddddd" style="width:100%; BORDER: #ccc 1px solid;">
+										<tbody>
+											<tr>
+												<td align="right" bgcolor="#ffffff" width="135" height="30"></td>
+												<td>
+													<table style="width:100%;" cellpadding="0" cellspacing="0">
+														<tbody>
+															<tr>
+																<td width="15%" style="font-weight: bold;">姓名</td>
+																<td width="20%" style="padding-top:2px;font-weight: bold;">角色提成点</td>
+																<td width="15%" style="font-weight: bold;">角色分成</td>
+																<td width="20%" style="font-weight: bold;">角色实际提成点</td>
+																<td width="15%" style="font-weight: bold;">操作</td>
+																<td width="*" style="font-weight: bold;">最后修改者</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+												<td width="50" style="font-weight: bold;">新增</td>
+											</tr>
+										</tbody>
+									</table>
+	
+									<table>
+										<tbody>
+											<tr>
+												<td><span style="display:block; margin: 20px 0; font-size: 16px; line-height: 20px; color:#369;">本offer没有设置：客户所有者提成、顾问提成、助理顾问提成、简历所有者提成！<br>请用<span style="color:#a00;">管理员</span>登录，在<span style="color:#a00;">项目详情</span>页面设置各角色提成点！</span>
+												</td>
+											</tr>
+											<tr>
+												<td><label style="margin: 10px 0; display:block; font-size: 14px; line-height: 14px; color:#369; width:100%; text-align: left;"><input type="checkbox" name="noRatio" id="noRatio" value="1">&nbsp;本offer没有客户所有者提成、顾问提成、助理顾问提成、简历所有者提成！</label></td>
+											</tr>
+										</tbody>
+									</table>
+	
+								</td>
+							</tr>
+							<tr>
+								<td colspan="3"><label><input type="checkbox" value="1" name="autoAccountReceivable" checked="">自动生成相关应收款记录<span style="color:#777;">(如果需要本系统管理项目的收款信息，请勾选此项)</span></label></td>
+							</tr>
+							<tr>
+								<td colspan="3">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+					<table border="0" cellpadding="3" cellspacing="1" bgcolor="#dddddd" style="width:100%;">
+						<tbody>
+							<tr>
+								<td class="d-footer">
+									<div class="d-buttons"><input type="button" class="d-button d-state-highlight sure" value="审核offer" data-id="{$info.id}" data-uri="{:U('offer/edit')}"><input type="button" class="d-button cancel" value="关闭"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<!-- invoice_inner -->
+	
+		</div>
+		<!-- invoice three_fourth last -->
+	
+		<div style="display: none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; cursor: move; opacity: 0; background: rgb(255, 255, 255);"></div>
+	</body>
+	</div>
+</div>
+<script type="text/javascript">
+//取消
+$('.cancel').click(function(){
+	$.dialog.get('check').close();
+})
+//确定
+$('.sure').click(function(){
+	var self = $(this),
+	uri = self.attr('data-uri'),
+	acttype='ajax',
+	data='oftaState=3'+'&id='+self.attr('data-id');
+	if($('#noRatio').prop('checked')==true){
+		$.dialog({
+			title:'消息',
+			content:'<table class="aui_dialog"><tbody><tr><td colspan="2" class="aui_header"></div></td></tr><tr><td class="aui_icon"><div class="aui_iconBg" style="background: url(http://ee.headhunterclub.com/js/plugins/art/skins/icons/question.png);"></div></td><td class="aui_main" style="width: auto; height: auto;"><div class="aui_content" style="padding: 20px 25px;">该offer没有： 顾问角色、 助理顾问角色 提成。<br><br>你确认此操作吗？</div></td></tr><tr><td colspan="2" class="aui_footer"><div class="aui_buttons"></div></td></tr></tbody></table>',
+			padding:'10px 20px',
+			lock:true,
+			ok:function(){
+				if(acttype == 'ajax'){
+					$.post(uri,data, function(result){
+						if(result.status == 1){
+							$.pinphp.tip({content:result.msg});
+							$.dialog.get('check').close();
+							if(callback != undefined){
+								eval(callback+'(self)');
+							}else{
+								if(refresh==1){
+									window.location.reload();
+								}
+							}
+						}else{
+							$.pinphp.tip({content:result.msg, icon:'error'});
+						}
+					});
+				}else{
+					location.href = uri;
+				}
+			},
+			cancel:function(){
+			}
+		});
+		
+	}
+	else{
+		$.pinphp.tip({content:'本项目没有设置客户所有者提成、顾问提成、助理顾问提成、简历所有者提成！', icon:'alert'});
+	}
+	
+})
+//附件上传
+$('.upload_file').click(function(){
+	$('input[name=file]').click();
+})
+$("input[name=file]").change(function(){
+	var fd = new FormData();
+	fd.append("img", $("input[name=file]").get(0).files[0]);
+		$.ajax({
+			url: "{:U('offer/attachment')}",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(result) { 
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				if(result['status']==1){
+					$('#accessoryList').html(result['data']);
+					$("input[name=accessoryFile]").val(result['data']);
+					
+				}
+			}
+		});
+	})
+</script>

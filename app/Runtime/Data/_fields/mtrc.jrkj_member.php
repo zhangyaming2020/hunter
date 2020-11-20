@@ -1,0 +1,1 @@
+a:7:{i:0;s:2:"id";i:1;s:5:"token";i:2;s:8:"nickname";i:3;s:6:"gender";i:4;s:6:"avatar";i:5;s:8:"add_time";s:5:"_type";a:6:{s:2:"id";s:7:"int(11)";s:5:"token";s:12:"varchar(255)";s:8:"nickname";s:11:"varchar(50)";s:6:"gender";s:10:"tinyint(1)";s:6:"avatar";s:12:"varchar(255)";s:8:"add_time";s:7:"int(10)";}}

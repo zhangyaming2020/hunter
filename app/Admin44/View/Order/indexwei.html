@@ -1,0 +1,363 @@
+<include file="Public:header" />
+
+<!--商品列表-->
+<style>
+.explain_col{ overflow: hidden; padding: 20px;}
+	.explain_col li{ width: 50%; float: left;}
+	.btn{ width: 80px; height: 30px; }
+</style>
+<div class="pad_lr_10" >
+
+    <form name="searchform" method="post" action="{:u('order/indexwei')}">
+
+    <table width="100%" cellspacing="0" class="search_form">
+
+        <tbody>
+
+            <tr>
+
+                <td>
+
+                <div class="explain_col">
+                <ul style="overflow: hidden;">
+                <li> 订单编号：
+                	<input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" style="width: 50%;" />
+                </li>
+                    <!--<div class="bk8"></div>-->
+                <li>姓 名：
+                    <input name="username" type="text" class="input-text" size="15" value="{$username}" style="width: 50%;" />
+                </li>
+                </ul>
+                <ul style="overflow: hidden; margin-top: 18px;">
+                <li>&nbsp;&nbsp;&nbsp;&nbsp;顾客ID：
+                    <input name="idhao" type="text" class="input-text" size="25" value="{$idhao}" style="width: 50%;" /> 
+                </li>
+                  <li> 电 话：
+                      <input name="tel" type="text" class="input-text" size="25" value="{$tel}" style="width: 50%;" /> 
+                  </li>
+                 </ul>
+                 <ul style="overflow: hidden; margin-top: 18px;">
+                      <li style="width: 49%;">收货时间： 
+                      	<input type="text" name="time_start" id="time_start" class="date" size="24" value="{$time_start}" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                    至  <input type="text" name="time_end" id="time_end" class="date" size="24" value="{$time_end}" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"></li>
+                  	<li style="width: 50%;">下单时间： 
+         <input type="text" name="time_start1" id="time_start1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_start1}">
+                    至  <input type="text" name="time_end1" id="time_end1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_end1}"></li>
+                   <li style="margin-top: 20px; margin-left: 63px;">
+                   <input type="hidden" name="status" value="0" />
+                   	<input type="submit" name="search" class="btn" value="搜索" /></li>	
+                   
+                   </ul>
+                   
+                    <!--<div class="bk8"></div>-->			
+
+                </div>
+
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    </form>
+    
+    
+    
+         <div style="float:right">
+    <form action="{:U('Order/tjdaochub')}" method="post">
+    <input type="hidden" name="keyword" value="{$keyword}" />
+    <input type="hidden" name="time_start" value="{$time_start}"/>
+    <input type="hidden" name="time_end" value="{$time_end}"/>
+    <input type="hidden" name="time_start1" value="{$time_start1}"/> 
+    <input type="hidden" name="time_end1" value="{$time_end1}"/>
+    <input type="hidden" name="username" value="{$username}"/>
+    <input type="hidden" name="idhao" value="{$idhao}"/>
+    <input type="hidden" name="tel" value="{$tel}" />
+    <input type="hidden" name="status" value="0" />
+    <input type="hidden" name="p" value="0" />
+    <input type="hidden" name="Is_ok" value="1" />
+    <input type="submit" value="导出" style="display:block; border:0; width:80px; text-align:center; text-align:center; height:30px; line-height:30px; background:#6699CC; color:#FFFFFF; font-family:'微软雅黑';" />
+    </form>
+     </div>   
+    
+    
+     <div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+ 			   <li><a href="{:U('Order/index')}">全部{$counta}</a></li>
+			   <li ><a href="{:U('Order/indexyi')}">已支付订单{$count}</a></li>
+               <li  class="current"><a href="{:U('Order/indexwei')}">未支付订单{$countc}</a></li>
+			   <li><a href="{:U('Order/indexque')}">已确认订单{$countd}</a></li>
+               <li><a href="{:U('Order/indexcheng')}">成功订单{$counte}</a></li>
+               <li ><a href="{:U('Order/indexshi')}">失败订单{$countf}</a></li>
+		</ul>
+</div>
+<div class="skbor">
+
+        <!--<label class="select_all mr10">-->
+
+        <!--<input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>-->
+  <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/que')}" data-name="id" data-msg="是否确认!" value="确认订单" /> 
+
+
+
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/zuofei')}" data-name="id" data-msg="是否确认!" value="无效订单" />        
+
+        <div id="pages">{$page}</div>
+
+    </div>
+
+             <div class="J_panes">
+			 <div class="content_list">
+			 <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">
+
+    <table width="100%" cellspacing="0">
+
+        <thead>
+
+            <tr>
+            	 <th width="10"><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <!--<th width=50><span data-tdtype="order_by" data-field="id">ID</span></th>-->
+                <th align="center" width="80"><span data-tdtype="order_by" data-field="title">订单号</span></th>
+                 <th align="center" width="50"><span data-tdtype="order_by" data-field="price">金额(元)</span></th>    
+                 <th width="40">支付方式</th>
+                 <th width="50">状态</th>
+				 <th width="50">顾客ID</th>
+                 <th width="60">姓名</th>
+                 <th width="40">电话</th>
+                 <th width="80">配送地址</th>
+                 <th width="200">详情</th>
+                 <th width="130">备注</th>
+                 <th width="80">收货时间段</th>
+             	 <th width="70"><span data-tdtype="order_by" data-field="add_time">下单时间</span></th>
+                 <th width="100">{:L('operations_manage')}</th>
+            </tr>
+
+        </thead>
+
+    	<tbody>
+        
+
+            <volist name="listb" id="val" >
+            <tr>
+
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+
+                <!--<td align="center">{$val.id}</td>-->
+
+                <td align="center">{$val.dingdan}</td>
+
+                <td align="center">{$val.totalprices}</td>
+
+                <td align="center"><?php echo zffs($val['zftype'])?></td>
+
+                <td align="center"><?php echo xgstatus($val['status'])?></td>
+<td align="center">{$val.uid}</td>
+                <td align="center">{$val['name']}</td>
+
+                <td align="center">{$val['tel']}</td>
+                <!--<td align="center">{$val['city_name']}</td>-->
+                
+                <td align="center">{$val['ads']}</td>
+                <td align="center">
+            
+                 <!--<volist name='val["sub"]' id='vo'>
+                {$gwc_title[$vo['jid']]}<if condition="$vo['did'] eq 0">{$vo['nums']}{$gwc_unit[$vo['jid']]}<else />{$vo['nums']}{$gwc_value[$vo['did']]} </if><br>
+                </volist>-->
+                <volist name='val["sub"]' id='vo'>
+            {$vo['title']}   <if condition="$vo['did'] eq 0">{$vo['nums']}{:unit_type($vo['unit'],1)}<else />{$vo['nums']}{$gwc_value[$vo['did']]} </if><br>
+                </volist>
+                </td>
+                <td align="center">{$val.memos}</td>
+                <td align="center">{$val.delivery_time|date='Y-m-d',###} {$val['star']}-{$val['end']}</td>
+                
+                <td align="center">{$val.addtime|date='Y-m-d H:i:s',###}</td>
+
+                <td align="center">                
+
+               <a href="{:u('order/dgdaochu',array('id'=>$val['id'], 'menuid'=>$menuid))}">导出</a> 
+
+                | <a href="{:u('order/lists',array('id'=>$val['id'],'menuid'=>$menuid))}">订单详情</a> 
+
+                <!--<if condition="$val['status'] eq 0">
+
+                | <a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('order/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a>
+
+                </if>-->
+
+                </td>
+
+            </tr>
+
+            </volist>
+
+    	</tbody>
+
+    </table>
+
+    </div>
+			</div>
+            
+           <div id="pages">
+			{$page}
+		</div>  
+            
+            
+ </div>
+
+</div>
+<a href="#" style="width: 40px; height: 40px; z-index: 999; background: #eee; position: fixed; right: 15px; padding-top: 5px; border: 1px solid #ddd; bottom: 15px; text-align: center;">返回<br />顶部</a>
+
+ <include file="Public:footer" />
+
+
+<script type="text/javascript" src="__PUBLIC_ADMIN__js/laydate.js"></script>
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate.css">
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate(1).css" id="LayDateSkin">
+<script type="text/javascript">
+!function(){
+	laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+	laydate({elem: '#demo'});//绑定元素
+}();
+
+//日期范围限制
+var start = {
+    elem: '#start',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(), //设定最小日期为当前日期
+    max: '2099-06-16', //最大日期
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+         end.min = datas; //开始日选好后，重置结束日的最小日期
+         end.start = datas //将结束日的初始值设定为开始日
+    }
+};
+
+var end = {
+    elem: '#end',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(),
+    max: '2099-06-16',
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+        start.max = datas; //结束日选好后，充值开始日的最大日期
+    }
+};
+laydate(start);
+laydate(end);
+
+//自定义日期格式
+laydate({
+    elem: '#test1',
+    format: 'YYYY年MM月DD日',
+    festival: true, //显示节日
+    choose: function(datas){ //选择日期完毕的回调
+        alert('得到：'+datas);
+    }
+});
+
+//日期范围限定在昨天到明天
+laydate({
+    elem: '#hello3',
+    min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+    max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+});
+</script>
+
+
+
+<script src="/theme/admin/js/jquery/plugins/listTable.js"></script>
+
+<script>
+
+$(function(){
+
+	$('.J_tablelist').listTable();
+
+});
+
+</script>
+
+</body>
+
+</html>
+
+<?php
+
+	function	zffs($aa){
+
+    				$str = '';
+
+    			if($aa==1){
+
+    				$str='支付宝';
+
+    			}elseif($aa==2){
+
+    				$str="微信";
+
+    			}elseif($aa==4){
+
+    				$str="钱包";
+
+    			}elseif($aa==3){
+
+    				$str="货到付款";
+
+    			}elseif($aa==5){
+
+    				$str="<span style='color:green;'>后付费</span>";
+
+    			}
+
+    			return $str	;
+
+    			}
+
+
+
+function xgstatus($id){
+
+	if($id==0){
+
+    	$str="未支付";
+
+    }elseif($id==1){
+
+    	$str="<font color='blue'>已支付</font>";
+
+    }elseif($id==2){
+
+    	$str="<font color='green'>已完成</font>";
+
+    }elseif($id==3){
+
+    	$str="<font color='red'>作废</font>";
+
+    }elseif($id==4){
+
+    	$str="<font color='red'>已发货</font>";
+
+    }elseif($id==6){
+
+    	$str="<font color='red'>已评价</font>";
+
+    }elseif($id==7){
+
+    	$str="<font color='red'>退款单</font>";
+
+    }elseif($id==5){
+    
+      $str="<font color='green'>已确认</font>";
+    }
+
+    return $str;
+
+}
+
+?>
+

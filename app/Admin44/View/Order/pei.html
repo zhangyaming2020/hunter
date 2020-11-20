@@ -1,0 +1,147 @@
+<include file="Public:header" />
+<style>
+	.explain_col{ overflow: hidden; padding: 20px;}
+	.explain_col li{ float: left;}
+	.btn{ width: 80px; height: 30px; }
+</style>
+
+<form name="searchform" method="get" >
+	 	<input type="hidden" name="m" value="admin" />
+        <input type="hidden" name="c" value="Order" />
+        <input type="hidden" name="a" value="pei" />  
+	    <table width="100%" cellspacing="0" class="search_form">
+	        <tbody>
+	            <tr>
+	                <td>                            
+	                <div class="explain_col">
+	                <ul style="overflow: hidden;">
+	                	<li> 
+	                		配送时间：<select name="deli_id">
+	                					<option value ="">所有</option>
+	                			        <volist name="pei_list" id="val">
+		                			       	<option value ="{$val['id']}" <if condition="$deli_id eq $val['id']">selected</if>>
+		                			       		{$val['start_time']}-{$val['over_time']}
+		                			       	</option>
+	                			        </volist>
+	                			   </select>
+	                		支付时间： 
+	         <input type="text" name="time_start1" id="time_start1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_start1}">
+	                    至  <input type="text" name="time_end1" id="time_end1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_end1}">
+	                    	<input type="submit" name="search" class="btn" value="搜索" />
+	                	</li>	
+	                </ul>
+	                </div>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+    </form>	
+
+
+<div style="margin-top:25px;" >
+<a class="explain_col daochu" href="{:U('Order/dao_pei')}">导出数据</a>
+</div>
+
+
+ 	
+
+   <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}" style="margin-top:25px;" >
+      	<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	        <tr>
+		        <th>订单号</th>
+		        <th>金额(元)</th>
+			    <th>姓名</th>
+				<th>电话</th>
+		        <th>配送地址</th> 
+		        <th>备注</th> 
+		        <th>配送时间</th>
+		        <th>线路</th>
+	        </tr>
+      	<volist name="list" id="val"> 
+			<tr>
+		           <!--<td align="center"><span data-tdtype="edit" data-field="siji" class="tdedit" data-id="{$val.id}">{$val.siji}</span></td>-->
+		         <td align="center">{$val.dingdan}</td>
+		         <td align="center">{$val.totalprices}</td>
+				 <td align="center" width="150">{$val['name']}</td>
+				 <td align="center">{$val['tel']}</td>
+		         <td align="center" width="150"> {$val.ads}</td>
+		         <td align="center" width="150"> {$val.memos}</td>
+				 <td align="center" width="150">{$val.delivery_time|date='Y-m-d',###} {$val['star']}-{$val['end']}</td>
+				 <td align="center" width="150">{$val.xianru}</td>
+		    </tr>
+  		</volist> 
+    </table>
+    </div>
+    <include file="Public:footer" />
+     
+
+<div class="songkebor">
+      <div id="pages">{$page}</div>
+   </div>
+   
+   
+ <script src="__PUBLIC_ADMIN__js/jquery/plugins/listTable.js"></script>
+ <script type="text/javascript" src="__PUBLIC_ADMIN__js/laydate.js"></script>
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate.css">
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate(1).css" id="LayDateSkin">
+<script>
+$(function(){
+	 
+	$('.J_tablelist').listTable();
+});
+
+
+    !function(){
+	laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+	laydate({elem: '#demo'});//绑定元素
+}();
+
+//日期范围限制
+var start = {
+    elem: '#start',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(), //设定最小日期为当前日期
+    max: '2099-06-16', //最大日期
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+         end.min = datas; //开始日选好后，重置结束日的最小日期
+         end.start = datas //将结束日的初始值设定为开始日
+    }
+};
+
+var end = {
+    elem: '#end',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(),
+    max: '2099-06-16',
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+        start.max = datas; //结束日选好后，充值开始日的最大日期
+    }
+};
+laydate(start);
+laydate(end);
+
+//自定义日期格式
+laydate({
+    elem: '#test1',
+    format: 'YYYY年MM月DD日',
+    festival: true, //显示节日
+    choose: function(datas){ //选择日期完毕的回调
+        alert('得到：'+datas);
+    }
+});
+
+//日期范围限定在昨天到明天
+laydate({
+    elem: '#hello3',
+    min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+    max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+});
+</script>
+   
+
+
+

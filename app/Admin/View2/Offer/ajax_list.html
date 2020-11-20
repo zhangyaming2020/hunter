@@ -1,0 +1,19 @@
+<style>
+	.link a{margin-left:6px;}
+	.current{color:red;}
+</style>
+<div class="messagelist">
+	<ul>
+		<volist name="list" id="val">
+		<li class="current" data-id="{$val.id}" data-name="{$val.cutaname}">
+			<a href="javascript:;" onclick="onSelectCustomer(163,'不能反躬');">{$val.cutaname}</a>
+		</li>	
+		</volist>
+		
+
+
+	</ul>
+	<div class="link">
+		{$page}
+	</div>
+</div>

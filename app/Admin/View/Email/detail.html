@@ -1,0 +1,61 @@
+<!--添加管理员-->
+<style>
+	.share_button li{
+		float:right;
+	}
+	#users li{
+		float:left;
+	}
+</style>
+<div class="dialog_content" style="padding:10px; OVERFLOW-Y: auto;">
+	<div style="margin-bottom: 10px;">
+	
+		<button class="button button_white" handle="transpond" id="emailTranspond">转发</button>
+	
+		<button class="button button_white" id="thoroughgoingDeleteEmail" state="2">彻底删除</button>
+	
+		<button class="button button_white" id="emailtoresume">放入简历库</button>
+	</div>
+	<table width="100%" border="0" cellspacing="0" cellpadding="2" class="sTable2" style="margin-top:5px;">
+		<tbody>
+			<tr>
+				<td>
+					<h2>{$info.title}</h2>
+					<p>发件人：管理员({$info.addressor_email}))</p>
+					<p>时　间：{$info.add_time|date='Y-m-d H:i:s',###}</p>
+					<p>收件人：{$info.addressee_email};</p>
+				</td>
+			</tr>
+			<if condition="$info['attachment']">
+			<tr>
+				<td class="attachment">
+					<label style="color:#00f; line-height:30px; font-weight: bold;"><input type="checkbox" name="allowUpdateExist" id="allowUpdateExist" value="1">&nbsp;如果简历存在，允许更新内容（必须有更新权限）</label>
+					<ul>
+	
+						<li>{$info.attachment}&nbsp;&nbsp;
+							<a href="javascript:;" onclick="previewAttachment('/uploads/File/2019/01/31/95e38680-4d0b-4b4b-ae49-9a79463bec71.html','智联招聘_赵凯2_招聘经理_中文_20190107_1546844066044.html');">预览</a>&nbsp;&nbsp;
+							<a href="/office/email/download?filePath=/uploads/File/2019/01/31/95e38680-4d0b-4b4b-ae49-9a79463bec71.html&amp;fileName=智联招聘_赵凯2_招聘经理_中文_20190107_1546844066044.html" target="_blank">下载</a>&nbsp;&nbsp;
+							<a href="javascript:;" onclick="emailattachmentoresume(103,'/uploads/File/2019/01/31/95e38680-4d0b-4b4b-ae49-9a79463bec71.html','智联招聘_赵凯2_招聘经理_中文_20190107_1546844066044.html')">放入简历库</a>
+						</li>
+	
+					</ul>
+				</td>
+			</tr>
+			</if>
+			<tr>
+				<td style="padding:0px;"><iframe src="" style="width:100%;height:360px;"></iframe></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<script>
+$('.wrap').toggle(function(){
+	$(this).attr('src',"__PUBLIC_ADMIN__images/nolines_minus.gif");
+	$(this).parents('tr').next().show();
+},function(){
+    $(this).parents('tr').next().hide();
+    $(this).attr('src',"__PUBLIC_ADMIN__images/nolines_plus.gif");
+})
+
+
+</script>

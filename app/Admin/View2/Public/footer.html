@@ -1,0 +1,42 @@
+
+<script type="text/javascript" src="__PUBLIC_ADMIN__js/jquery.js"></script>
+<script src="__PUBLIC_ADMIN__js/jquery/plugins/jquery.tools.min.js"></script>
+<script src="__PUBLIC_ADMIN__js/jquery/plugins/formvalidator.js"></script>
+<script src="__PUBLIC_ADMIN__js/pinphp.js"></script>
+<script src="__PUBLIC_ADMIN__js/admin.js"></script>
+<script type="text/javascript" src="/theme/admin/js/laydate.js"></script>
+<link type="text/css" rel="stylesheet" href="/theme/admin/css/laydate.css">
+<link type="text/css" rel="stylesheet" href="/theme/admin/css/laydate(1).css">
+<script>
+//初始化弹窗
+(function (d) {
+    d['okValue'] = lang.dialog_ok;
+    d['cancelValue'] = lang.dialog_cancel;
+    d['title'] = lang.dialog_title;
+})($.dialog.defaults);
+</script>
+
+<present name="list_table">
+<script src="__PUBLIC_ADMIN__js/jquery/plugins/listTable.js"></script>
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+
+<script>
+var editor;  //全局变量
+$(function(){
+	 
+$('.J_tablelist').listTable();
+editor =KindEditor.create('.info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true,
+		 items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','fullscreen']
+
+});
+
+});
+</script>
+</present>

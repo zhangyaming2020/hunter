@@ -1,0 +1,89 @@
+
+<style>
+	.sTable2 thead tr td,
+	.sTable2 tbody tr td {
+		padding: 3px;
+	}
+	.progress_pagination .current{color: #069;}
+	.progress_pagination a{margin-right:5px;}
+</style>
+<div class="progress_content">
+<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<td width="150">跟进日期</td>
+			<td width="50">跟进人</td>
+			<td>跟进内容</td>
+		</tr>
+	</thead>
+	<tbody class="progress_content">
+		<if condition="$list">
+		<volist name="list" id="val">
+		<tr>
+			<td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+			<td><?php echo M('admin')->where(array('id'=>$val['creator_id']))->getField('nickname as username');?></td>
+			<td style="word-break:break-all;">{$val.content}</td>
+		</tr>
+		</volist>
+		<else />
+		<tr>
+			<td colspan="3">暂无跟进记录</td>
+		</tr>
+		</if>
+	</tbody>
+</table>
+<table width="10%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td height="10"></td>
+		</tr>
+	</tbody>
+</table>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td>
+				<div class="progress_pagination">
+					{$page}
+				</div>
+		</tr>
+	</tbody>
+</table>
+<table width="10%" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td height="10"></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+<script>
+function progress_record(p){
+	var url="{:U('Progress/index',array('type'=>2,'uid'=>$search["uid"],'resume_id'=>$search["resume_id"]))}";
+	$.get(url,{p:p},function(msg){
+		$('.progress_content').html(msg['data']);
+	});
+}
+//页码点击
+$(document).delegate('.progress_pagination a','click',function(){
+			var now_page=$('.progress_pagination .current').html();
+			if($(this).hasClass('current')==false){
+				var Request = new Object();
+				Request = GetRequest($(this).attr('href'));
+				var p= Request['p'];
+				progress_record(p);return false;
+			}
+})
+
+function GetRequest(url) {
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+</script>

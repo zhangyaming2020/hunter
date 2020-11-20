@@ -1,0 +1,75 @@
+
+<style>
+	
+	.clearfix{clear:none !important;}
+
+</style>
+<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<td><input type="checkbox" name="checkAll1" id="checkAll1" value="1" onclick="checkAll(this);"></td>
+			<td width="40" style="min-width:40px;">编号</td>
+			<td width="*">姓名</td>
+			<td width="40">性别</td>
+			<td width="40">学历</td>
+			<td width="80" align="center">出生年份</td>
+			<td width="80" align="center">当前公司</td>
+			<td width="60">所有者</td>
+			<td width="60">推荐人</td>
+			<td width="140">推荐时间</td>
+			<td width="140">操作</td>
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="list" id="val">
+		<tr class="even">
+			<td align="center"><input type="checkbox" name="resuId" value="3269"></td>
+			<td>3269</td>
+			<td>
+				<a href="javascript:;" style="color:#069;"  class="dialog_open"  data-uri="{:U('resume/detail', array('id'=>$val['resume_id']))}" data-title="{$val.resuname}" data-id="detail" data-width="1200" data-height="500">{$val.resuname|default='未知'}
+				<?php $is_tj=M('report')->where(array('resume_id'=>$val['resume_id'],'project_id'=>$val['project_id']))->count();?>
+				<if condition="$is_tj">
+					<span style="color:#ff0000">(已出报告)
+					</span>
+			    </if>	
+				</a>
+				<!--<p style="color:#777;">nih （管理员 2019-01-31 09:50）</p>-->
+			</td>
+			<td><if condition="$val['sex'] eq 0">女<else />男</if></td>
+			<td>{$educate[$val['educations']]}</td>
+			<td></td>
+			<td></td>
+			<td><?php echo M('admin')->where(array('id'=>$val['owner_id']))->getField('username');?></td>
+			<td>{$val.username}</td>
+			<td>{$val['add_time']|date='Y-m-d',###} {$val['add_time']|date='H:i',###}</td>
+			<td>
+				<select onchange="changetype('493',this)" origin="78">
+
+					<option value="18">意向强烈</option>
+
+					<option value="19">一般1</option>
+
+					<option value="78" selected="">待联系</option>
+
+					<option value="79">暂无意向</option>
+
+					<option value="2794">有问题</option>
+
+					<option value="2862">意向不明</option>
+
+					<option value="2896">abc</option>
+
+				</select>
+				&nbsp;
+				<if condition="$is_tj eq 0">
+				<a href="javascript:;" onclick="del('493')">删除</a>
+				</if>
+			</td>
+		</tr>
+		</volist>
+	</tbody>
+</table>
+<br clear="all">
+<div class="ajax_pagination">
+	{$page}
+</div>

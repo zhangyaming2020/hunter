@@ -1,0 +1,880 @@
+<include file="Public:header" />
+<!--编辑商品-->
+<form id="info_form" action="{:u('tourism/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+			<li class="current">成人日游价</li>
+            <li class="current">儿童日游价</li>
+            <li>展示图片</li>
+		</ul>
+		<div class="J_panes">
+        <div class="content_list pad_10">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<!--<tr>
+				<th width="120">所属分类 :</th>
+                <td><select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected="{$selected_ids}"></select>
+                <input type="hidden" name="cate_id" id="J_cate_id" value="{$info.cate_id}" /></td>
+			</tr>-->
+             <tr>
+                <th width="100">所属分类:</th>
+                <td>
+                <select name="cate_id">
+                <volist name="cate" id="val">
+                <option value="{$val.id}" <if condition="$val['id'] eq $info['cate_id']">selected="selected"</if>>{$val.name}</option>
+                </volist>
+                </select>
+                </td>
+            </tr>
+			<!--<if condition="count($city_id) egt 1">-->
+		    	<!--<tr>-->
+			      <!--<th>所属区域 :</th>-->
+			      <!--<td>-->
+			      	<!--<select name="city_id">-->
+			        	<!--<volist name="city_id" id="val">-->
+			        		<!--<option <if condition="$val['id'] eq $info['city_id']">selected="selected"</if> value="{$val.id}">{$val.name}</option>-->
+			            <!--</volist>-->
+			        <!--</select>-->
+			      <!--</td>-->
+			    <!--</tr>-->
+			<!--<else />-->
+			    <!--<input type="hidden" name="city_id" class="input-text" value="{$city_id}">-->
+			<!--</if>-->
+            <tr>
+				<th>线路名称 :</th>
+				<td><input type="text" name="title" id="J_title" class="input-text" size="60" value="{$info.title}"></td>
+			</tr>
+			
+			<!--<tr>-->
+				<!--<th>品牌 :</th>-->
+				<!--<td>-->
+				<!--<select name="brand" id="brand">-->
+		<!--<option value="">选择品牌</option>-->
+	<!--<volist name="brand" id="vo">-->
+		<!--<option <if condition="$info['brand'] eq $vo['name']">selected="selected"</if> value ="{$vo['name']}">{$vo['name']}</option>-->
+	<!--</volist>				-->
+				<!--</select>	-->
+				<!--</td>-->
+			<!--</tr>-->
+
+
+            <tr>
+				<th>商品主图 :</th>
+				<td>
+					<notempty name="info['img']"><img src="{:attach($info['img'], 'item')}" width="100" height="100"/><br /></notempty>
+					<!--<notempty name="info['img']"><img src="{:attach(get_thumb($info['img'], '_m'), 'item')}" width="100" height="100"/><br /></notempty>-->
+					<input type="file" name="img" />
+				</td>
+ 			</tr>
+ 			<!--<tr>
+				<th>推荐图片 :</th>
+				<td>
+					<notempty name="info['recommend_img']"><img src="{:attach(get_thumb($info['recommend_img'], '_m'), 'item')}" width="100" height="100"/><br /></notempty>
+					<input type="file" name="recommend_img" />
+				</td>
+ 			</tr>-->
+			<tr>
+				<th>链接地址 :</th>
+				<td><input type="text" name="url" class="input-text" size="50" value="{$info.url}"></td>
+			</tr>
+            <!--<tr>
+				<th>商品标签 :</th>
+				<td>
+                	<input type="text" name="tags" id="J_tags" class="input-text" size="50" value="{$info.tags}">
+                    <input type="button" value="{:L('auto_get')}" id="J_gettags" name="tags_btn" class="btn">
+                </td>
+			</tr>-->
+
+            <tr>
+            <tr>
+				<th>类型 :</th>
+				<td><input type="checkbox" name="tj" value="1"  <?php if($tj==1){ ?>checked<?php } ?> /> 首页推荐<!--&nbsp;&nbsp;&nbsp;<input type="checkbox" name="rm" value="1" <?php if($rm==1){ ?>checked<?php } ?>  /> 惊爆促销&nbsp;&nbsp;&nbsp;<input type="checkbox" name="xp" value="1" <?php if($xp==1){ ?>checked<?php } ?>  /> 上市新品&nbsp;&nbsp;&nbsp;<input type="checkbox" name="yj" value="1" <?php if($yj==1){ ?>checked<?php } ?>  /> 绿色有机-->
+				</td>
+			</tr>
+            <tr>
+                <th>旅游评分：</th>
+                <td><input type="text" name="unit" size="10" class="input-text" value="{$info.unit}"></td>
+            </tr>
+            <tr>
+                <th>旅游类型：</th>
+                <td><input type="text" name="origin" size="10" class="input-text" value="{$info.origin}"></td>
+            </tr>
+            <tr>
+
+                <th>旅游电话 :</th>
+
+                <td><input type="text" name="product_id" id="J_title" class="input-text" size="10" value="{$info.product_id}"></td>
+
+            </tr>
+            <tr>
+                <th>价格说明 :</th>
+                <td>
+                    <input type="text" name="label" id="J_tags" class="input-text" size="50" value="{$info.label}">
+                </td>
+            </tr>
+			<tr>
+				<th>出游人限制：</th>
+                <td><textarea name="quota" cols="80" rows="2">{$info.quota}</textarea></td>
+			</tr>
+            <tr>
+            <th>意外险金额：</th>
+            <td><input type="text" name="other" size="10" class="input-text" value="{$info.other}"> 元</td>
+            </tr>
+            <!--<tr>-->
+                <!--<th>产品说明 :</th>-->
+                <!--<td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>-->
+            <!--</tr>-->
+			<!--<tr>
+            	<th>发布人 :</th>
+                <td>{$info.uname}</td>
+            </tr>-->
+            <tr>
+				<th>扩展信息</th>
+				<td>
+					<div class="col_tab col_tab_1">
+						<ul class="J_tabs_1 tab_but cu_li">
+							<li class="current">产品详情</li>
+				            <li>费用说明</li>
+							<li>预定须知</li>
+						</ul>
+						<div class="J_panes_1">
+							<div class="content_list pad_10"><textarea name="seo_desc" class="seo_desc" style="width:100%;height:400px;visibility:hidden;resize:none;">{$info.seo_desc}</textarea></div>
+							<div class="content_list pad_10 hidden"><textarea name="mp" class="mp" style="width:100%;height:400px;visibility:hidden;resize:none;">{$info.mp}</textarea></div>
+							<div class="content_list pad_10 hidden"><textarea name="mpaddress" class="mpaddress" style="width:100%;height:400px;visibility:hidden;resize:none;">{$info.mpaddress}</textarea></div>
+						</div>
+					</div>
+				</td>
+			</tr>
+
+		</table>
+		
+		
+		</div>
+         <div class="content_list pad_10 hidden">
+
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+                 <tr>
+                <th>默认价：</th>
+                <td><input type="text" name="oldprice" size="30" class="input-text" value="{$info.oldprice}"></td>
+           		</tr>
+                <tr>
+                    <th>成人日游价：</th>
+    
+                    <td id="man">
+                        <div class="container"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+         <div class="content_list pad_10 hidden">
+			<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+                 <tr>
+                <th>默认价：</th>
+                <td><input type="text" name="oldprice2" size="30" class="input-text" value="{$info.oldprice2}"></td>
+           		</tr>
+                <tr>
+                    <th>儿童日游价：</th>
+    
+                    <td id="people_type">
+                        <div class="container"></div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+            <div class="content_list pad_10 hidden">
+                <style>
+                    .addpic {}
+                    .addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+                    .addpic a { display:block;}
+                </style>
+                <ul class="addpic">
+                    <a class="btn" id="logo_upload_btn" href="javascript:;"  style=" width: 80px; margin:10px 0;">上传商品副图</a>
+                    <div id="logo_upload_area" style='width:80%'>
+                        <div id='photos_area' class="photos_area clearfix">
+
+                            <volist name="img_list" id="val">
+                                <div class='item'>
+                                    <input type='hidden' name='imgs[]' value="{$val['url']}"/>
+                                    <img src="{:attach($val['url'],'item')}"  width='100px' height='100px'/>
+                                    <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+                                </div>
+                            </volist>
+
+                        </div>
+
+                </ul>
+                <div class="cb"></div>
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+                    <tbody class="uplode_file">
+                    <!--<tr>
+                        <th width="100" align="left"><a href="javascript:void(0);" class="blue" onclick="add_file();"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>上传文件 :</th>
+                        <td><input type="file" name="imgs[]"></td>
+                    </tr>-->
+                    </tbody>
+                </table>
+            </div>
+		<!--<div class="content_list pad_10 hidden">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th width="120">{:L('seo_title')} :</th>
+ 				<td><input type="text" name="seo_title" class="input-text" size="60" value="{$info.seo_title}"></td>
+			</tr>
+			<tr>
+				<th>{:L('seo_keys')} :</th>
+				<td><input type="text" name="seo_keys" class="input-text" size="60" value="{$info.seo_keys}"></td>
+			</tr>
+			<tr>
+				<th>{:L('seo_desc')} :</th>
+				<td><textarea name="seo_desc" cols="80" rows="8">{$info.seo_desc}</textarea></td>
+			</tr>
+		</table>
+		</div>-->
+        <!--<div class="content_list pad_10 hidden">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="item_attr">
+			<volist name="attr_list" id="val">
+            <tr>
+                <td width="200">
+                <a href="javascript:void(0);" class="blue" onclick="del_attr({$val.id},this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>属性名 :{$val.attr_name}
+                </td>
+                <td width="">属性值 :{$val.attr_value}</td>
+            </tr>
+            </volist>
+            
+            <tbody class="add_item_attr">
+            <tr>
+                <th width="200">
+                <a href="javascript:void(0);" class="blue" onclick="add_attr();"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>属性名 :<input type="text" name="attr[name][]" class="input-text" size="20">
+                </th>
+                <td>属性值 :<input type="text" name="attr[value][]" class="input-text" size="30"></td>
+            </tr>
+            </tbody>
+		</table>
+		</div>-->
+        
+        <!--多属性设置-->
+        <div class="content_list pad_10 hidden">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="item_attr">
+			<volist name="attr_list" id="val">
+            <tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="del_attr({$val.id},this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>
+                <select name="attr_f{$val.id}" id="attr_f{$val.id}">
+                <option value="0">根目录</option>
+                <volist name='attr_sx' id='vo'>
+                <option value="{$vo.id}">{$vo.attr_name}</option>
+                </volist>
+                </select>
+                <script>document.getElementById("attr_f{$val.id}").value={$val.pid}</script>
+                &nbsp;&nbsp;&nbsp;
+                属性名 :{$val.attr_name}&nbsp;&nbsp;&nbsp;
+                属性值 :{$val.attr_value}&nbsp;&nbsp;&nbsp;
+                库存 :{$val.attr_num}&nbsp;&nbsp;&nbsp;
+                价格 :{$val.attr_price} &nbsp;&nbsp;&nbsp;
+                原价 :{$val.attr_oldprice}  &nbsp;&nbsp;&nbsp;
+                   积分 :{$val.attr_integral}  &nbsp;&nbsp;&nbsp;
+                      销量 :{$val.attr_sales}  &nbsp;&nbsp;&nbsp;
+                         限购:{$val.attr_quota}  &nbsp;&nbsp;&nbsp;
+                <if condition="$val['pid'] eq 0">
+                <a href="javascript:void(0);" class="blue" onclick="add_attrs();">附加属性</a>
+                </if>
+                
+                </td>
+            </tr>
+            </volist>
+            
+            <tbody class="add_item_attr">
+            <tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="add_attr1();"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>  
+                <select name="attr[sx][]">
+                <option value="0">根目录</option>
+                <volist name='attr_sx' id='vo'>
+                <option value="{$vo.id}">{$vo.attr_name}</option>
+                </volist>
+                </select>&nbsp;&nbsp;&nbsp;
+                属性名 : <input type="text" name="attr[name][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+                属性值 : <input type="text" name="attr[value][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+                库存 : <input type="text" name="attr[num][]" class="input-text" size="8">&nbsp;&nbsp;&nbsp;
+               	价格 : <input type="text" name="attr[price][]" class="input-text" size="8">   &nbsp;&nbsp;&nbsp;          
+               	原价 : <input type="text" name="attr[oldprice][]" class="input-text" size="8">   &nbsp;&nbsp;&nbsp;
+               	积分 : <input type="text" name="attr[integral][]" class="input-text" size="8">   &nbsp;&nbsp;&nbsp;
+               	销量 : <input type="text" name="attr[sales][]" class="input-text" size="8">   &nbsp;&nbsp;&nbsp;
+               	限购 : <input type="text" name="attr[quota][]" class="input-text" size="8">   &nbsp;&nbsp;&nbsp;	
+               	 
+                </td>
+            </tr>
+            <tr class="add_item_attr1"><td></td></tr>
+            </tbody>
+		</table>
+		</div>
+        
+        
+        
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" value="{$info.id}" />
+</form>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<include file="Public:footer" />
+<script type="text/javascript">
+$('.J_cate_select').cate_select('请选择');
+    var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+	function() {
+		var title = $.trim($('#J_title').val());
+		if(title == ''){
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+			return false;
+		}
+		$.getJSON('{:U("tourism/ajax_gettags")}', {title:title}, function(result){
+			if(result.status == 1){
+				$('#J_tags').val(result.data);
+			}else{
+				$.pinphp.tip({content:result.msg});
+			}
+		});
+	});
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'}).defaultPassed();
+});
+function get_child_cates(obj,to_id)
+{
+	var parent_id = $(obj).val();
+	if( parent_id ){
+		$.get('?m=tourism&a=get_child_cates&g=admin&parent_id='+parent_id,function(data){
+				var obj = eval("("+data+")");
+				$('#'+to_id).html( obj.content );
+	    });
+    }
+}
+
+function add_file()
+{
+    $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+}
+function del_file_box(obj)
+{
+	$(obj).parent().parent().remove();
+}
+function del_album(id)
+{
+	var url = "{:U('tourism/delete_album')}";
+    $.get(url+"&album_id="+id, function(data){
+		if(data==1){
+		    $('.album_'+id).remove();
+		};
+    });
+}
+function add_attr()
+{
+    $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+}
+function del_attrs(obj)
+{
+	$(obj).parent().parent().remove();
+}
+function del_attr(id,obj)
+{
+	var url = "{:U('tourism/delete_attr')}";
+    $.get(url+"&attr_id="+id, function(data){
+		if(data==1){
+		    $(obj).parent().parent().remove();
+		};
+    });
+}
+</script>
+<table id="next_upload_file" style="display:none;">
+<tbody class="uplode_file">
+   <tr>
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+      <td><input type="file" name="imgs[]"></td>
+   </tr>
+</tbody>
+</table>
+<table id="hidden_attr" style="display:none;">
+<tbody class="add_item_attr">
+<tr>
+    <th width="200">
+    <a href="javascript:void(0);" class="blue" onclick="del_attrs(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>属性名 :<input type="text" name="attr[name][]" class="input-text" size="20">
+    </th>
+    <td>属性值 :<input type="text" name="attr[value][]" class="input-text" size="30"></td>
+</tr>
+</tbody>
+</table>
+<script src="__PUBLIC_ADMIN__/js/jquery-1.12.4.min.js"></script>
+<script src="__PUBLIC_ADMIN__/js/calendar-price-jquery.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC_ADMIN__/css/calendar-price-jquery.css">
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<script>
+    $$ = jQuery.noConflict(true);
+    $$(function () {
+        var mockData = [
+            {
+                date: "2017-06-21",
+                price: "0.12",
+            },{
+                date: "2017-07-12",
+                price: "12.00",
+            }
+        ];
+       
+        var cc='{$countss}';
+        for (var i = 0; i < cc; i++) {
+            mockData.push({
+                date: '{$price[0]["start_time"]}',
+                price: '{$price[0]["price"]}',
+            },{
+                date: '{$price[1]["start_time"]}',
+                price: '{$price[1]["price"]}',
+            },{
+                date: '{$price[2]["start_time"]}',
+                price: '{$price[2]["price"]}',
+            },{
+                date: '{$price[3]["start_time"]}',
+                    price: '{$price[3]["price"]}',
+            },{
+                date: '{$price[4]["start_time"]}',
+                price: '{$price[4]["price"]}',
+            },{
+                date: '{$price[5]["start_time"]}',
+                price: '{$price[5]["price"]}',
+            },{
+                date: '{$price[6]["start_time"]}',
+                price: '{$price[6]["price"]}',
+            },{
+                date: '{$price[7]["start_time"]}',
+                price: '{$price[7]["price"]}',
+            },{
+                date: '{$price[8]["start_time"]}',
+                price: '{$price[8]["price"]}',
+            },{
+                date: '{$price[9]["start_time"]}',
+                price: '{$price[9]["price"]}',
+            },{
+                date: '{$price[10]["start_time"]}',
+                price: '{$price[10]["price"]}',
+            },{
+                date: '{$price[11]["start_time"]}',
+                price: '{$price[11]["price"]}',
+            },{
+                date: '{$price[12]["start_time"]}',
+                price: '{$price[12]["price"]}',
+            },{
+                date: '{$price[13]["start_time"]}',
+                price: '{$price[13]["price"]}',
+            },{
+                date: '{$price[14]["start_time"]}',
+                price: '{$price[14]["price"]}',
+            },{
+                date: '{$price[15]["start_time"]}',
+                price: '{$price[15]["price"]}',
+            },{
+                date: '{$price[16]["start_time"]}',
+                price: '{$price[16]["price"]}',
+            },{
+                date: '{$price[17]["start_time"]}',
+                price: '{$price[17]["price"]}',
+            },{
+                date: '{$price[18]["start_time"]}',
+                price: '{$price[18]["price"]}',
+            },{
+                date: '{$price[19]["start_time"]}',
+                price: '{$price[19]["price"]}',
+            },{
+                date: '{$price[20]["start_time"]}',
+                price: '{$price[20]["price"]}',
+            },{
+                date: '{$price[21]["start_time"]}',
+                price: '{$price[21]["price"]}',
+            },{
+                date: '{$price[22]["start_time"]}',
+                price: '{$price[22]["price"]}',
+            },{
+                date: '{$price[23]["start_time"]}',
+                price: '{$price[23]["price"]}',
+            },{
+                date: '{$price[24]["start_time"]}',
+                price: '{$price[24]["price"]}',
+            },{
+                date: '{$price[25]["start_time"]}',
+                price: '{$price[25]["price"]}',
+            },{
+                date: '{$price[26]["start_time"]}',
+                price: '{$price[26]["price"]}',
+            },{
+                date: '{$price[27]["start_time"]}',
+                price: '{$price[27]["price"]}',
+            },{
+                date: '{$price[28]["start_time"]}',
+                price: '{$price[28]["price"]}',
+            },{
+                date: '{$price[29]["start_time"]}',
+                price: '{$price[29]["price"]}',
+            },{
+                date: '{$price[30]["start_time"]}',
+                price: '{$price[30]["price"]}',
+            },{
+                date: '{$price[31]["start_time"]}',
+                price: '{$price[31]["price"]}',
+            },{
+                date: '{$price[32]["start_time"]}',
+                price: '{$price[32]["price"]}',
+            },{
+                date: '{$price[33]["start_time"]}',
+                price: '{$price[33]["price"]}',
+            },{
+                date: '{$price[34]["start_time"]}',
+                price: '{$price[34]["price"]}',
+            },{
+                date: '{$price[35]["start_time"]}',
+                price: '{$price[35]["price"]}',
+            },{
+                date: '{$price[36]["start_time"]}',
+                price: '{$price[36]["price"]}',
+            },{
+                date: '{$price[37]["start_time"]}',
+                price: '{$price[37]["price"]}',
+            },{
+                date: '{$price[38]["start_time"]}',
+                price: '{$price[38]["price"]}',
+            },{
+                date: '{$price[39]["start_time"]}',
+                price: '{$price[39]["price"]}',
+            },{
+                date: '{$price[40]["start_time"]}',
+                price: '{$price[40]["price"]}',
+            },{
+                date: '{$price[41]["start_time"]}',
+                price: '{$price[41]["price"]}',
+            },{
+                date: '{$price[42]["start_time"]}',
+                price: '{$price[42]["price"]}',
+            },{
+                date: '{$price[43]["start_time"]}',
+                price: '{$price[43]["price"]}',
+            },{
+                date: '{$price[44]["start_time"]}',
+                price: '{$price[44]["price"]}',
+            },{
+                date: '{$price[45]["start_time"]}',
+                price: '{$price[45]["price"]}',
+            },{
+                date: '{$price[46]["start_time"]}',
+                price: '{$price[46]["price"]}',
+            },{
+                date: '{$price[47]["start_time"]}',
+                price: '{$price[47]["price"]}',
+            },{
+                date: '{$price[48]["start_time"]}',
+                price: '{$price[48]["price"]}',
+            },{
+                date: '{$price[49]["start_time"]}',
+                price: '{$price[49]["price"]}',
+            },{
+                date: '{$price[50]["start_time"]}',
+                price: '{$price[50]["price"]}',
+            },{
+                date: '{$price[51]["start_time"]}',
+                price: '{$price[51]["price"]}',
+            },{
+                date: '{$price[52]["start_time"]}',
+                price: '{$price[52]["price"]}',
+            },{
+                date: '{$price[53]["start_time"]}',
+                price: '{$price[53]["price"]}',
+            },{
+                date: '{$price[54]["start_time"]}',
+                price: '{$price[54]["price"]}',
+            },{
+                date: '{$price[55]["start_time"]}',
+                price: '{$price[55]["price"]}',
+            },{
+                date: '{$price[56]["start_time"]}',
+                price: '{$price[56]["price"]}',
+            },{
+                date: '{$price[57]["start_time"]}',
+                price: '{$price[57]["price"]}',
+            },{
+                date: '{$price[58]["start_time"]}',
+                price: '{$price[58]["price"]}',
+            },{
+                date: '{$price[59]["start_time"]}',
+                price: '{$price[59]["price"]}',
+            },{
+                date: '{$price[60]["start_time"]}',
+                price: '{$price[60]["price"]}',
+            },{
+                date: '{$price[61]["start_time"]}',
+                price: '{$price[61]["price"]}',
+            },{
+                date: '{$price[62]["start_time"]}',
+                price: '{$price[62]["price"]}',
+            });
+        }
+        $$.CalendarPrice({
+            el: '.container',
+            endDate: '2017-09',
+            data: mockData,
+            config: [
+                {
+                    key: 'price',
+                    name: '销售价格'
+                },
+
+            ],
+            // 配置在日历中要显示的字段
+            show: [
+                {
+                    key: 'price',
+                    name: '￥'
+                },
+            ],
+            callback: function (data) {
+                console.log('callback ....');
+                console.log(data);
+            },
+            cancel: function () {
+                console.log('取消设置 ....');
+            },
+            error: function (err) {
+                console.error(err.msg);
+                alert(err.msg);
+            },
+            hideFooterButton:true,
+            // 自定义颜色
+            style: {
+                // 头部背景色
+                headerBgColor: '#098cc2',
+                // 头部文字颜色
+                headerTextColor: '#fff',
+                // 周一至周日背景色，及文字颜色
+                weekBgColor: '#098cc2',
+                weekTextColor: '#fff',
+                // 周末背景色，及文字颜色
+                weekendBgColor: '#098cc2',
+                weekendTextColor: '#fff',
+                // 有效日期颜色
+                validDateTextColor: '#333',
+                validDateBgColor: '#fff',
+                validDateBorderColor: '#eee',
+                // Hover
+                validDateHoverBgColor: '#098cc2',
+                validDateHoverTextColor: '#fff',
+                // 无效日期颜色
+                invalidDateTextColor: '#ccc',
+                invalidDateBgColor: '#fff',
+                invalidDateBorderColor: '#eee',
+                // 底部背景颜色
+                footerBgColor: '#fff',
+                // 重置按钮颜色
+                resetBtnBgColor: '#77c351',
+                resetBtnTextColor: '#fff',
+                resetBtnHoverBgColor: '#55b526',
+                resetBtnHoverTextColor: '#fff',
+                // 确定按钮
+                confirmBtnBgColor: '#098cc2',
+                confirmBtnTextColor: '#fff',
+                confirmBtnHoverBgColor: '#00649a',
+                confirmBtnHoverTextColor: '#fff',
+                // 取消按钮
+                cancelBtnBgColor: '#fff',
+                cancelBtnBorderColor: '#bbb',
+                cancelBtnTextColor: '#999',
+                cancelBtnHoverBgColor: '#fff',
+                cancelBtnHoverBorderColor: '#bbb',
+                cancelBtnHoverTextColor: '#666'
+            }
+            // 点击有效的某一触发的回调函数
+            // 注意：配置了此参数，设置窗口无效，即不能针对日期做参数设置
+            // 返回每天的数据
+//        everyday: function (dayData) {
+//            console.log('点击某日，返回当天的数据');
+//            console.log(dayData);
+//        },
+            // 隐藏底部按钮（重置、确定、取消），前台使用该插件时，则需要隐藏底部按钮
+//        hideFooterButton: true
+        });
+
+    });
+
+    function randNum(max) {
+        return Math.round(Math.random() * max);
+    }
+
+    function fd(n) {
+        n = n.toString();
+        return n[1] ? n : '0' + n;
+    }
+    $$(function(){
+        $$('.valid-hook').on('click',function(){
+            var a = $(this).attr('data-id');
+            $('.cddsw-title').val(a);
+        })
+    })
+    $('.btn-confirm').live('click', function() {
+        var startday=$('.cddsw-title').html();
+        var price=$("input[name='price']").val();
+		var type=$('ul.J_tabs .current').index();
+        var id="{$info['id']}";
+		type=type==2?1:0;
+        $.post('{:U("date")}',{price:price,startday:startday,id:id,type:type},function(d){
+            if(d.status==1){
+            }
+        })
+    });
+    </script>
+	
+<script>
+	KindEditor.create('.info', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+
+	KindEditor.create('.seo_desc', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+    KindEditor.create('.mp', {
+
+        uploadJson : '{:U("attachment/editer_upload")}',
+
+        fileManagerJson : '{:U("attachment/editer_manager")}',
+
+        allowFileManager : true
+
+    });
+    KindEditor.create('.mpaddress', {
+
+        uploadJson : '{:U("attachment/editer_upload")}',
+
+        fileManagerJson : '{:U("attachment/editer_manager")}',
+
+        allowFileManager : true
+
+    });
+$('ul.J_tabs').tabs('div.J_panes > div');
+$('ul.J_tabs_1').tabs('div.J_panes_1 > div');
+$(document).delegate('.tab_but li','click',function(){
+	var ind =$(this).index();
+	$('.data-hook').empty();
+	var price2={$price2};
+	var price1={$price1};
+	if(ind==2){
+	$('.valid-hook').each(function(){
+		var _self =$(this);
+			for(var i=0;i<=price2.length;i++){
+				$('.'+'hook_'+price2[i]['start_time']).html(price2[i]['price']);
+			}
+		})
+	}
+	if(ind==1){
+	$('.valid-hook').each(function(){
+		var _self =$(this);
+			for(var i=0;i<=price1.length;i++){
+				$('.'+'hook_'+price1[i]['start_time']).html(price1[i]['price']);
+			}
+		})
+	}
+	ind!=2&&$('.data-hook').show();
+
+})
+</script>
+</body>
+</html>

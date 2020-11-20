@@ -1,0 +1,185 @@
+<include file="Public:header" />
+<form id="info_form" action="{:u('tickets/add')}" method="post" enctype="multipart/form-data">
+    <div class="pad_lr_10">
+        <div class="col_tab">
+            <ul class="J_tabs tab_but cu_li">
+                <li class="current">
+                	基本信息
+                </li>
+            </ul>
+            <div class="J_panes">
+                <div class="content_list pad_10">
+                	<h5 class="subtitle mt0">公司资料</h5>
+                	<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+                    <tr>
+                        <th width="140">
+                          	<i>*</i>  公司名称 ：
+                        </th>
+                        <td>
+                            <input type="text" name="title" id="J_title" class="input-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            公司所在地 ：
+                        </th>
+                        <td>
+							<select class="valid">
+							    <option value="">
+							        请选择省份
+							    </option>
+							    <option value="1">
+							        北京
+							    </option>
+							    <option value="2">
+							        天津
+							    </option>
+							    <option value="3">
+							        河北
+							    </option>
+							</select>
+							<select class="valid">
+							    <option value="">
+							        请选择市
+							    </option>
+							    <option value="73">
+							        石家庄市
+							    </option>
+							    <option value="74">
+							        唐山市
+							    </option>
+							</select>
+							<select class="valid">
+							    <option value="">
+							        请选择区
+							    </option>
+							    <option value="1149">
+							        丰南区
+							    </option>
+							    <option value="1150">
+							        丰润区
+							    </option>
+							    <option value="1151">
+							        乐亭县
+							    </option>
+							    <option value="1152">
+							        古冶区
+							    </option>
+							</select>
+                        </td>
+                    </tr>
+                    </tr>
+                    <tr>
+                        <th>
+                          	公司详细地址：
+                        </th>
+                        <td>
+                            <input type="text" name="price" class="input-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							公司电话：
+                        </th>
+                        <td>
+                            <input type="text" name="market_price" class="input-text">
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							联系人姓名：
+                        </th>
+                        <td>
+                            <input type="text" name="kids_price" class="input-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							联系人电话：
+                        </th>
+                        <td>
+                            <input type="text" name="product_id" class="input-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							电子邮箱：	
+                        </th>
+                        <td>
+                            <input type="text" name="integral" class="input-text">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							营业执照信息（副本）：
+                        </th>
+                        <td>
+							<input type="file" name="img">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+							组织结构代码证：
+                        </th>
+						<td><input type="file" name="img"></td>
+                    </tr>
+                    </table>
+                    <h5 class="subtitle" style="border-top: 1px solid #eee;">结算账号信息</h5>
+                    <table border="0" cellspacing="0" cellpadding="0" class="table_form">
+                    	<tr>
+                    		<th width="140">银行开户名：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>银行账号：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>开户银行支行名称：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>支行联行号：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>开户银行所在地：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    </table> 
+                     <h5 class="subtitle" style="border-top: 1px solid #eee;">登陆信息</h5>
+                    <table border="0" cellspacing="0" cellpadding="0" class="table_form">
+                    	<tr>
+                    		<th>主营业务：</th>
+                    		<td>
+                    			<div class="d-label-warp">
+	                    			<label for="ly"><input type="checkbox" id="ly" name="ly" />旅游</label>
+    	                			<label for="zs"><input type="checkbox" id="zs" name="zs" />住宿</label>
+		                			<label for="mp"><input type="checkbox" id="mp" name="mp"/>景区门票</label>
+	                    			<label for="sc"><input type="checkbox" id="sc" name="sc"/>绿色商城</label>
+	                    			<label for="wl"><input type="checkbox" id="wl" name="wl"/>当地玩乐</label>
+                    			</div>
+                    		</td>
+                    	</tr>
+                    	<tr>
+                    		<th width="140">登录账号：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>登录密码：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    	<tr>
+                    		<th>重复密码：</th>
+                    		<td><input type="text" name="product_id" class="input-text"></td>
+                    	</tr>
+                    </table> 
+                </div>
+            </div>
+            <div class="mt10">
+                <input type="submit" class="btn btn_submit" style="margin-left: 170px;"> 
+            </div>
+        </div>
+    </div>
+</form>

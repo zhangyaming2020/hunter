@@ -1,0 +1,103 @@
+<!--添加管理员-->
+<link rel="stylesheet" href="http://ee.headhunterclub.com/js/plugins/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" media="screen" href="../../../css/style.css" />
+<link href="http://ee.headhunterclub.com/js/plugins/art/skins/black.css" rel="stylesheet" type="text/css" />
+
+<div class="dialog_content" data-control="custom" data-id="detail" data-width="1000" data-title="郭德纲"  data-uri="{:U('custom/detail',array('id'=>$custom_id,'type'=>$type))}" style="padding:10px; OVERFLOW-Y: auto;">
+	<body style="background:#eee; padding:10px;">
+		<div class="sTableOptions">
+			<div class="pp">
+				<a  href="javascript:;" data-uri="{$url}" data-title="新增"  data-id="add" data-width="{$width}" data-height="" class="J_showdialog button add" id="addDict"><span>新增</span></a>
+			</div>
+			<div class="notification msginfo" style="margin-bottom: 0; margin-top:10px;">
+			{$remark}
+			</div>
+		</div>
+		<!--sTableOptions-->
+		<div class="sTableWrapper" style="padding:0 10px 10px 10px; OVERFLOW-Y: auto;height:250px;">
+			<ul id="dicts" class="ztree">
+				<if condition="in_array($pid,array('4','102','103'))">
+					{$list}
+				<else />
+				<volist name="list" id="val">
+				<li id="dicts_1" class="top_level0" treenode="">
+					<!--<button type="button" hidefocus="true" disabled="" id="dicts_1_switch" title="" class="level0 switch roots_docu" treenode_switch=""></button>
+					-->
+					<a id="dicts_1_a" class="level0" treenode_a="" onclick="" target="_blank" style="" title="重点客户">
+						<button type="button" hidefocus="true" id="dicts_1_ico" title="" treenode_ico="" class="ico_docu" style="width:0px;height:0px;"></button>
+						<span id="dicts_1_span" class="dic_name">{$val.name}
+							</span>
+						<span class="act" style="display:none;">
+						<button type="button" class="settingbtn" title="设为默认" onfocus="this.blur();"></button>
+						<button type="button" data-width="80" class="edit" data-field="name" data-id="{$val.id}" data-content="{$val.name}" title="编辑" onfocus="this.blur();"></button>
+						
+						<button type="button" class="remove" title="删除" onfocus="this.blur();"></button>
+						</span>
+					</a>
+				</li>
+				</volist>
+				</if>
+			</ul>
+		</div>
+	
+		<div style="display: none; position: fixed; left: 0px; top: 0px; width: 100%; height: 100%; cursor: move; opacity: 0; background: rgb(255, 255, 255);"></div>
+	</body>
+</div>
+
+<script>
+	var editor;
+$(function(){
+	editor =KindEditor.create('.info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true,
+		 items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link','fullscreen']
+
+	});
+	$('.level0').hover(function(){
+		$(this).addClass('curSelectedNode').parents('.top_level0').siblings('.top_level0').find('.level0').removeClass('curSelectedNode');
+		$(this).find('.act').show().parents('.top_level0').siblings('.top_level0').find('.act').hide();
+	},function(){
+		$(this).removeClass('curSelectedNode');
+		$(this).find('.act').hide()
+	})
+	
+	$('.level0').click(function(){
+		$(this).addClass('curSelectedNode').parents('.top_level0').siblings('.top_level0').find('.level0').removeClass('curSelectedNode');
+		$(this).find('.act').show().parents('.top_level0').siblings('.top_level0').find('.act').hide();
+		$(this).off('hover');
+	})
+	//修改
+		$(document).delegate('.edit', 'click', function() {
+			var s_val   = $(this).attr('data-content'),
+			s_name  = $(this).attr('data-field'),
+			s_id    = $(this).attr('data-id'),
+			width   = $(this).attr('data-width');
+			$('<input type="text" class="lt_input_text"  value="'+s_val+'" />').width(width).focusout(function(){
+				$(this).prev('span').show().text($(this).val());
+				if($(this).val() != s_val) {
+					$.getJSON("{:U('dic/ajax_edit')}", {id:s_id, field:s_name, val:$(this).val()}, function(result){
+						if(result.status == 0) {
+							$.pinphp.tip({content:result.msg, icon:'error'});
+							$('span[data-field="'+s_name+'"][data-id="'+s_id+'"]').text(s_val);
+							return;
+						}
+					});
+				}
+				$(this).remove();
+			}).insertAfter($(this).parents('.level0').find('.dic_name')).focus().select();
+			$(this).parents('.level0').find('.dic_name').hide();
+			return false;
+		});
+	//树结构
+	$("#J_cate_tree").treeTable({indent:20,treeColumn:2});
+})
+</script>
+<include file="Public:footer" />
+<script src="/theme/admin/js/jquery/plugins/jquery.treetable.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+<include file="Public:header" />
+
+<!--添加商品-->
+
+<!--<div class="subnav">
+
+    <h1 class="title_2 line_x">添加商品</h1>
+
+</div>-->
+
+<form id="info_form" action="{:u('item/add')}" method="post" enctype="multipart/form-data">
+
+<div class="pad_lr_10">
+
+	<div class="col_tab">
+
+		<ul class="J_tabs tab_but cu_li">
+
+			<li class="current">基本信息</li>
+
+            <li>展示图片</li>
+
+			<!--<li>SEO设置</li>-->
+
+            <li>规格属性</li>
+
+		</ul>
+
+		<div class="J_panes">
+
+        <div class="content_list pad_10">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th width="120">所属分类 :</th>
+                <td>
+              <select class="J_cate_select mr10" data-pid="143" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>
+
+                    <input type="hidden" name="cate_id" id="J_cate_id" value="{$search.cate_id}" />
+                </td>
+           </tr>
+            
+            <tr>
+				<th>*商品名称：</th>
+			  <td><input type="text" name="title" id="J_title" class="input-text" size="30"></td>
+			</tr>
+			<!--<tr>
+				<th>品牌 :</th>
+				<td>
+					<select name="brand" id="brand">
+			<option value="">选择品牌</option>			
+		<volist name="brand" id="vo">
+		<option  value ="{$vo['name']}">{$vo['name']}</option>	
+		</volist>				
+				</select>
+
+				<a class="add fb J_showdialog" href="javascript:void(0);" data-uri="jradmin.php?m=admin&amp;c=item_brand&amp;a=add&amp;menuid=317" data-title="添加" data-id="add" data-width="500" data-height="300"><em>添加</em></a>
+
+				</td>
+
+			</tr>-->
+			<tr>
+
+				<th>商品编号：</th>
+
+				<td><input type="text" name="product_id" class="input-text" size="10" value="{$info.product_id}"></td>
+
+			</tr>
+
+			<tr>
+
+                <th>商品简介：</th>
+
+                <td><textarea name="intro" cols="80" rows="5"></textarea></td>
+
+            </tr>
+
+            <tr>
+
+				<th>*商品主图：</th>
+
+				<td><input type="file" name="img" /></td>
+
+ 			</tr>
+ 		<!--	<tr>
+				<th>推荐图片：</th>
+				<td><input type="file" name="recommend_img" /></td>
+ 			</tr>-->
+			<!--<tr>
+				<th>链接地址 :</th>
+				<td><input type="text" name="url" class="input-text" size="50"></td>
+			</tr>-->
+
+            <!--<tr>
+				<th>商品标签 :</th>
+				<td>
+                	<input type="text" name="tags" id="J_tags" class="input-text" size="50">
+                    <input type="button" value="{:L('auto_get')}" id="J_gettags" name="tags_btn" class="btn">
+                </td>
+			</tr>-->
+            <tr>
+            <tr>
+				<th>类型 ：</th>
+			<td><input type="checkbox" name="tj" value="1"  />首页推荐
+	&nbsp;&nbsp;&nbsp;<input type="checkbox" name="rm" value="1"   />热门推荐
+                		&nbsp;&nbsp;&nbsp;<input type="checkbox" name="xp" value="1"   />上市新品
+			</td>
+			</tr>
+			
+            <tr>
+				<th>商城价格：</th>
+				<td><input type="text" name="price" size="10" class="input-text" value="{$info.price}"></td>
+			</tr>
+
+			<tr>
+				<th>市场价格：</th>
+				<td><input type="text" name="market_price" size="10" class="input-text" value="{$info.market_price}"></td>
+			</tr>
+            
+			<tr class="label">
+				<th>商品标签 :</th>
+				<td>
+                	<input type="radio" name="item_type" id="J_tags" class="input-text" checked size="10" value="3">普通商品
+                    &nbsp;<input type="radio" name="item_type" id="J_tags" class="input-text" size="10" value="1">团购商品
+                    &nbsp;<input type="radio" name="item_type" id="J_tags" class="input-text" size="10" value="2">积分商品
+                </td>
+			</tr>
+             <tr class="group" style="display:none;">
+				<th>团购 :</th>
+				<td>价格:<input type="text" name="act_price" size="10" class="input-text" value="{$info.act_price}"> 元&nbsp;&nbsp;&nbsp;数量:
+                <input type="text" name="act_nums" size="10" class="input-text" value="{$info.act_nums}">
+                </td>
+			</tr>
+             <tr class="group" style="display:none;">
+				<th>团购起止时间 :</th>
+				<td><input type="text" name="time_start" id="J_time_start" class="date" size="12" value="">
+                    -
+                    <input type="text" name="time_end" id="J_time_end" class="date" size="12" value=""></td>
+			</tr>
+            <tr class="integral" style="display:none;">
+				<th>购买商品所需积分：</th>
+				<td><input type="text" name="integral" size="10" class="input-text" value="{$info.integral}"></td>
+			</tr>
+            <tr>
+				<th>单位：</th>
+				<td><input type="text" name="unit" size="10" class="input-text" value="{$info.unit}"></td>
+			</tr>
+			<!--<tr>
+				<th>库存状态</th> 
+				<td><input type="radio" name="inv_status" value="1" checked="checked"  /> 库存商品&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="inv_status" value="0"  />非库存商品
+				</td>
+			</tr>-->
+			<!--<tr>
+				<th>是否赠品</th> 
+				<td><input type="radio" name="type" value="1" checked="checked"  />否 &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="type" value="2"  />是
+				</td>
+			</tr>-->
+            <tr>
+				<th>商品库存：</th>
+				<td><input type="text" name="inventory" size="10" class="input-text" value="{$info.inventory}"></td>
+			</tr>
+			<tr>
+				<th>限购数量：</th>
+				<td><input type="text" name="quota" size="10" class="input-text" value="{$info.quota}"> (0为不限购)</td>
+			</tr>
+			 <tr>
+				<th>产地：</th>
+				<td><input type="text" name="origin" size="20" class="input-text" value="{$info.origin}"></td>
+			</tr>
+			<!--<tr>
+				<th>可关联的优惠券：</th>
+				<td>
+			<volist name="yhq" id="val">
+				<input type="checkbox" name="yhq_id[]" value="{$val['id']}"/>{$val['title']}
+			</volist>		
+				</td>
+			</tr>-->
+            <tr>
+		          <th>规格参数 :</th>
+						<td><input name="seo_desc" class="seo_desc" value="{$info.seo_desc}"></td>
+
+			</tr>
+			<tr>
+		          <th>详细内容 :</th>
+						<td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+			</tr>
+
+		</table>
+
+		</div>
+
+        <div class="content_list pad_10 hidden">
+			<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+
+                <tr>
+                    <th class="td_left" style="text-align: left;">
+                        <a class="btn" id="logo_upload_btn" href="javascript:;" style=" width: 80px; margin:10px 0;">上传商品副图</a>
+                    </th>
+                </tr>
+                <tr>
+
+                    <td>
+                        <div id="logo_upload_area" style='width:80%'>
+                            <div id='photos_area' class="photos_area clearfix">
+                                <?php  if (isset($info['imgs'])) {
+				                                      foreach ($info['imgs'] as $v) {
+				                         ?>
+                                <div class='item'>
+                                    <input type='hidden' name='imgss[]' value='{$v}'/>
+                                    <img src='{:attach($v,'item')}'  width='100px' height='100px'/>
+                                    <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+                                </div>
+                                <?php }   }   ?>
+
+                            </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+		<!--<div class="content_list pad_10 hidden">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+			<tr>
+
+				<th width="120">{:L('seo_title')} :</th>
+
+ 				<td><input type="text" name="seo_title" id="seo_title" class="input-text" size="60"></td>
+
+			</tr>
+
+			<tr>
+
+				<th>{:L('seo_keys')} :</th>
+
+				<td><input type="text" name="seo_keys" id="seo_keys" class="input-text" size="60"></td>
+
+			</tr>
+
+			<tr>
+
+				<th>{:L('seo_desc')} :</th>
+
+				<td><textarea name="seo_desc" id="seo_desc" cols="80" rows="8"></textarea></td>
+
+			</tr>
+
+		</table>
+
+		</div>-->
+
+        <div class="content_list pad_10 hidden">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="item_attr">
+		
+            <tbody class="add_item_attr">
+            <tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="add_ext(this);"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>  
+                属性名 : <input type="text" name="attr[name][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+               	价格 : <input type="text" name="attr[price][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+                库存 : <input type="text" name="attr[num][]" class="input-text" size="3">&nbsp;&nbsp;&nbsp;     
+                团购价 : <input type="text" name="attr[act_price][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+                团购库存 : <input type="text" name="attr[act_nums][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+               	积分 : <input type="text" name="attr[integral][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+                积分库存 : <input type="text" name="attr[jf_kucun][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+               	销量 : <input type="text" name="attr[sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+                团购销量 : <input type="text" name="attr[act_sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+                积分销量 : <input type="text" name="attr[jf_sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+               	限购 : <input type="text" name="attr[quota][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;	
+               	 
+                </td>
+            </tr>
+            </tbody>
+		</table>
+		</div>
+
+        </div>
+
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+
+	</div>
+
+</div>
+
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+
+</form>
+<table id="hidden_attr" style="display:none;">
+    <tbody class="add_item_attr">
+   	<tr>
+        <td align="left">
+        <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>  
+        属性名 : <input type="text" name="attr[name][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+        价格 : <input type="text" name="attr[price][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        库存 : <input type="text" name="attr[num][]" class="input-text" size="3">&nbsp;&nbsp;&nbsp;     
+        团购价 : <input type="text" name="attr[act_price][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        团购库存 : <input type="text" name="attr[act_nums][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        积分 : <input type="text" name="attr[integral][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        积分库存 : <input type="text" name="attr[jf_kucun][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        销量 : <input type="text" name="attr[sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        团购销量 : <input type="text" name="attr[act_sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        积分销量 : <input type="text" name="attr[jf_sales][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;
+        限购 : <input type="text" name="attr[quota][]" class="input-text" size="3">   &nbsp;&nbsp;&nbsp;	
+         
+        </td>
+     </tr>
+    </tbody>
+</table>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<link rel="stylesheet" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<include file="Public:footer" />
+
+<script type="text/javascript">
+$('.label input').click(function(){
+	var ind =$(this).index();
+	var is_check =$(this).prop('checked');
+	if(ind==1){
+		is_check==true?$('.group').show():$('.group').hide();$('.integral').hide();
+	}
+	else if(ind==2){
+		is_check==true?$('.integral').show():$('.integral').hide();$('.group').hide();
+	}
+	else{
+		$('.integral').hide();$('.group').hide();
+	}
+})
+  function add_file()
+    {
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+    }
+    function del_file_box(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+     function add_ext()
+    {
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+    }
+    function del_attr(obj)
+    {
+        $(obj).parents('tr').remove();
+    }
+Calendar.setup({
+	
+		inputField : "J_time_start",
+	
+		ifFormat   : "%Y-%m-%d",
+	
+		showsTime  : false,
+	
+		timeFormat : "24"
+	
+	});
+	
+	Calendar.setup({
+	
+		inputField : "J_time_end",
+	
+		ifFormat   : "%Y-%m-%d",
+	
+		showsTime  : false,
+	
+		timeFormat : "24"
+	
+	});
+$('.J_cate_select').cate_select('请选择');
+
+$(function() { 		
+
+	
+
+	KindEditor.create('.info', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+
+
+	
+
+	$('ul.J_tabs').tabs('div.J_panes > div');
+
+	//自动获取标签
+
+	$('#J_gettags').live('click', function() {
+
+		var title = $.trim($('#J_title').val());
+
+		if(title == ''){
+
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+
+			return false;
+
+		}
+
+		$.getJSON('{:U("item/ajax_gettags")}', {title:title}, function(result){
+
+			if(result.status == 1){
+
+				$('#J_tags').val(result.data);
+
+			}else{
+
+				$.pinphp.tip({content:result.msg});
+
+			}
+
+		});
+
+	});
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'});
+
+});
+
+
+
+
+
+</script>
+
+</body>
+<script>
+$(document).delegate('.J_cate_select','change',function(){
+	$('.J_cate_select').find('option').each(function(){
+		if($(this).val()==190||$(this).val()==164){
+			$(this).hide();
+		}
+	})
+})
+  var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,188 @@
+<include file="Public:header" />
+<link rel="stylesheet" type="text/css" href="/theme/admin/css/style.css" />
+<style>
+	body{
+		background:white;
+	}
+</style>
+
+	
+    <div class="left">
+        <a href="javascript:;" class="reloadButton" onclick="parent.refresh_page();">刷新</a>
+        <if condition="$type neq 3">
+         <!--<a href="javascript:;" style="color:#fff;" class="addNewButton" id="exportCustomer">导出客户</a>-->
+        
+        
+        <a  href="javascript:;"  style="color:#fff;"    class="J_showdialog  addNewButton"  data-uri="{:U('Custom/add')}" data-title="新增客户" data-id="add" data-width="900" data-height="500" >新增客户</a>
+        
+        
+        <!--<a href="javascript:;"  style="color:#fff;"  class="dialog_open  addNewButton"   data-uri="{:U('Custom/import')}" data-title="导入客户" data-id="import" data-width="480" data-height="365"  id="newCustomer">导入客户</a>
+       	-->
+        </if>
+        
+        <ul class="submenu">
+            <li dataid="58" class="<if condition="$search['funnel'] eq -1">current</if>"><a href="{:U('custom/index',array('list_type'=>$type,'funnel'=>-1))}">全部  ({$status_nums[-1]})</a></li>	
+            
+            <volist name="funnel" id="val">
+             <li dataid="58" class="<if condition="$search['funnel'] eq $val['id']">current</if>"><a href="{:U('custom/index',array('list_type'=>$type,'funnel'=>$val['id']))}">{$val.name} ({$status_nums[$val['id']]})</a></li>	
+            </volist>
+           
+           
+        </ul>
+
+        <div class="sTableOptions">
+        	<div class="searchform form_default">
+            	<form id="searchFrom">
+        		<input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="custom" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="list_type" value="{$type}" />
+            	<input type="hidden" value="0" name="state" id="customerState">
+            	<input type="hidden" value="" name="ispublic" id="ispublic">
+            	关键字：<input type="text" name="cutaname" id="customerSearchKeyword" class="sf" style="width:180px;" value="{$search['uname']}">
+            	<select name="contractState" id="contractState">
+                  <option value="0">合同状态</option>
+                  <option value="1">已审核</option>
+                  <option value="2">待审核</option>
+                  <option value="3">已过期</option>
+                  <option value="4">已作废</option>
+                  <option value="5">无合同</option>
+                  <option value="6">有合同待审核</option>
+                </select>
+                
+                 
+                <a href="javascript:;" style="margin:10px 10px 0 0;" id="keyHelp" original-title="与该企业的合同状态：<br></a><span class='contract_green'>已审核：</span>合同已审核，且在有效期内<br/><span class='contract_red'>待审核：</span>合同已添加，但未审核<br/><span class='contract_brown'>已过期：</span>合同已审核，但已过期<br/><span class='contract_gray'>已作废：</span>合同已作废<br/><span style='color:#ff0;'>无合同：</span>从未签署过合同<br/><span style='color:#f0f;'>有合同待审核：</span>有未审核的合同<br/>"><img src="../../images/help.gif"></a>
+                <select class="J_cate_place_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$spid}"></select>
+				<input type="hidden" name="pid" id="J_pid" />
+                <select name="type" id="type">
+                  <option value="0">客户类型</option>
+                  
+                  <option value="14">重点客户</option>
+                  
+                  <option value="15">一般客户222</option>
+                  
+                  <option value="31">潜在客户</option>
+                  
+                  <option value="978">同行合作客户</option>
+                  
+                  <option value="2791">个人客户</option>
+                  
+                  <option value="2841">私人客户</option>
+                  
+                  <option value="2842">企业客户</option>
+                  
+                </select>
+                <select name="industry" id="industry">
+                  <option value="0">所属行业</option>
+                  
+                  <option value="52">消费品</option>
+                  
+                  <option value="53">医疗健康</option>
+                  
+                  <option value="54">其他</option>
+                  
+                  <option value="2828">也一样</option>
+                  
+                  <option value="2849">个</option>
+                  
+                  <option value="2850">IT/互联网</option>
+                  
+                  <option value="2878">金融</option>
+                  
+                  <option value="2881">电力</option>
+                  
+                </select>
+                <select name="important" id="important">
+                  <option value="0">重要程度</option>
+                  
+                  <option value="40">很重要</option>
+                  
+                  <option value="41">一般</option>
+                  
+                  <option value="42">十万火急</option>
+                  
+                  <option value="2851">55</option>
+                  
+                </select>
+                <!--<select name="sort" id="sort">
+                  <option value="0">默认排序</option>
+                  <option value="1">按跟进时间排序</option>
+                </select>-->
+                <input type="submit" name="search" id="searchFromBtn" class="button button_red" value=" 查询 ">
+                </form>
+            </div>
+            <if condition="$type eq 1">
+            <div class="pp">
+		        
+		        <a class="button series_delete delete"   data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('custom/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" ><span>{:L('delete')}</span></a>
+        		 <a class="button recover" style="display:none;"><span>恢复</span></a>
+		        
+		    </div>
+            </if>
+		</div><!--sTableOptions-->
+        <div id="listpage">
+
+
+
+<form id="listFrom">
+<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+    <thead>
+        <tr>
+            <td align="center" width="50"><input type="checkbox" class="J_checkall checkall"></td>
+            <td style="min-width:200px;">客户名称</td>
+            <td width="80">有合同待审核</td>
+            <td width="120">所在地区</td>
+            <td width="60">客户类型</td>
+            <td width="200">所属行业</td>
+            <td width="60">重要程度</td>
+            <td width="80">合同有效期</td>
+            <td width="100">客户漏斗</td>
+            <td width="80">创建人</td>
+            <td width="150">创建时间</td>
+    	</tr>
+    </thead>
+    <tbody>
+        <volist name="list" id="val">
+        <tr>
+            <td align="center"><input type="checkbox" class="J_checkitem" <if condition="in_array($val['id'],$resu)">checked</if> value="{$val.id}"></td>
+            <td>
+            <a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('custom/detail', array('type'=>  $type,'id'=>$val['id']))}" data-title="{$val.cutaname}" data-id="detail" data-width="1000" data-height="500">{$val.cutaname}
+            <if condition="$val['contract']"><span class="{$contract_type[$val['contract'][0]['status']]}">(有合同{$status[$val['contract'][0]['status']]})</span></if>
+            </a>
+            <if condition="$val['progress'][0]['content']">
+            <p style="color:#777;">{$val['progress'][0]['content']}（<?php echo M('admin')->where(array('id'=>$val['progress'][0]['creator_id']))->getField('username');?> {$val['progress'][0]['add_time']|date='Y-m-d',###} {$val['progress'][0]['add_time']|date='H:i',###}）</p>
+            </if>
+            </td>
+            <td align="center" style="color:#00f;"><if condition="$val['contract'] and $val['contract'][0]['status'] eq 0">是</if></td>
+            <?php $pro_id=M('place')->where(array('id'=>$val['pid']))->getField('pid');?>
+            <td><?php echo M('place')->where(array('id'=>$pro_id))->getField('name');?>&nbsp;&nbsp;<?php echo M('place')->where(array('id'=>$val['pid']))->getField('name');?></td>
+            <td><?php echo M('dic')->where(array('id'=>$val['cutatype']))->getField('name');?></td>
+            <td><?php echo M('dic')->where(array('id'=>$val['cutaindustr']))->getField('name');?></td>
+            <td><?php echo M('dic')->where(array('id'=>$val['cutaimporta']))->getField('name');?></td>
+            <td>
+            <if condition="$val['contract']">{$val['contract'][0]['validity']|date='Y-m-d H:i:s',###}</if>
+            </td>
+            <td><?php echo M('dic')->where(array('id'=>$val['cutafunnel']))->getField('name');?></td>
+            <td>{$val.username}</td>
+            <td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+       	</tr>
+        </volist>
+    </tbody>
+</table>
+</form>
+<br clear="all">
+<div class="pagination">
+{$page}
+</div><!--left-->
+    
+<br clear="all">
+<include file="Public:footer" />
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+<script>
+	$(function(){
+		$('.J_cate_place_select').cate_select({top_option:lang.all,field:'J_pid',target_class:'J_cate_place_select'}); //分类联动
+		
+	})
+</script>
+</body>
+</html>

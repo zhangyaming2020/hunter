@@ -1,0 +1,162 @@
+<!--添加管理员-->
+<div class="dialog_content">
+    <div id="tabs" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all">
+    <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+        <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="javascrip:;">编辑客户资料</a></li>
+    </ul>
+    <form id="info_form" name="info_form" action="{:u('custom/edit')}" method="post">
+    <input type="hidden" name="id" value="{$id}">
+    <div id="tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+        <div class="form_default" style="padding:0; height:435px; OVERFLOW-Y: auto;">
+                <p>
+                    <label for="cutaShortName">简称/总机电话</label>
+                    <input type="text" name="cutaShortName" id="cutaShortName" value="{$info['cutashortname']}" class="sf" style="width:180px;">&nbsp;&nbsp;<img id="searchSuccess" style="display:none;" src="../../images/success.png">&nbsp;&nbsp;<input type="button" value=" 查重 " id="searchCompany" class="button button_blue" style="height:30px;"> 
+                </p>
+                <div id="resultContent" style="display:none; position: absolute; background: #f7f7f7; height:230px; width:380px; OVERFLOW-Y: scroll; BORDER: #ccc 1px solid;">
+					<ul id="resultList" class="list" style="margin-top:0;"></ul>
+				</div>
+                <p>
+                    <label for="cutaName">公司全称</label>
+                    <input type="text" name="cutaName" id="cutaName" value="{$info['cutaname']}" class="sf">
+                </p>
+                <p>
+                <label for="cutaProvince">所在地区</label>
+				<select class="J_cate_place_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$spid}"></select>
+				<input type="hidden" name="pid" id="J_pid" value="{$info.pid}" />
+				</p>
+				<p>
+                    <label for="cutaFunnel">&nbsp;</label>
+					<volist name="dic" id="val">
+					<if condition="$val['is_must']">
+						<if condition="$val['id'] neq 6" >
+							<select name="{$val.field}" id="{$val.field}">
+							<option value="">{$val.name}</option>
+							<volist name="val['sub']" id="v">
+		                    <option value="{$v.id}"  <if condition="in_array($v['id'],array($info['cutafunnel'],$info['cutaimporta'],$info['cutaindustr'],$info['cutatype'],$info['cutaloyalty']))">selected="selected"</if> >{$v.name}</option>
+		                    </volist>
+                    		</select>
+						</if>
+					</if>
+					</volist>
+                </p>
+				<volist name="dic" id="val">
+					<if condition="$val['is_must']">
+						<if condition="$val.id eq 6">
+							<p>
+			                    <label for="{$val.field}">{$val.name}</label>
+			                    <select name="{$val.field}" id="{$val.field}">
+			                     <option value="">{$val.name}</option>
+			                      <volist name="val['sub']" id="v">
+			                      <option value="{$v.id}"  <if condition="in_array($v['id'],array($info['cutafunnel'],$info['cutaimporta'],$info['cutaindustr'],$info['cutatype'],$info['cutaloyalty']))">selected="selected"</if>  >{$v.name}</option>
+			                      </volist>
+			                    </select>
+			                </p>
+							
+						</if>
+					</if>
+				</volist>
+				
+                
+               
+                <p>
+                    <label for="type" class="nopadding">私有化</label>
+                    <input type="radio" name="type" value="1"  <if condition="$info.type eq 1">checked</if> > 私有  &nbsp;&nbsp;&nbsp;&nbsp; <input type="radio" name="type" value="0"  <if condition="$info.type eq 0">checked</if> > 公共
+                </p>
+                <p>
+                    <label for="cutaTelephone">总机电话</label>
+                    <input type="text" name="cutaTelephone" id="cutaTelephone" value="{$info.cutatelephone}" class="sf">
+                </p>
+                 <p>
+                    <label for="cutaWeb">公司地址</label>
+                    <input type="text" name="cutaAddress" id="cutaAddress" class="sf" value="{$info.cutaaddress}">
+                </p>
+                <p>
+                    <label for="cutaAddress">公司网址</label>
+                    <input type="text" name="cutaWeb" id="cutaWeb" class="sf" value="{$info.cutaweb}">
+                </p>
+                
+                
+                
+                <p>
+				<label for="cutaFunnel">&nbsp;</label>
+                <volist name="dic" id="val"  offset="4" length="3">
+					<if condition="$val['is_must'] eq 0">
+						<select name="{$val.field}" id="{$val.field}">
+							<option value="">{$k}{$val.name}</option>
+							<volist name="val['sub']" id="v">
+		                    <option value="{$v.id}"  data="<?php dump(array($info['cutaloyalty'],$info['cutaapprove'],$info['cutacredit'],$info['cutasource'],$info['cutaorganiz']));?>"   <if condition="in_array($v['id'],array($info['cutaloyalty'],$info['cutaapprove'],$info['cutacredit'],$info['cutasource'],$info['cutaorganiz']))">selected="selected"</if>  >{$v.name}</option>
+		                    </volist>
+                    	</select>
+					</if>
+				</volist>
+				</p>
+				
+				<p>
+				<label for="cutaFunnel">&nbsp;</label>
+                <volist name="dic" id="val"  offset="7" length="2">
+					<if condition="$val['is_must'] eq 0">
+						<select name="{$val.field}" id="{$val.field}">
+							<option value="">{$k}{$val.name}</option>
+							<volist name="val['sub']" id="v">
+		                    <option value="{$v.id}"  data="<?php dump(array($info['cutaloyalty'],$info['cutaapprove'],$info['cutacredit'],$info['cutasource'],$info['cutaorganiz']));?>"   <if condition="in_array($v['id'],array($info['cutaloyalty'],$info['cutaapprove'],$info['cutacredit'],$info['cutasource'],$info['cutaorganiz']))">selected="selected"</if>  >{$v.name}</option>
+		                    </volist>
+                    	</select>
+					</if>
+				</volist>
+				</p>
+				
+                
+                <p>
+                    <label for="cutaContent">公司简介</label>
+                    <textarea name="cutaContent" class="mf" style="height:70px;">{$info.cutacontent}</textarea>
+                </p>
+        	</div>
+        
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>	
+</div>
+<script>
+var check_name_url = "{:U('custom/ajax_check_name',array('id'=>$id))}";
+$.formValidator.initConfig({formid:"info_form",autotip:true});
+$('#cutaName').formValidator({onshow:lang.please_input+"公司名称",onfocus:lang.please_input+"公司名称"}).inputValidator({min:1,onerror:lang.please_input+"公司名称"});
+$('#cutaTelephone').formValidator({onshow:lang.please_input+"总机电话",onfocus:lang.please_input+"总机电话"}).inputValidator({min:1,onerror:lang.please_input+"总机电话"});
+$('#cucoName').formValidator({onshow:lang.please_input+"联系人",onfocus:lang.please_input+"联系人"}).inputValidator({min:1,onerror:lang.please_input+"联系人"});
+$('#cucoFunction').formValidator({onshow:lang.please_input+"称谓",onfocus:lang.please_input+"称谓"}).inputValidator({min:1,onerror:lang.please_input+"称谓"});
+
+$("#cutaShortName").formValidator({onshow:lang.please_input+'公司名称',onfocus:lang.please_input+'公司名称'}).inputValidator({min:1,onerror:lang.please_input+'公司名称'}).defaultPassed().ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+              if(result.status == 0){
+                  return false;
+			}else{
+                  return true;
+			}
+		},
+		onerror : '公司名称已存在',
+		onwait : lang.connecting_please_wait
+	});
+$(function(){
+	validate_form($('#sid').val());
+});
+function validate_form(store_id){
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			//window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+}
+$('.J_cate_place_select').cate_select({top_option:lang.all,field:'J_pid',target_class:'J_cate_place_select'}); //分类联动
+</script>

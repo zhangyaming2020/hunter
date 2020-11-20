@@ -1,0 +1,128 @@
+<!--添加管理员-->
+<div class="dialog_content">
+	<div id="tabs" style="padding:10px;">
+		<form id="info_form" name="info_form" action="{:U('offer/edit')}" method="post">
+			<div id="tabs-1">
+				<div class="form_default" style="padding:0;  OVERFLOW: hide;">
+					<table border="0" cellpadding="3" cellspacing="1" bgcolor="#dddddd" style="width:100%; BORDER: #ccc 1px solid;">
+						<tbody>
+							<tr>
+								<td align="right" bgcolor="#ffffff" width="135" height="30"></td>
+								<td>
+									<table style="width:100%;" cellpadding="0" cellspacing="0">
+										<tbody>
+											<tr>
+												<td width="20%" style="font-weight: bold;">姓名</td>
+												<td width="20%" style="padding-top:2px;font-weight: bold;">角色提成点</td>
+												<td width="20%" style="font-weight: bold;">角色分成</td>
+												<td width="20%" style="font-weight: bold;">角色实际提成点</td>
+												<td width="20%" style="font-weight: bold;">操作</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+								<td width="50" style="font-weight: bold;">新增</td>
+							</tr>
+						</tbody>
+					</table>
+			
+					<table>
+						<tbody>
+							<tr>
+								<td><span style="display:block; margin: 50px 0; font-size: 23px; line-height: 30px; color:#369;">本offer没有设置：顾问提成点、助理顾问提成点！<br>请用<span style="color:#a00;">管理员</span>登录，在<span style="color:#a00;">项目详情</span>页面设置各角色提成点！</span>
+								</td>
+							</tr>
+							<tr>
+								<td><label style="margin: 10px 0; font-size: 14px; line-height: 14px; color:#369; width:100%; text-align: left;"><input type="checkbox" name="noRatio" id="noRatio" value="1">&nbsp;本offer不需要顾问提成、助理顾问提成！</label></td>
+							</tr>
+							
+						</tbody>
+					</table>
+					
+					<table border="0" cellpadding="3" cellspacing="1" bgcolor="#dddddd" style="width:100%;">
+						<tbody>
+							<tr>
+								<td class="d-footer">
+									<div class="d-buttons"><input type="button" class="d-button d-state-highlight sure" value="确定" data-id="{$info.id}" data-uri="{:U('offer/edit')}"><input type="button" class="d-button cancel" value="取消"></div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+			
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+//取消
+$('.cancel').click(function(){
+	$.dialog.get('finish').close();
+})
+//确定
+$('.sure').click(function(){
+	var self = $(this),
+	uri = self.attr('data-uri'),
+	acttype='ajax',
+	data='oftaState=2'+'&id='+self.attr('data-id');
+	if($('#noRatio').prop('checked')==true){
+		$.dialog({
+			title:'消息',
+			content:'<table class="aui_dialog"><tbody><tr><td colspan="2" class="aui_header"></div></td></tr><tr><td class="aui_icon"><div class="aui_iconBg" style="background: url(http://ee.headhunterclub.com/js/plugins/art/skins/icons/question.png);"></div></td><td class="aui_main" style="width: auto; height: auto;"><div class="aui_content" style="padding: 20px 25px;">该offer没有： 顾问角色、 助理顾问角色 提成。<br><br>你确认此操作吗？</div></td></tr><tr><td colspan="2" class="aui_footer"><div class="aui_buttons"></div></td></tr></tbody></table>',
+			padding:'10px 20px',
+			lock:true,
+			ok:function(){
+				if(acttype == 'ajax'){
+					$.post(uri,data, function(result){
+						if(result.status == 1){
+							$.pinphp.tip({content:result.msg});
+							$.dialog.get('finish').close();
+							if(callback != undefined){
+								eval(callback+'(self)');
+							}else{
+								if(refresh==1){
+									window.location.reload();
+								}
+							}
+						}else{
+							$.pinphp.tip({content:result.msg, icon:'error'});
+						}
+					});
+				}else{
+					location.href = uri;
+				}
+			},
+			cancel:function(){
+			}
+		});
+		
+	}
+	else{
+		$.pinphp.tip({content:'本项目没有设置顾问提成、助理顾问提成！', icon:'alert'});
+	}
+	
+})
+//附件上传
+$('.upload_file').click(function(){
+	$('input[name=file]').click();
+})
+$("input[name=file]").change(function(){
+	var fd = new FormData();
+	fd.append("img", $("input[name=file]").get(0).files[0]);
+		$.ajax({
+			url: "{:U('offer/attachment')}",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(result) { 
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				if(result['status']==1){
+					$('#accessoryList').html(result['data']);
+					$("input[name=accessoryFile]").val(result['data']);
+					
+				}
+			}
+		});
+	})
+</script>

@@ -1,0 +1,48 @@
+<include file="Public:header" />
+<!--商品列表-->
+<div class="pad_lr_10" >
+<!--<div class="explain_col daochu">                  
+<a href="{:U('Order/goods_export_fj1')}">导出数据</a>
+<a href="{:U('Order/fenjian1da')}" style="margin-top:10px;">打印</a>
+<button onClick="window.print()">打印</button>
+</div>-->
+ <script>Window.onload=window.print(); </script>
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">   
+   <!-- <?php  echo strtotime(date('Y-m-d'));?>-->
+    <table width="100%" cellspacing="0">
+        <tr>
+        	<th width=50>商品ID</th>
+        	<th width=50>商品编号</th>
+            <th width=50>小类</th>
+            <th width=50>商品名称</th>
+            <th width="60">订单数量</th>   
+            <th width="80">单位</th>
+            <th width="60">规格（计量）</th>     
+            <th width="60">总重量</th>     
+        </tr>     
+        <volist name="res" id="vo"> 
+            <tr>
+            	<td width="60" align="center">{$vo['jid']}</td> 
+            	<td width="60" align="center">{$vo['product_id']}</td>
+                <td width="150" align="center">{:item_info($vo['jid'],'cate')}</td>
+                <td width="150" align="center">{:item_info($vo['jid'],'title')}</td>
+                <td width="60" align="center">{$vo['z_nums']}</td>
+                <td width="60" align="center">{$vo['jid'] |item_info=###,'unit' |unit_type=###,1}</td>  
+                <td width="60" align="center">{$vo['ji']}</td>
+                <td width="60" align="center">{$vo['nums_duo']}</td>  
+            </tr>
+        </volist>      
+    </table>
+    
+    </div>
+    <!--<div class="songkebor">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>-->
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<include file="Public:header" />
+
+<div class="pad_lr_10">
+    <div class="J_tablelist table_list" data-acturi="{:U('admin_role/ajax_edit')}">
+        <table width="100%" cellspacing="0" id="J_cate_tree">
+            <thead>
+                <tr>
+                    <th width="40"><input type="checkbox" name="checkall" class="J_checkall"></th>
+                    <th width="40">ID</th>
+                    <th align="left">{:L('role_name')}</th>
+                    <th align="left">{:L('role_desc')}</th>
+                    <th width="40">{:L('sort_order')}</th>
+                    <th width="40">{:L('role_status')}</th>
+                    <th width="200">{:L('operations_manage')}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {$list}
+            </tbody>
+        </table>
+    </div>
+    <div class="songkebor">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('admin_role/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+    </div>
+</div>
+<!--查看大图-->
+<include file="Public:footer" />
+</body>
+</html>

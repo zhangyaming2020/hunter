@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* Text color */
+.colr																		{color:#a91d3b !important;}
+.txthover:hover																{color:#a91d3b !important;}
+.backcolr																	{background-color:#a91d3b !important;}
+.backcolrhover:hover														{background-color:#a91d3b !important;}
+.backcolrdark																{background-color:#a91d3b !important; background-image:url(../images/black.png);}
+.bordercolr																	{border-color:#a91d3b !important;}
+.bordercolrover:hover														{border-color:#a91d3b !important;}
+
+.top-links li a:hover														{color:#a91d3b !important;}
+.ddsmoothmenu ul li a:hover,
+.ddsmoothmenu ul li a.selected, 
+.ddsmoothmenu ul li.current-menu-item a										{color:#a91d3b !important;}
+.small-banners:hover .sub-capt h1 a											{background:#a91d3b !important;}
+.upcoming-classes ul li:hover												{background:#a91d3b !important;}
+a.buttontwo:hover															{background:#a91d3b !important;}
+.footer ul li a:hover														{color:#a91d3b !important;}
+.post .post-opts .title h3 a:hover											{color:#a91d3b;}
+.blog-links ul li:hover a													{color:#a91d3b;}
+.recent-post li h3 a:hover													{color:#a91d3b;}
+.pagination ul li a:hover, .pagination ul li a.active						{color:#a91d3b;}
+.gallery-list li:hover h2													{background:#a91d3b;}
+.filter-sec nav a:hover, .filter-sec nav a.active							{color:#a91d3b !important;}
+.filter-sec ul li a:hover, .filter-sec ul li a.current						{color:#a91d3b !important;}
+.calendar .shows li.fill:hover												{background:#a91d3b;}

@@ -1,0 +1,81 @@
+<!--编辑管理员-->
+<div class="dialog_content">
+	<form id="info_form" action="{:U('admin/edit')}" method="post">
+	<table width="100%" class="table_form">
+		<tr>
+			<th width="120">{:L('admininrole')} :</th>
+			<td>
+				<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('admin_role/ajax_getchilds')}" data-selected="<?php if($spid_list[$info['role_id']] == 0) echo 1; else echo $spid_list[$info['role_id']].$info['role_id']; ?>" <if condition="$_SESSION['admin']['role_id'] neq 1">style="display:none;"</if> ></select>
+				<input type="hidden" name="role_id" id="J_cate_id" />
+			</td>
+		</tr>
+
+		<tr style="display: none;" id="store">
+			<th>选择门店 :</th>
+			<td>
+				<select name="store_id">
+					<volist name="store_list" id="val">
+						<option value="{$key}" <if condition="$info['store_id'] eq $key">selected</if> >{$val}</option>
+					</volist>
+				</select>
+			</td>
+		</tr>
+
+		<tr>
+      		<th width="80">{:L('admin_username')} :</th>
+      		<td><input type="text" name="username" id="J_username" class="input-text" value="{$info.username}"></td>
+    	</tr>
+    	<tr> 
+      		<th>{:L('password')} :</th>
+      		<td><input type="password" name="password" id="J_password" class="input-text"></td>
+    	</tr>
+    	<tr>
+      		<th>{:L('cofirmpwd')} :</th>
+      		<td><input type="password" name="repassword" id="J_repassword" class="input-text"></td>
+    	</tr>
+      <tr>
+        <th>{:L('admin_email')} :</th>
+        <td><input type="text" name="email" class="input-text" value="{$info.email}" size="30"></td>
+      </tr>
+
+	</table>
+	<input type="hidden" name="id" value="{$info.id}" />
+	</form>
+</div>
+
+<script>
+var check_name_url = "{:U('admin/ajax_check_name', array('id'=>$info['id']))}";
+$(function(){
+    $('.J_cate_select').cate_select('',function (result) {
+        var id_all = {$id_all},
+            self_role_id = {$_SESSION['admin']['role_id']};
+        if(id_all.indexOf(parseInt(self_role_id)) < 0) {
+            if (id_all.indexOf(parseInt(result)) >= 0) {
+                $('#store').show();
+            } else {
+                $('#store').hide();
+            }
+        }
+    },true);
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#J_username").formValidator({ onshow:lang.please_input+'账号', onfocus:lang.please_input+'账号'}).inputValidator({ min:1, onerror:lang.please_input+'账号'}).ajaxValidator({type:"get", url:check_name_url, datatype:"html", async:'false', success:function(data){	if( data == "1" ){return true;}else{return false;}}, onerror:'该账号已存在', onwait:lang.connecting_please_wait}).defaultPassed();
+
+	/*$("#J_password").formValidator({ empty:true, onshow:+'密码', onfocus:'请输入6至20位密码'}).inputValidator({ min:6, max:20, onerror:'请输入6至20位密码'});*/
+    $("#J_password").formValidator({empty:true, onshow:lang.please_input+'密码', onfocus:'请输入6至20位密码'}).inputValidator({ min:6, max:20, onerror:'请输入6至20位密码'});
+
+	$("#J_repassword").formValidator({ empty:true, onshow:lang.not_edit_password, onfocus:lang.cofirmpwd}).compareValidator({desid:"J_password",operateor:"=",onerror:lang.passwords_not_match});
+
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+    function complate(result){
+        if(result.status == 1){
+            $.dialog.get(result.dialog).close();
+            $.pinphp.tip({content:result.msg});
+            window.location.reload();
+        } else {
+            $.pinphp.tip({content:result.msg, icon:'alert'});
+        }
+    }
+});
+</script>

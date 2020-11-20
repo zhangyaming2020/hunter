@@ -1,0 +1,31 @@
+<!--添加管理员-->
+<link rel="stylesheet" media="screen" href="__PUBLIC_ADMIN__css/style.css" />
+<div class="dialog_content">
+	<body style="background:#fff;padding:10px;">
+		<div class="notification msginfo" style="margin-bottom: 10px">请按照EXCEL模板格式进行导入。&nbsp;&nbsp;
+			<a href="/uploads/customer_import_template.xls" target="_blank">下载客户EXCEL模板</a>
+		</div>
+		<div style="padding:0 15px 15px 15px;">
+			<!--<form id="importForm" action="/customer/importCustomerSave" method="post" enctype="multipart/form-data" target="hidiframe">
+				<p>导入类型：<label><input type="radio" name="cutaType" value="0" checked="">私有</label>&nbsp;&nbsp;<label><input type="radio" name="cutaType" value="1">公共库</label></p>
+				<p style="margin-top:6px;">导入EXCEL：<input type="file" name="files" id="files" size="15" class="ifile" value="上传"> &nbsp;&nbsp;<input type="submit" class="button button_blue" id="execImport" value="导入"></p>
+			</form>-->
+			
+			
+			
+			<form  id="importForm" action="{:U('custom/upload')}" method="post" enctype="multipart/form-data">
+		     <p>导入类型：<label><input type="radio" name="type" value="0" checked="">私有</label>&nbsp;&nbsp;<label><input type="radio" name="type" value="1">公共库</label></p>
+		      <!--<input type="file" style=" width:65px;" name="excelData" value=""  datatype="*4-50"  nullmsg=""/>
+		      
+		      <input type="submit" class="btn btn-primary Sub" value="导入" />-->
+       
+		      
+		      <p style="margin-top:6px;">导入EXCEL：
+		      	<input type="file" name="excelData" id="files" size="15" class="ifile" value="上传"> &nbsp;&nbsp;
+		      	<input type="submit" class="button button_blue" id="execImport" value="导入">
+		      </p>
+    		</form>
+		</div>
+		<div id="importState" style="height:150px; width:456px; BORDER-top: #ccc 1px solid; OVERFLOW-Y: auto; OVERFLOW-X:hidden;">准备就绪...</div>
+	</body>
+</div>

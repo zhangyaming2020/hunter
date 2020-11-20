@@ -1,0 +1,378 @@
+<!--添加管理员-->
+<div class="dialog_content">
+	<div id="tabs" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all">
+		<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+			<li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
+				<a href="#tabs-1">详细资料</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-1">项目</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-2">合同</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-3">财务</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-4">邮件列表</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-5">修改记录</a>
+			</li>
+			<li class="ui-state-default ui-corner-top">
+				<a href="#ui-tabs-6">联系人修改记录</a>
+			</li>
+		</ul>
+		<div id="tabs-1" style="padding:10px; OVERFLOW-Y: auto;" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr>
+						<td valign="top" style="padding-right:10px;">
+							<div id="contactsPage">
+	
+								<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+									<thead>
+										<tr>
+											<td width="24"></td>
+											<td width="60">联系人</td>
+											<td width="30">性别</td>
+											<td width="60">称谓</td>
+											<td>办公电话</td>
+											<td width="120">操作</td>
+										</tr>
+									</thead>
+									<tbody style="display:none;">
+	
+										<tr>
+											<td><img alt="展开详细信息" src="../../../images/nolines_plus.gif" border="0" style="cursor: pointer;" onclick="detailContact(this, '#contact_detail_193');"></td>
+											<td>张生</td>
+											<td>男</td>
+											<td>经理</td>
+											<td>075596587412</td>
+											<td>
+												<a class="iconlink2" href="javascript:;" onclick="deleteContact(193);" title="删除"><img alt="删除" src="../../../images/close.png"></a>&nbsp;&nbsp;
+												<a class="iconlink2" href="javascript:;" onclick="contactInput(193);" title="编辑"><img alt="编辑" src="../../../images/editor.png"></a>&nbsp;&nbsp;
+												<a class="iconlink2" href="javascript:;" onclick="sendMail(193);" title="发送邮件"><img alt="发送邮件" src="../../../images/mail_send.png"></a>
+											</td>
+										</tr>
+										<tr id="contact_detail_193" style="display:none;">
+											<td colspan="6">
+												<table width="100%" border="0" cellspacing="0" cellpadding="0" class="sTable2">
+													<tbody>
+														<tr>
+															<td align="right" width="80">年龄：</td>
+															<td></td>
+															<td align="right" width="80">重要程度：</td>
+															<td></td>
+														</tr>
+														<tr>
+															<td align="right">认可程度：</td>
+															<td></td>
+															<td align="right">传真：</td>
+															<td></td>
+														</tr>
+														<tr>
+															<td align="right">手机：</td>
+															<td></td>
+															<td align="right">邮箱：</td>
+															<td></td>
+														</tr>
+														<tr>
+															<td align="right">QQ：</td>
+															<td></td>
+															<td align="right">MSN：</td>
+															<td></td>
+														</tr>
+														<tr>
+															<td align="right">家庭电话：</td>
+															<td colspan="3"></td>
+														</tr>
+														<tr>
+															<td align="right">关心重点：</td>
+															<td colspan="3"></td>
+														</tr>
+														<tr>
+															<td align="right">利益诉求：</td>
+															<td colspan="3"></td>
+														</tr>
+														<tr>
+															<td align="right">备注：</td>
+															<td colspan="3"></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+										</tr>
+	
+									</tbody>
+								</table>
+							</div>
+							<div style="margin:8px 0;">
+	
+								<button style="color:#333;" class="J_showdialog button button_white" id="editCustomer"  data-uri="{:U('custom/edit', array('id'=>$val['id']))}" data-title="编辑客户资料" data-id="edit" data-width="600" data-height="500"  id="newCustomer">
+									编辑资料
+								</button> &nbsp;
+	
+								<button class="button button_blue" id="newContact">新增联系人</button> &nbsp;
+	
+								<button class="button button_white" id="setPublic">放入公共库</button> &nbsp;
+								<button class="button button_white" id="setShare">共享</button> &nbsp;
+								<button class="button button_white" id="pushMoney">分成</button> &nbsp;
+	
+							</div>
+							<div id="detailPage">
+	
+								<style>
+									.sTable2 td {
+										word-break: break-all;
+										word-wrap: break-word;
+									}
+								</style>
+								<table width="100%" border="0" cellspacing="0" cellpadding="5" class="sTable2">
+									<tbody>
+										<tr>
+											<td align="right" width="80">客户名称：</td>
+											<td colspan="3" style="font-size:14px; font-weight: bold;">深圳大大444dgv</td>
+										</tr>
+										<tr>
+											<td align="right">当前状态：</td>
+											<td colspan="3">
+	
+												<p>所有者：
+	
+													<select id="selectOwnerUserList" style="padding:0;">
+	
+														<option value="1" selected="">管理员</option>
+	
+														<option value="2">财务</option>
+	
+														<option value="3">总经理</option>
+	
+														<option value="4">部门经理</option>
+	
+														<option value="5">部门主管</option>
+	
+														<option value="6">顾问</option>
+	
+														<option value="7">助理顾问</option>
+	
+														<option value="9">vg</option>
+	
+														<option value="10">wz</option>
+	
+														<option value="11">leon</option>
+	
+													</select>
+													&nbsp;&nbsp;<input type="button" value="更改所有者" id="selectOwnerUserBtn" class="iconlink2">
+	
+												</p>
+	
+												<p><b>分成：</b></p>
+	
+												<p>总公司&nbsp;»&nbsp;总经理&nbsp;&nbsp;
+													<font color="#006699">(20%)</font>
+												</p>
+	
+											</td>
+										</tr>
+										<tr>
+											<td align="right">所在省/市：</td>
+											<td>广东&nbsp;&nbsp;深圳</td>
+											<td align="right" width="80">客户漏斗：</td>
+											<td>
+	
+												<select name="funnel" id="funnel">
+													<option value="0">开发漏斗</option>
+	
+													<option value="58" selected="">已合作</option>
+	
+													<option value="59">待确定合同</option>
+	
+													<option value="60">有意向，跟进中</option>
+	
+													<option value="61">暂缓</option>
+	
+													<option value="62">不考虑</option>
+	
+												</select>
+	
+											</td>
+										</tr>
+										<tr>
+											<td align="right">客户类型：</td>
+											<td>重点客户</td>
+											<td align="right">来源：</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="right">所属行业：</td>
+											<td>消费品</td>
+											<td align="right">认可程度：</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="right">机构类型：</td>
+											<td></td>
+											<td align="right">忠诚度：</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="right">重要程度：</td>
+											<td>很重要</td>
+											<td align="right">信誉度：</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="right">公司地址：</td>
+											<td colspan="3"></td>
+										</tr>
+										<tr>
+											<td align="right">总机电话：</td>
+											<td>075596985785</td>
+											<td align="right">公司网址：</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td align="right">公司简介：</td>
+											<td colspan="3"></td>
+										</tr>
+										<tr>
+											<td align="right">创建时间：</td>
+											<td>2018-11-12 12:57</td>
+											<td align="right">创建者：</td>
+											<td>管理员</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</td>
+						<td width="420" style="border-left: 1px solid #ddd; padding-left:10px; min-height:420px;" valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tbody>
+									<tr>
+										<td id="followInputView">
+	
+											<form id="followFrm" name="followFrm" method="post">
+												<input type="hidden" name="cmfoId" id="cmfoId" value="0">
+												<input type="hidden" name="cmfoType" id="cmfoType" value="1">
+												<input type="hidden" name="cmfoDataId" id="cmfoDataId" value="161">
+												<table width="100%" border="0" align="center" cellpadding="4" cellspacing="0">
+													<tbody>
+														<tr>
+															<td bgcolor="#eeeeee">新增跟进：</td>
+														</tr>
+														<tr>
+															<td><textarea name="cmfoContent" rows="2" id="cmfoContent" style="width:380px;"></textarea>
+															</td>
+														</tr>
+														<tr>
+															<td><input type="checkbox" name="cmfoIsRemind" id="cmfoIsRemind" value="1" onclick="this.checked?document.getElementById('isOpen').style.display='':document.getElementById('isOpen').style.display='none'"><label for="cmfoIsRemind">需要系统自动提醒跟进</label></td>
+														</tr>
+														<tr style="display:none;" id="isOpen">
+															<td>提醒时间：<input name="remindDate" type="text" id="remindDate" value="" size="20" maxlength="16">
+	
+															</td>
+														</tr>
+														<tr>
+															<td><button class="button button_blue" id="followBtn" type="button"> 新增 </button></td>
+														</tr>
+													</tbody>
+												</table>
+											</form>
+											<table width="100%" border="0" cellspacing="0" cellpadding="0">
+												<tbody>
+													<tr>
+														<td height="6"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td id="followPageView">
+	
+											<style>
+												.sTable2 thead tr td,
+												.sTable2 tbody tr td {
+													padding: 3px;
+												}
+											</style>
+											<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+												<thead>
+													<tr>
+														<td width="90">跟进日期</td>
+														<td width="50">跟进人</td>
+														<td>跟进内容</td>
+													</tr>
+												</thead>
+												<tbody>
+	
+													<tr>
+														<td>2019-1-14 16:51</td>
+														<td>管理员</td>
+														<td style="word-break:break-all;">合同肯快就签好了</td>
+													</tr>
+	
+													<tr>
+														<td>2018-12-25 14:45</td>
+														<td>管理员</td>
+														<td style="word-break:break-all;">这家伙说要等两天再签合同</td>
+													</tr>
+	
+												</tbody>
+											</table>
+											<table width="10%" border="0" align="center" cellpadding="0" cellspacing="0">
+												<tbody>
+													<tr>
+														<td height="10"></td>
+													</tr>
+												</tbody>
+											</table>
+											<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+												<tbody>
+													<tr>
+														<td>
+															<form id="2802f8dda165b28e5f3adbe7fadc1b17"><input type="hidden" name="type" value="1"><input type="hidden" name="dataId" value="161"><input type="hidden" name="page" id="page-2802f8dda165b28e5f3adbe7fadc1b17" value="1"></form>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+											<table width="10%" border="0" align="center" cellpadding="0" cellspacing="0">
+												<tbody>
+													<tr>
+														<td height="10"></td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<p style="margin-bottom:5px;">
+								<div class="ke-inline-block "><iframe name="kindeditor_upload_iframe_1547533163407" style="display:none;"></iframe>
+									<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="kindeditor_upload_iframe_1547533163407" action="../../servlet/uploader?kindeditor=true"><span class="ke-button-common"><input type="button" class="ke-button-common ke-button" value="新增附件"></span><input type="file" class="ke-upload-file" name="accessoryFile" tabindex="-1" style="width: 72px;"></form>
+								</div><input type="button" id="uploadAccessory" value="新增附件" style="display: none;"></p>
+							<div id="accessoryList">
+	
+								<style>
+									.sTable2 thead tr td,
+									.sTable2 tbody tr td {
+										padding: 3px;
+									}
+								</style>
+	
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div id="ui-tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="ui-tabs-2" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="ui-tabs-3" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="ui-tabs-4" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="ui-tabs-5" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+		<div id="ui-tabs-6" class="ui-tabs-panel ui-widget-content ui-corner-bottom ui-tabs-hide"></div>
+	</div>
+</div>

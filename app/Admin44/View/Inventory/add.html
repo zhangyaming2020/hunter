@@ -1,0 +1,145 @@
+<include file="Public:header" />
+<form id="info_form" action="{:u('Inventory/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<if condition="count($city_id) egt 1">
+					    <tr>
+					      <th>所属区域 :</th>
+					      <td>
+					      	<select name="city_id">
+					        	<volist name="city_id" id="val">
+					        		<option value="{$val.id}">{$val.name}</option>
+					            </volist>
+					        </select>
+					      </td>
+					    </tr>
+					<else />
+					    <input type="hidden" name="city_id" class="input-text" value="{$city_id}">
+					</if>
+					<tr>
+						<th>商品ID :</th>
+						<td>
+							<input type="text" name="item_id" class="input-text" size="30" value="{$info.item_id}">
+							    <!--placeholder="超级管理员，采购" id="item_id"
+								<if condition="$role_id eq 1 or $role_id eq 5"><else />readonly</if>-->	
+						</td>
+					</tr>
+		            <tr>
+						<th>采购数量 :</th>
+						<td>
+							<input type="text" name="purchase" class="input-text" size="30" value="{$info.purchase}">
+								<!--placeholder="超级管理员，采购" 
+								<if condition="$role_id eq 1 or $role_id eq 5"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+					<tr>
+						<th>进价 :</th>
+						<td>
+							<input type="text" name="j_price" class="input-text" size="30" value="{$info.j_price}">
+								<!--placeholder="超级管理员，采购" 
+								<if condition="$role_id eq 1 or $role_id eq 5"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+					<tr>
+						<th>售价 :</th>
+						<td>
+							<input type="text" name="s_price" class="input-text" size="30" value="{$info.j_price}">
+								<!--placeholder="超级管理员，采购" 
+								<if condition="$role_id eq 1 or $role_id eq 5"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+		            <tr>
+						<th>入库数量 :</th>
+						<td>
+							<input type="text" name="ruku" class="input-text" size="30" value="{$info.ruku}">
+								<!--placeholder="超级管理员，仓库" 
+								<if condition="$role_id eq 1 or $role_id eq 4"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+		            <tr>
+						<th>出库数量 :</th>
+						<td>
+							<input type="text" name="chuku" class="input-text" size="30" value="{$info.chuku}">
+								<!--placeholder="超级管理员，仓库" 
+								<if condition="$role_id eq 1 or $role_id eq 4"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+					<!--<tr>
+						<th>库存数量 :</th>
+						<td>
+							<input type="text" name="kucun" class="input-text" size="30" value="{$info.sales}">
+							
+						</td>
+					</tr>-->
+					<tr>  
+						<th>分拣损耗 :</th>
+						<td>
+							<input type="text" name="f_sunhao" class="input-text" size="30" value="{$info.cate}">
+								<!--placeholder="超级管理员，仓库" 
+								<if condition="$role_id eq 1 or $role_id eq 4"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+					<tr>  
+						<th>损耗 :</th>
+						<td>
+							<input type="text" name="sunhao" class="input-text" size="30" value="{$info.cate}">
+								<!--placeholder="超级管理员，仓库" 
+								<if condition="$role_id eq 1 or $role_id eq 4"><else />readonly</if>-->
+							
+						</td>
+					</tr>
+					<tr>
+						<th>备注 :</th>
+						<td>
+							<input type="text" name="beizu" class="input-text" size="30" value="{$info.unit}">
+						</td>
+					</tr>
+					<tr>
+						<th>日期 :</th>
+						<td>
+							<input type="text" name="add_time" id="add_time" class="date" size="27" value="">
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;" onclick="return sub();"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+</form>
+<include file="Public:footer" />
+<script>
+    function sub(){
+    	var admin = $('input[name=item_id]').val();
+    	if(admin == ""){
+	    	alert('商品ID不能为空！');
+	    	return false;
+    	}
+    }
+    
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "add_time",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

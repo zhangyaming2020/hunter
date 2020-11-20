@@ -1,0 +1,312 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="/theme/admin/css/style.css" />
+    <link rel="shortcut icon" href="/theme/admin/images/head.png">
+    <title>牧通人才网管理系统</title>
+
+    <script>
+	var URL = '__URL__';
+	var SELF = '__SELF__';
+	var ROOT_PATH = '__ROOT__';
+	var APP	 =	 '__APP__';
+	//语言项目
+	var lang = new Object();
+	<volist name=":json_decode(L('js_lang_st'),true)" id="val">
+		lang.{$key} = "{$val}";
+	</volist>
+	</script>
+	<script src="theme/default/js/jquery-1.11.2.min.js"></script> 
+<link rel="stylesheet" media="screen" href="http://ee.headhunterclub.com/css/style.css" />
+<link rel="stylesheet" media="screen" href="http://ee.headhunterclub.com/css/plugins/showLoading.css" />
+<link href="http://ee.headhunterclub.com/js/plugins/tipsy/css/tipsy.css" rel="stylesheet" type="text/css" />
+<!--[if IE 9]>
+    <link rel="stylesheet" media="screen" href="http://ee.headhunterclub.com/css/ie9.css"/>
+<![endif]-->
+
+<!--[if IE 8]>
+    <link rel="stylesheet" media="screen" href="http://ee.headhunterclub.com/css/ie8.css"/>
+<![endif]-->
+
+<!--[if IE 7]>
+    <link rel="stylesheet" media="screen" href="http://ee.headhunterclub.com/css/ie7.css"/>
+<![endif]-->
+<script type="text/javascript" src="/theme/admin/hunter/js/jquery-1.7.min.js"></script>
+
+<script type="text/javascript" src="/theme/admin/hunter/js/customs/general.js"></script>
+<!--<script type="text/javascript" src="http://ee.headhunterclub.com/js/plugins/jquery.showLoading.min.js"></script>
+-->
+<script type="text/javascript" src="http://ee.headhunterclub.com/js/plugins/tipsy/jquery.tipsy.js"></script>
+<!--<script type="text/javascript" src="http://ee.headhunterclub.com/js/plugins/jquery.showLoading.min.js"></script>
+-->
+<!--[if lt IE 9]>
+<script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE8.js"></script>
+<![endif]-->
+
+<style>
+	.subnav{padding:0px !important;}
+	.maincontent{    padding: 1px 15px;
+    overflow: hidden;}
+    .sidebar .current{width:220px;height:33px;}
+    #accordion .content:last-child{padding:0px !important;}
+	body{background:white;}
+</style>
+</head>
+
+<body class="bodygrey" onLoad="dwr.engine.setActiveReverseAjax(true);dwr.engine.setNotifyServerOnPageUnload(true);dwr.engine.setErrorHandler(function(){});">
+<iframe id="yyhiddeniframe" style="display: none;"></iframe>
+<div id="updatePatchPop"></div>
+<div id="updatePluginPatchPop"></div>
+<div class="headerspace"></div>
+<div class="header">
+
+    <form id="search" action="" method="post">
+    	<input type="text" id="headSearchKeyword" title="快速查询简历" /><button class="searchbutton"></button>
+    </form>
+    
+    <div class="topheader">
+        <ul class="notebutton">
+            <li class="note" id="msgList">
+                <a href="javascript:;" class="messagenotify" title="跟进提醒与待办事项">
+                    <span class="wrap">
+                        <span class="thicon msgicon"></span>
+                        <span class="count" id="msgNum" style="display:none;">0</span>
+                    </span>
+                </a>
+            </li>
+            <li class="note">
+            	<a href="javascript:;" class="friendnotify" title="用户">
+                	<span class="wrap">
+                    	<span class="thicon friendicon"></span>
+                        <span class="count" id="messageNum" style="background: green; display:none;">0</span>
+                        <script>pushMessage(0, 0);</script>
+                    </span>
+                </a>
+            </li>
+            
+            <li class="note">
+            	<a href="javascript:;" class="tasknotify" title="排行榜">
+                	<span class="wraptask">
+                    	<span class="thicon taskicon">排行榜</span>
+                    </span>
+                </a>
+            </li>
+            
+            <li class="note">
+            	<a href="javascript:;" class="servicenotify" title="插件&服务">
+                	<span class="wraptask" style="padding: 7px 32px 7px 26px;">
+                    	<span class="thicon serviceicon" style="width:30px;">服务</span>
+                    </span>
+                </a>
+            </li>
+            <li class="note">
+            	<a href="javascript:;" class="mailnotify" title="邮件中心"  onClick="$('#emailLink').click();">
+                	<span class="wrap">
+                    	<span class="thicon mailicon"></span>
+                        <span id="emailNum" class="count" style="display:none;">0</span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- logo -->
+	<a href="#"><img src="/theme/admin/css/bgimg/lietou.png" alt="远扬猎头管理系统（演示版） Version 2.3 企业版" id="logo" width="181" height="54" /></a>
+
+    <div class="tabmenu">
+    	<ul  class="nav white" id="J_tmenu">
+        	<li class="current" menu="desktopmenu">
+        		<a href="{:U('index/index')}" class="dashboard"><span>桌面</span>
+        			
+        		</a>
+        	</li>
+        	
+        	<volist name="top_menus" id="val" >
+			<li  class="top_menu">
+				<a  href="javascript:;" class="head_menu" data-id="{$val.id}" hidefocus="true" style="outline:none;" class="{$val.icon}">
+					<span>{:L($val['name'])}</span>
+				</a>
+				<if condition="$val['child_menu']">
+					<?php $third_menu=D('Menu')->admin_menu($val['child_menu'][0]['id']);?>
+            	<ul class="subnav" style="display:none;">
+            		<volist name="third_menu" id="v">
+                	<li>
+                		<a href="javascript:;"  href="javascript:;" data-uri="{:U($v['controller_name'].'/'.$v['action_name'], array('menuid'=>$v['id']))}{$v.data}" data-id="{$v.id}" hidefocus="true">
+                			<span>{$v.name}</span>
+                		</a>
+                	</li>
+                	</volist>
+                
+                    
+               </ul>
+				</if>
+            </li>
+            
+        	</volist>
+    	
+    	
+    	</ul>
+
+    </div><!-- tabmenu -->
+    
+    <div class="accountinfo">
+    	
+    		<img src="http://ee.headhunterclub.com/images/avatar.png" width="50" height="50" alt="管理员" />
+    	
+    	
+        <div class="info">
+        	<h3><?php echo $_SESSION['admin']['nickname'];?></h3>
+            <p>
+            	<a href="javascript:;" onclick="modify();">设置</a> <a href="{:U('index/logout')}">退出</a>
+            </p>
+        </div><!-- info -->
+    </div><!-- accountinfo -->
+</div>
+
+<!--<div id="loading">
+<div class="sidebar">
+	<div id="accordion"></div>
+</div><!-- leftmenu -->
+<div id="loading">
+	<div class="sidebar">
+		<div id="accordion"  data-uri="{:U('index/left')}">
+			<div class="content" style="display: block;">
+				<h3 class="open">常用功能导航</h3>
+				<ul class="leftmenu" style="display: block;">
+					<li class="sub_menu current">
+						<a href="{:U('index/index')}" class="home">我的桌面</a>
+					</li>
+				
+					<li class="sub_menu">
+						<a class="customer" href="javascript:;" data-uri="/index.php?m=admin&amp;c=custom&amp;a=index&amp;menuid=397&amp;list_type=1" data-id="397" hidefocus="true">我的客户</a>
+					
+					</li>
+				
+					<li class="sub_menu">
+						<a class="customer-gx" href="javascript:;" data-uri="/index.php?m=admin&amp;c=custom&amp;a=index&amp;menuid=543&amp;list_type=3" data-id="543" hidefocus="true">共享客户</a>
+					
+					
+					</li>
+					<li class="sub_menu">
+						<a class="project" href="javascript:;" data-uri="/index.php?m=admin&amp;c=project&amp;a=index&amp;menuid=254&amp;type=1" data-id="254" hidefocus="true">我的项目</a>
+					</li>
+					<li class="sub_menu">
+						<a class="resume" href="javascript:;" data-uri="/index.php?m=admin&amp;c=resume&amp;a=index&amp;menuid=149" data-id="149" hidefocus="true">所有简历</a>
+					</li>
+					<li class="sub_menu">
+						<a class="report" href="javascript:;" data-uri="/index.php?m=admin&amp;c=report&amp;a=index&amp;menuid=212" data-id="212" hidefocus="true">推荐报告</a>
+					</li>
+					<li class="sub_menu">
+						<a class="offer" href="javascript:;" data-uri="/index.php?m=admin&amp;c=offer&amp;a=index&amp;menuid=541" data-id="541" hidefocus="true">offer</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="maincontent">
+	<div id="J_rframe" class="rframe_b">
+        	<iframe id="rframe_0" src="{:U('index/panel')}" frameborder="0" scrolling="auto" style="height:750px;width:100%;"></iframe>
+    </div>
+</div>
+	<br />
+<div id="bar_bottom">
+	<a class="float_left" href="javascript:;" id="show_desktop" title="桌面" onClick="gotoDisktop();">
+      <img src="http://ee.headhunterclub.com/images/icon_22_desktop.png" />
+    </a>
+    <ul id="window_bar">
+    </ul>
+    <a class="float_right" href="javascript:;" id="suggestLink" title="请提出您宝贵的意见或建议。"><img src="http://ee.headhunterclub.com/images/suggest.png" /></a>
+</div><!-- footer -->
+</body>
+<div class="cover_dialog" style="display:none;width: 100%; height: 100%; position: fixed; z-index: 199999; top: 0px; left: 0px; overflow: hidden;">
+	<div style="height: 100%; opacity: 0.7; background: rgb(0, 0, 0);"></div>
+</div>
+<!--预览-->
+	<!--查看大图-->
+	<div class="popup-win">
+		<div class="popup-inner">
+			<div class="vertical-auto popup-image"><img src=""></div>
+		</div>
+	</div>
+	<!--查看大图-->
+<script>
+	
+$.dialog.open("http://ee.headhunterclub.com/resume/apply/show/"+id,{
+		title :	'申请详情',
+		width : '550px',
+		height:	'350px',
+		id	:	"resume_apply_show_" + id,
+		lock  :	false,
+		cancelVal: '关闭',
+		cancel: true
+	});
+</script>
+
+<script src="/theme/admin//js/pinphp.js"></script>
+<script src="/theme/admin//js/index.js"></script>
+<script src="/theme/admin/js/admin.js"></script>
+
+<script>
+//初始化弹窗
+(function (d) {
+    d['okValue'] = lang.dialog_ok;
+    d['cancelValue'] = lang.dialog_cancel;
+    d['title'] = lang.dialog_title;
+})($.dialog.defaults);
+
+</script>
+<script>
+	//顶部菜单点击
+    $('.head_menu').live('click', function(){
+        var data_id = $(this).attr('data-id');
+        //改变样式
+        $(this).parent().addClass("current").siblings().removeClass("current");
+        //改变左侧
+        //$('#J_lmenu').load($('#J_lmenu').attr('data-uri'), {menuid:data_id});
+        $('#accordion').load($('#accordion').attr('data-uri'), {menuid:data_id});
+        //顶部点击自动打开第一个子菜单
+        var data_uri=$(this).parents().find('.subnav li').eq(0).find('a').attr('data-uri');
+		$('#rframe_0').attr('src', data_uri);
+    });
+    
+    $('.subnav a').live('click', function(){
+	    var data_uri=$(this).attr('data-uri');
+	    var sub_id=$(this).attr('data-id');
+	    var top_id=$(this).parents('.top_menu').find('.head_menu').attr('data-id');
+    	$('#rframe_0').attr('src', data_uri);//打开右侧
+	      //加载左侧
+	      $('#accordion').load($('#accordion').attr('data-uri'), {menuid:top_id,sub_id:sub_id});
+    });
+	//左侧菜单点击
+	$('.sub_menu').eq(0).addClass('current');
+  $('.sub_menu a').live('click', function(){
+          data_uri = $(this).attr('data-uri');
+          data_id = $(this).attr('data-id');
+          $(this).parents('.sub_menu').addClass('current').siblings().removeClass('current');
+        $('#rframe_0').attr('src', data_uri);
+  });
+  //刷新
+	function refresh_page(){
+		$('#J_rframe iframe:visible')[0].contentWindow.location.reload();
+		 
+
+		
+	}
+document.onclick = function(e) {　　　　　　　　
+     dropbox_hide();
+}
+
+function dropbox_hide(){
+	$(".dropbox").hide();
+	
+}
+function cover_dialog(){
+	$('.cover_dialog').css('display','block');
+}
+$('#rframe_0').css('height',$(window).height()-140)
+</script>
+</html>

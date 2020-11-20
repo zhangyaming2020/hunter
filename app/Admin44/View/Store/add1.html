@@ -1,0 +1,426 @@
+<include file="Public:header" />
+
+
+
+<form id="info_form" action="{:u('store/add')}" method="post" enctype="multipart/form-data">
+
+    <div class="pad_lr_10">
+
+
+
+        <div class="col_tab">
+
+
+
+            <ul class="J_tabs tab_but cu_li"> 
+
+
+
+                <li class="current">基本信息</li>
+
+
+
+               <!-- <li>展示图片</li>-->
+
+
+
+            </ul>
+
+
+
+            <div class="J_panes">
+
+
+
+                <div class="content_list pad_10">
+
+
+
+                    <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+                        <tr>
+
+                            <th width="120">城市/区域 :</th>
+
+                            <td>
+
+                                <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$place_selected_ids}"></select>
+
+                                <input type="hidden" name="place_id" id="place_id" value="" >
+                                <div type="text" id="cityname"  style="display:none;"></div>
+
+                                <a href="javascript:;" class="J_showdialog" data-uri="{:U('place/add')}" data-title="添加 - 区域" data-id="add" data-acttype="ajax" data-width="500" data-height="260">添加省/城市</a>
+
+                            </td>
+
+                        </tr>
+                          <tr>
+
+                    <th>名称 :</th>
+
+                    <td><input type="text" name="title" id="J_title" class="input-text" size="60" value="{$info.title}"></td>
+
+                </tr>
+				<tr>
+
+                            <th>*店铺图片 :</th>
+
+                            <!--<td><input type="file" name="img" id="J_img"/></td>-->
+
+                            <td>
+
+                                <input type="text" name="logo" id="J_img" class="input-text fl mr10" size="30">
+
+                                <div id="J_upload_img" class="upload_btn" data-url="/jradmin.php?m=admin&amp;c=merchant&amp;a=ajax_upload_img&amp;thumb=1" style="position: relative; overflow: hidden; direction: ltr;"><span>上传</span><input type="file" name="file" style="position: absolute; right: 0px; top: 0px; font-family: Arial; font-size: 118px; margin: 0px; padding: 0px; cursor: pointer; opacity: 0;"></div>
+
+                            </td>
+
+                        </tr>
+                <tr>
+
+                    <th>店铺电话 :</th>
+
+                    <td><input type="text" name="tel" id="J_tel" class="input-text" size="60" value="{$info.tel}"></td>
+
+                </tr>
+				 <tr>
+
+                    <th width="120">审核状态:</th>
+
+                    <td>
+                    <select name="status">
+					<option value="">请选择审核状态</option>
+					<option value="0">未通过</option>
+                    <option value="1">通过</option>
+                       
+					</select>
+                    </td>
+
+                </tr>
+				<tr>
+
+                            <th>经纬度 :</th>
+
+                            <td>
+
+                                <input name="longitude" class="input-text" value="{$info.longitude}" size="18" id="longitude">
+
+                                <input name="latitude" class="input-text" value="{$info.latitude}" size="18" id="latitude">
+
+                                <span>填写地址获取经纬度</span>
+
+                            </td>
+
+                </tr>
+
+               <tr>
+
+                            <th>城市code :</th>
+
+                            <td><input type="text" class="input-text" size="30" value="{$info.city_code}" id="city_code" name="city_code">
+
+                                <span>对应百度地图里的城市code</span></td>
+
+                        </tr>
+			   <tr>
+
+                            <th>地址 :</th>
+
+                            <td><input type="text" name="address" id="J_address" class="input-text" size="60" value="{$info.address}"><span>为了定位的准确性，请选择城市区域</span></td>
+
+               </tr>
+                       <!-- <tr>
+
+                            <td colspan="2"> <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div></td>
+
+                        </tr>-->
+                   
+                    </table>
+
+<div id="allmap"   style="width: 1000px; height: 700px; border: 1px solid red;"></div>
+
+                   <!-- <iframe src="{:U('store/map')}"  style="width: 1000px; height: 700px; border: 1px solid red;"></iframe>-->
+
+
+
+                </div>
+
+
+
+             
+             
+            </tbody>
+
+
+
+            </table>
+
+
+
+                </div>
+             
+
+
+
+            </div>
+
+
+
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+
+
+
+        </div>
+
+
+
+    </div>
+
+
+
+    <input type="hidden" name="menuid"  value="{$menuid}"/>
+
+
+
+</form>
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor.js"></script>
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+
+<script src="__PUBLIC_ADMIN__js/fileuploader.js"></script>
+
+<include file="Public:footer" />
+
+<script type="text/javascript" src="/theme/default/plupload/plupload.full.min.js"></script>
+ 
+
+
+
+<script type="text/javascript">
+
+
+
+    //$('.J_cate_select').cate_select('请选择');
+
+
+
+
+    $(function() {
+
+
+
+        KindEditor.create('.info', {
+
+
+
+            uploadJson : '{:U("attachment/editer_upload")}',
+
+
+
+            fileManagerJson : '{:U("attachment/editer_manager")}',
+
+
+
+            allowFileManager : true
+
+
+
+        });
+     
+    });
+
+
+    $(function() {
+
+        KindEditor.create('#intro', {
+
+            uploadJson : '{:U("attachment/editer_upload")}',
+
+            fileManagerJson : '{:U("attachment/editer_manager")}',
+
+            allowFileManager : true
+
+        });
+
+        $('#city_code').focus(function(){
+
+            var lng = $('#longitude').val();
+
+            var lat = $('#latitude').val();
+
+            if(lng == '' && lat == ''){
+
+                $.pinphp.tip({content:'请先填写经纬度才能定位城市code', icon:'alert'});
+
+                return false;
+
+            }
+
+            $.ajax({
+
+                type: "get",
+
+                url: "{:U('store/geocoder')}",
+
+                data:{lng:lng,lat:lat},
+
+                dataType: "json",
+
+                success: function(data){
+
+                    if(data.status == "OK"){
+
+                        $('#city_code').val(data.result.cityCode);
+
+                        $.pinphp.tip({content:data.result.cityCode, icon:'alert'});
+
+                    }else{
+
+                        $.pinphp.tip({content:'获取失败', icon:'alert'});
+
+                    }
+
+                }
+
+            });
+
+        });
+
+
+
+
+
+
+
+
+        $('.J_cate_select').cate_select({top_option:lang.all,field:'place_id',target_class:'J_cate_select'}); //分类联动
+
+       // $('.J_item_cate_select').cate_select({top_option:lang.all,field:'J_cate_id',target_class:'J_item_cate_select'}); //分类联动
+
+
+
+    
+      $(document).delegate('.J_cate_select','change',function(){  
+	      var place_id=$("input[name='place_id']").val();
+		  
+	      $.ajax({
+			  type: "get",
+              url: "{:U('Store/get_cityid')}",
+              data:{place_id:place_id},
+              dataType: "json",
+              success: function(data){
+				  $('#cityname').text(data);
+				  
+				  theLocation();
+				  
+			  }
+		  })
+      })
+	  
+	  $('#J_address').blur(function(){
+		  var address=$("input[name='address']").val();
+		  //if(!address){
+//			  alert("请填写地址");
+//			  return false;
+//		  }
+		  var cityname=$('#cityname').text()
+		  searchByStationName(address,cityname);
+	  })
+
+    });
+
+	  //上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('store/ajax_upload_img')}",
+        inputName: 'logo',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_img').val(result.data);
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+
+</script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TCuUQlux5NmfU1wCc9BFXzGzvIcXDBaF"></script>
+<script type="text/javascript">
+	function initMap(){
+		  createMap();//创建地图
+		  setMapEvent();//设置地图事件
+		  //addMapControl();//向地图添加控件
+		  //addMapOverlay();//向地图添加覆盖物
+		}
+		function createMap(){ 
+		  map = new BMap.Map("allmap"); 
+		  map.centerAndZoom(new BMap.Point(116.331398,39.897445),11);
+		}
+       //通过城市设置地图中心
+		function theLocation(){
+			var city =$('#cityname').text();
+			if(city != ""){
+				map.centerAndZoom(city,11);      // 用城市名设置地图中心点
+			}
+		}
+		
+		function setMapEvent(){
+		  map.enableScrollWheelZoom();
+		  map.enableKeyboard();
+		  map.enableDragging();
+		  map.enableDoubleClickZoom()
+		}
+		
+		var map;
+	    initMap();
+		
+		 var localSearch = new BMap.LocalSearch(map);
+		 localSearch.enableAutoViewport(); //允许自动调节窗体大小
+	   　function searchByStationName($aa,$cc) {
+		     map.clearOverlays();  //清除原来的标注
+		　  　var keyword = $aa;
+		    // var city=$cc;
+//		     if(!city){
+//			   alert("为了定位的准确性，请选择所在城市\区域");
+//			   return false;
+//             }
+			 
+		   　localSearch.setSearchCompleteCallback(function (searchResult) {
+			    
+		　　  　　var poi = searchResult.getPoi(0);
+		　　  　　document.getElementById("longitude").value = poi.point.lng; //获取经度和纬度，将结果显示在文本框中
+		       　document.getElementById("latitude").value = poi.point.lat;
+		　　　　  map.centerAndZoom(poi.point, 16); 	       
+	             map.addOverlay(new BMap.Marker(poi.point));
+				 
+		　 　});
+		　　localSearch.search(keyword);  
+		}
+
+</script>
+
+
+</body>
+
+
+
+</html>

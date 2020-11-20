@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* Text color */
+.colr																		{color:#dc5038 !important;}
+.txthover:hover																{color:#dc5038 !important;}
+.backcolr																	{background-color:#dc5038 !important;}
+.backcolrhover:hover														{background-color:#dc5038 !important;}
+.backcolrdark																{background-color:#dc5038 !important; background-image:url(../images/black.png);}
+.bordercolr																	{border-color:#dc5038 !important;}
+.bordercolrover:hover														{border-color:#dc5038 !important;}
+
+.top-links li a:hover														{color:#dc5038 !important;}
+.ddsmoothmenu ul li a:hover,
+.ddsmoothmenu ul li a.selected, 
+.ddsmoothmenu ul li.current-menu-item a										{color:#dc5038 !important;}
+.small-banners:hover .sub-capt h1 a											{background:#dc5038 !important;}
+.upcoming-classes ul li:hover												{background:#dc5038 !important;}
+a.buttontwo:hover															{background:#dc5038 !important;}
+.footer ul li a:hover														{color:#dc5038 !important;}
+.post .post-opts .title h3 a:hover											{color:#dc5038;}
+.blog-links ul li:hover a													{color:#dc5038;}
+.recent-post li h3 a:hover													{color:#dc5038;}
+.pagination ul li a:hover, .pagination ul li a.active						{color:#dc5038;}
+.gallery-list li:hover h2													{background:#dc5038;}
+.filter-sec nav a:hover, .filter-sec nav a.active							{color:#dc5038 !important;}
+.filter-sec ul li a:hover, .filter-sec ul li a.current						{color:#dc5038 !important;}
+.calendar .shows li.fill:hover												{background:#dc5038;}

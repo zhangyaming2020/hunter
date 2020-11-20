@@ -1,0 +1,89 @@
+<include file="Public:header" />
+<!--会员列表-->
+<div class="pad_10">
+	<form name="searchform" method="get">
+		<table width="100%" cellspacing="0" class="search_form">
+			<tbody>
+				<tr>
+					<td>
+						<div class="explain_col">
+							<input type="hidden" name="m" value="admin" />
+							<input type="hidden" name="c" value="member" />
+							<input type="hidden" name="a" value="index" />
+							<input type="hidden" name="menuid" value="{$menuid}" /> &nbsp;会员名 :
+							<input name="keyword" type="text" class="input-text" placeholder="请输入会员名进行搜索" />
+							<input type="submit" class="btn" value="搜索" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+ 
+	<div class="J_tablelist table_list" data-acturi="{:U('member/ajax_edit')}">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th width="20">
+						<input type="checkbox" id="checkall_t" class="J_checkall">
+					</th>
+					<th width="101" align="left"><span data-tdtype="order_by" data-field="id">店铺名称</span></th>
+					<th width="110" align="left"><span data-tdtype="order_by" data-field="product_id">商家用户名</span></th>
+					<th width="110" align="left">主营行业</th>
+					<th width="120" align="left">开通日期</th>
+					<th width="40"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+					<th width="100">{:L('operations_manage')}</th>
+				</tr>
+			</thead>
+			<tr>
+				<td align="center">
+					<input type="checkbox" class="J_checkitem" value="{$val.id}">
+				</td>
+				<td align="center">shopnc_sjz</td>
+				<td align="center">天天食品旗舰店</td>
+				<td align="center">
+                	ttsuch@qq.com
+                </td>
+				<td align="center">2016-06-07 11:56:39</td>
+				<td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/toggle_<if condition=" $val.status eq 0 ">disabled<else/>enabled</if>.gif" /></td>
+				<td align="center">
+					<a href="javascript:;" class="J_showdialog" data-uri="{:u('member/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑-{$val.nickname}" data-id="edit" data-width="520" data-height="330">编辑</a> |
+					<a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('member/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['nickname'])}">{:L('delete')}</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<input type="checkbox" class="J_checkitem" value="{$val.id}">
+				</td>
+				<td align="center">shopnc_sjz</td>
+				<td align="center">天天食品旗舰店</td>
+				<td align="center">
+                	ttsuch@qq.com
+                </td>
+				<td align="center">2016-06-07 11:56:39</td>  s
+				<td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/toggle_<if condition=" $val.status eq 0 ">disabled<else/>enabled</if>.gif" /></td>
+				<td align="center">
+					<a href="javascript:;" class="J_showdialog" data-uri="{:u('member/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑-{$val.nickname}" data-id="edit" data-width="520" data-height="330">编辑</a> |
+					<a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('member/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['nickname'])}">{:L('delete')}</a>
+				</td>
+			</tr>
+		</table>
+
+	</div>
+	<div class="songkebor">
+
+		<label class="select_all">
+			<input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+
+		<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('member/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+
+		<div id="pages">{$page}</div>
+
+	</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+	<thead>
+		<tr>
+			<td width="">创建人</td>
+			<td width="">创建日期</td>
+			<td>附件名</td>
+			<td width="">下载次数</td>
+		</tr>
+	</thead>
+	<tbody>
+		<volist name="list" id="val">
+			<tr>
+				<td>{$val.username}</td>
+				<td>{$val.add_time|date='Y-m-d H:i',###}</td>
+				<td style="word-break:break-all;">
+
+					<a style="color:#069;" href="javascript:accessoryPreview('79411f3f-31cc-495b-80b2-e7e6d5925ab5','customer_import_template (1).xls');">{$val.accessoryfile}</a>
+
+					&nbsp;&nbsp;
+					<a style="color:#069;" href="{:attach($val['accessoryfile'],'report')}" title="下载" download target="_blank">下载</a>
+
+					&nbsp;&nbsp;
+					<a href="javascript:;" title="删除" onclick="deleteAccessory(572);"><img src="/theme/admin/images/close.png" border="0"></a>
+
+				</td>
+				<td>{$val.upload_nums}</td>
+			</tr>
+		</volist>
+	</tbody>
+</table>

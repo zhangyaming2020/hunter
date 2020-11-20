@@ -1,0 +1,380 @@
+/*
+* Skeleton V1.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 6/20/2012
+*/
+
+
+/* Table of Contents
+==================================================
+    #Base 960 Grid
+    #Tablet (Portrait)
+    #Mobile (Portrait)
+    #Mobile (Landscape)
+    #Clearing */
+
+
+
+/* #Base 960 Grid
+================================================== */
+
+    .container                                  { position: relative; width: 960px; margin: 0 10px; float:left; padding: 0; }
+    .container .column,
+    .container .columns                         { float: left; display: inline; margin-left: 10px; margin-right: 10px; }
+    .row                                        { margin-bottom: 20px; }
+	.in-sec										{ width:100%; background:#0e0e0e; padding:20px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; float:left; }
+	.in-sec-nopad								{ padding:0; }
+
+    /* Nested Column Classes */
+    .column.alpha, .columns.alpha               { margin-left: 0; }
+    .column.omega, .columns.omega               { margin-right: 0; }
+
+    /* Base Grid */
+    .container .one.column,
+    .container .one.columns                     { width: 40px;  }
+    .container .two.columns                     { width: 100px; }
+    .container .three.columns                   { width: 160px; }
+    .container .four.columns                    { width: 220px; }
+    .container .five.columns                    { width: 280px; }
+    .container .six.columns                     { width: 340px; }
+    .container .seven.columns                   { width: 400px; }
+    .container .eight.columns                   { width: 460px; }
+    .container .nine.columns                    { width: 520px; }
+    .container .ten.columns                     { width: 580px; }
+    .container .eleven.columns                  { width: 640px; }
+    .container .twelve.columns                  { width: 700px; }
+    .container .thirteen.columns                { width: 760px; }
+    .container .fourteen.columns                { width: 820px; }
+    .container .fifteen.columns                 { width: 880px; }
+    .container .sixteen.columns                 { width: 940px; }
+
+    .container .one-third.column                { width: 300px; }
+    .container .two-thirds.column               { width: 620px; }
+
+    /* Offsets */
+    .container .offset-by-one                   { padding-left: 60px;  }
+    .container .offset-by-two                   { padding-left: 120px; }
+    .container .offset-by-three                 { padding-left: 180px; }
+    .container .offset-by-four                  { padding-left: 240px; }
+    .container .offset-by-five                  { padding-left: 300px; }
+    .container .offset-by-six                   { padding-left: 360px; }
+    .container .offset-by-seven                 { padding-left: 420px; }
+    .container .offset-by-eight                 { padding-left: 480px; }
+    .container .offset-by-nine                  { padding-left: 540px; }
+    .container .offset-by-ten                   { padding-left: 600px; }
+    .container .offset-by-eleven                { padding-left: 660px; }
+    .container .offset-by-twelve                { padding-left: 720px; }
+    .container .offset-by-thirteen              { padding-left: 780px; }
+    .container .offset-by-fourteen              { padding-left: 840px; }
+    .container .offset-by-fifteen               { padding-left: 900px; }
+
+
+
+/* #Tablet (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 768px */
+
+    @media only screen and (min-width: 768px) and (max-width: 959px) {
+		.in											{ width:768px !important; }
+		.inner										{ width:768px !important; }
+		#header .container							{ width:inherit !important; }
+        .ddsmoothmenu ul li a						{ font-size:13px !important; }
+		.ddsmoothmenu ul li ul li a					{ font-size:12px !important; }
+		.container									{ width:768px !important; margin-left:0px !important; margin-right:0px !important; }
+		.small-banners								{ height:150px; }
+		.news-list li								{ border:none !important; padding-left:0px !important; width:100% !important; }
+		.upcoming-classes ul li p					{ display:none; }
+		#classes-list li							{ width:161px !important; }
+		#classes-list								{ width:718px !important; }
+		#footer-widgets								{ width:748px !important; }
+		#footer-widgets .one-third.column			{ width:229px !important; }
+		.followus p									{ display:none; }
+		.footer ul li a								{ font-size:12px !important; }
+		.post .post-opts .title h3					{ font-size:13px !important; }
+		.gallery-list								{ width:767px !important; }
+		.gallery-list li							{ width:235px !important; }
+		.class-text p								{ width:546px !important; }
+		.gallery-four-col							{ width:768px !important; }
+		.gallery-four-col li						{ width:170px !important; }
+		.gallery-three-col							{ width:768px !important; }
+		.gallery-three-col li						{ width:235px !important; }
+		.gallery-two-col							{ width:768px !important; }
+		.gallery-two-col li							{ width:362px !important; }
+		.package .desc								{ width:346px !important; }
+		.calendar .days li:first-child				{ width:106px !important; }
+		.calendar .days li							{ width:86px !important; }
+		.calendar .table .timing					{ width:106px !important; }
+		.calendar .table .timing li					{ width:106px !important; font-size:13px !important; }
+		.calendar .shows							{ width:85px !important; }
+		.calendar .shows li							{ width:85px !important; }
+		.tab-list									{ width:100%; }
+		.timeilne > ul								{ width:100% !important; }
+		.timeilne									{ background:none !important; }
+		.node										{ display:none !important; }
+		.timeilne > ul > li							{ width:100% !important; margin-left:0px !important; padding-top:0px !important; }
+		.timeline-box								{ width:100% !important; }
+		.timeline-post								{ width:100% !important; }
+		.timeline-post .desc						{ width:500px !important; }
+		.small-banners .sub-capt h1					{ font-size:19px !important; }
+		.small-banners .sub-capt h1 a				{ line-height:24px !important; }
+		
+		.container .one.column,
+        .container .one.columns                     { width: 28px; }
+        .container .tw.o.columns                     { width: 76px; }
+        .container .three.columns                   { width: 124px; }
+        .container .four.columns                    { width: 172px; }
+        .container .five.columns                    { width: 220px; }
+        .container .six.columns                     { width: 268px; }
+        .container .seven.columns                   { width: 316px; }
+        .container .eight.columns                   { width: 364px; }
+        .container .nine.columns                    { width: 412px; }
+        .container .ten.columns                     { width: 460px; }
+        .container .eleven.columns                  { width: 508px; }
+        .container .twelve.columns                  { width: 556px; }
+        .container .thirteen.columns                { width: 604px; }
+        .container .fourteen.columns                { width: 652px; }
+        .container .fifteen.columns                 { width: 700px; }
+        .container .sixteen.columns                 { width: 748px; }
+
+        .container .one-third.column                { width: 236px; }
+        .container .two-thirds.column               { width: 492px; }
+
+        /* Offsets */
+        .container .offset-by-one                   { padding-left: 48px; }
+        .container .offset-by-two                   { padding-left: 96px; }
+        .container .offset-by-three                 { padding-left: 144px; }
+        .container .offset-by-four                  { padding-left: 192px; }
+        .container .offset-by-five                  { padding-left: 240px; }
+        .container .offset-by-six                   { padding-left: 288px; }
+        .container .offset-by-seven                 { padding-left: 336px; }
+        .container .offset-by-eight                 { padding-left: 384px; }
+        .container .offset-by-nine                  { padding-left: 432px; }
+        .container .offset-by-ten                   { padding-left: 480px; }
+        .container .offset-by-eleven                { padding-left: 528px; }
+        .container .offset-by-twelve                { padding-left: 576px; }
+        .container .offset-by-thirteen              { padding-left: 624px; }
+        .container .offset-by-fourteen              { padding-left: 672px; }
+        .container .offset-by-fifteen               { padding-left: 720px; }
+    }
+
+
+/*  #Mobile (Portrait)
+================================================== */
+
+    /* Note: Design for a width of 320px */
+
+    @media only screen and (max-width: 767px) {
+		
+		.in											{ width:300px !important; }
+		.inner										{ width:300px !important; }
+		#header .container							{ width:inherit !important; }
+        .ddsmoothmenu ul li a						{ font-size:15px !important; }
+		.ddsmoothmenu ul li ul li a					{ font-size:12px !important; }
+		.container									{ width:300px !important; margin-left:0px !important; margin-right:0px !important; }
+		.small-banners								{ height:150px; }
+		.news-list li								{ border:none !important; padding-left:0px !important; width:100% !important; }
+		.upcoming-classes ul li p					{ display:none; }
+		.hidemobile									{ display:none !important; }
+		.navigation									{ height:auto !important; padding:5px 0px !important; }
+		.ddsmoothmenu  ul  li						{ width:100%; margin-bottom:2px; background:#0F0F0F !important; }
+		.ddsmoothmenu ul li a						{ height:27px !important; padding-top:10px !important; }
+		.nivo-caption								{ display:none !important; }
+		.nivo-directionNav 							{ left:20px !important; bottom:100px !important; }
+		#banner										{ height:300px; overflow:hidden; }
+		.tab-section .tab-head ul li a				{ font-size:12px !important; }
+		.footer ul									{ display:none; }
+		.footer a.gotop								{ display:none !important; }
+		.post span.image							{ display:none !important; }
+		.post span.link								{ display:none !important; }
+		.post span.video							{ display:none !important; }
+		.post .post-opts .title						{ width:184px !important; padding:5px 0 0 12px !important; }
+		.post .post-opts							{ height:inherit !important; }
+		.post .post-opts .title h3					{ font-size:12px; }
+		.post .post-opts .title p					{ display:none; }
+		.post .post-share a.print					{ display:none !important; }
+		input[type="text"], 
+		input[type="password"], 
+		input[type="email"], 
+		select										{ width:238px !important; }
+		textarea									{ width:260px !important; }
+		.comments ul li .desc p.ago					{ float:left !important; padding-left:0px !important; }
+		.class-text p								{ width:280px !important; padding:0px 10px 10px 10px !important; border:none !important;}
+		.class-text a.buttonone						{ margin-left:10px; }
+		.gallery-list								{ width:300px !important; }
+		
+		.gallery-two-col							{ width:300px !important; margin-left:0px !important; }
+		.gallery-two-col li						{ width:118px !important; height:74px !important; }
+		.gallery-three-col							{ width:300px !important; margin-left:0px !important; }
+		.gallery-three-col li						{ width:72px !important; height:51px !important; }
+		.gallery-four-col							{ width:300px !important; margin-left:0px !important; }
+		.gallery-four-col li						{ width:48px !important; height:37px !important; }
+		#gal-container a.videos						{ background:none !important; }
+		#gal-container a.images						{ background:none !important; }
+		.gallery-two-col img 						{ width:100%; }
+		.gallery-three-col img 						{ width:100%; }
+		.gallery-four-col img 						{ width:100%; }
+		.gal-caption								{ display:none !important; }
+		.package .thumb								{ overflow:hidden; width:198px !important; }
+		.package .desc								{ width:218px !important; padding-top:20px; }
+		
+		.calendar .days li:first-child				{ width:106px !important; }
+		.calendar .days li							{ width:86px !important; }
+		.calendar .table .timing					{ width:106px !important; }
+		.calendar .table .timing li					{ width:106px !important; font-size:13px !important; }
+		.calendar .shows							{ width:85px !important; }
+		.calendar .shows li							{ width:85px !important; }
+		.tab-list									{ width:100%; }
+		.timeilne > ul								{ width:100% !important; }
+		.timeilne									{ background:none !important; }
+		.node										{ display:none !important; }
+		.timeilne > ul > li							{ width:100% !important; margin-left:0px !important; padding-top:0px !important; }
+		.timeline-box								{ width:100% !important; }
+		.timeline-post								{ width:100% !important; }
+		.timeline-post .desc						{ width:132px !important; }
+		.timeline-post .thumb						{ overflow:hidden; width:73px; }
+		.timeline-post .thumb img					{ width:100%; }
+		.timeline-post .time-opts h5				{ font-size:12px !important; }
+		.timeline-post .time-opts a					{ font-size:12px !important; }
+		.calendar .days li:first-child				{ display:none !important; }
+		.calendar .table .timing					{ display:none !important; }
+		
+
+        .container .one.column,
+        .container .one.columns,
+        .container .two.columns,
+        .container .three.columns,
+        .container .four.columns,
+        .container .five.columns,
+        .container .six.columns,
+        .container .seven.columns,
+        .container .eight.columns,
+        .container .nine.columns,
+        .container .ten.columns,
+        .container .eleven.columns,
+        .container .twelve.columns,
+        .container .thirteen.columns,
+        .container .fourteen.columns,
+        .container .fifteen.columns,
+        .container .sixteen.columns,
+        .container .one-third.column,
+        .container .two-thirds.column  { width: 300px; margin-left:0px !important; margin-right:0px !important; }
+
+        /* Offsets */
+        .container .offset-by-one,
+        .container .offset-by-two,
+        .container .offset-by-three,
+        .container .offset-by-four,
+        .container .offset-by-five,
+        .container .offset-by-six,
+        .container .offset-by-seven,
+        .container .offset-by-eight,
+        .container .offset-by-nine,
+        .container .offset-by-ten,
+        .container .offset-by-eleven,
+        .container .offset-by-twelve,
+        .container .offset-by-thirteen,
+        .container .offset-by-fourteen,
+        .container .offset-by-fifteen { padding-left: 0; }
+
+    }
+
+
+/* #Mobile (Landscape)
+================================================== */
+
+    /* Note: Design for a width of 480px */
+
+    @media only screen and (min-width: 480px) and (max-width: 767px) {
+		
+		.in											{ width:420px !important; }
+		.inner										{ width:420px !important; }
+		.container									{ width:420px !important; margin-left:0px !important; margin-right:0px !important; }
+		.small-banners								{ display:none !important; }
+		#banner										{ margin-bottom:0 !important; }
+		.tab-section .tab-head ul li a				{ font-size:20px !important; }
+		.post .post-opts .title						{ width:300px !important; }
+		.post .post-opts .title h3					{ font-size:19px !important; padding:10px 0px 0px 0px !important; }
+		input[type="text"], 
+		input[type="password"], 
+		input[type="email"], 
+		select										{ width:358px !important; }
+		textarea									{ width:378px !important; }
+		.class-text p								{ width:400px !important; margin:0px !important; }
+		.gallery-list								{ width:400px !important; margin:0px !important; }
+		.gallery-list li							{ width:180px !important; }
+		.gallery-list li img						{ width:100% !important; }
+		
+		.gallery-two-col							{ width:420px !important; margin-left:0px !important; }
+		.gallery-two-col li							{ width:177px !important; height:113px !important; }
+		.gallery-three-col							{ width:420px !important; margin-left:0px !important; }
+		.gallery-three-col li						{ width:113px !important; height:80px !important; }
+		.gallery-four-col							{ width:420px !important; margin-left:0px !important; }
+		.gallery-four-col li						{ width:78px !important; height:60px !important; }
+		
+		.package .thumb								{ width:inherit !important; }
+		.package .desc								{ width:350px !important; }
+		.calendar .days li							{ width:126px !important; }
+		.calendar .shows							{ width:125px !important; }
+		.calendar .shows li							{ width:125px !important; }
+		.timeline-post .desc						{ width:255px !important; }
+
+        .container .one.column,
+        .container .one.columns,
+        .container .two.columns,
+        .container .three.columns,
+        .container .four.columns,
+        .container .five.columns,
+        .container .six.columns,
+        .container .seven.columns,
+        .container .eight.columns,
+        .container .nine.columns,
+        .container .ten.columns,
+        .container .eleven.columns,
+        .container .twelve.columns,
+        .container .thirteen.columns,
+        .container .fourteen.columns,
+        .container .fifteen.columns,
+        .container .sixteen.columns,
+        .container .one-third.column,
+        .container .two-thirds.column { width: 420px; }
+    }
+
+
+/* #Clearing
+================================================== */
+
+    /* Self Clearing Goodness */
+    .container:after { content: "\0020"; display: block; height: 0; clear: both; visibility: hidden; }
+
+    /* Use clearfix class on parent to clear nested columns,
+    or wrap each row of columns in a <div class="row"> */
+    .clearfix:before,
+    .clearfix:after,
+    .row:before,
+    .row:after {
+      content: '\0020';
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0; }
+    .row:after,
+    .clearfix:after {
+      clear: both; }
+    .row,
+    .clearfix {
+      zoom: 1; }
+
+    /* You can also use a <br class="clear" /> to clear columns */
+    .clear {
+      clear: both;
+      display: block;
+      overflow: hidden;
+      visibility: hidden;
+      width: 0;
+      height: 0;
+    }

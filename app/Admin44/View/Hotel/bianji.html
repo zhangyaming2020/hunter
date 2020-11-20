@@ -1,0 +1,192 @@
+<include file="Public:header" />
+
+
+
+<div class="dialog_content p10">
+
+    <form id="info_form" action="{:u('Hotel/bianji')}" method="post"  enctype="multipart/form-data">
+
+        <table class="table_form" cellpadding="0" cellspacing="0">
+
+            <tbody>
+
+            <tr>
+
+                <th>*房型名称 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_name" class="input-text" value="{$mem['attr_name']}" size="10">
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>*床铺类型 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_value" value="{$mem['attr_value']}" class="input-text" size="10">
+
+                </td>
+
+            </tr>
+			<if condition="$mem['img']">
+            <tr>
+            <th></th>
+                 <td>
+
+                    <img src="{:attach($mem['img'],'item')}" style="width:100px;height:100px;">
+
+                </td>
+                </if>
+             </tr>
+            <tr>
+
+                <th>房间图片 :</th>
+				
+                <td>
+
+                    <input type="file" name="img">
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>价格 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_price" value="{$mem['attr_price']}" class="input-text" size="10">  元
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>原价 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_oldprice" value="{$mem['attr_oldprice']}" class="input-text" size="10">  元
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>房间设施 :</th>
+
+                <td>
+
+                    <label for="wf"><input type="checkbox" name="wf" value="1"  <if condition="$mem['wf'] eq 1">checked</if> />免费WIFI</label>
+
+                    <label for="ch"><input type="checkbox" name="ch" value="1"  <if condition="$mem['ch'] eq 1">checked</if> />窗户</label>
+
+                    <label for="kt"><input type="checkbox" name="kt" value="1"  <if condition="$mem['kt'] eq 1">checked</if> />空调</label>
+
+                    <label for="dsj"><input type="checkbox" name="dsj" value="1"  <if condition="$mem['dsj'] eq 1">checked</if> />电视机</label>
+
+                    <label for="zc"><input type="checkbox" name="zc" value="1"  <if condition="$mem['zc'] eq 1">checked</if> />早餐</label>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>赠送积分 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_integral"  value="{$mem['attr_integral']}" class="input-text" size="10">  分
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>房间数量 :</th>
+
+                <td>
+
+                    <input type="text" name="attr_num"  value="{$mem['attr_num']}" class="input-text" size="10">  间
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>备注 :</th>
+
+                <td>
+
+                    <textarea name="attr_remark"  rows="" cols="">{$mem['attr_remark']}</textarea>
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>预定须知 :</th>
+
+                <td>
+
+                    <textarea name="attr_ydxz" rows="" cols="">{$mem['attr_ydxz']}</textarea>
+
+                </td>
+
+            </tr>
+
+            <input type="hidden" name="id" value="{$mem['id']}" />
+
+            </tbody>
+
+        </table>
+
+        <div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit mr10"><a a href='javascript:history.go(-1)'><input type="button" value="取消" class="btn btn_submit"></a>
+
+    </form>
+
+</div>
+
+<script>
+
+    $(function(){
+
+
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+
+        function complate(result){
+
+            if(result.status == 1){
+
+                $.dialog.get(result.dialog).close();
+
+                $.pinphp.tip({content:result.msg});
+
+                window.location.reload();
+
+            } else {
+
+                $.pinphp.tip({content:result.msg, icon:'alert'});
+
+            }
+
+        }
+
+    })
+
+
+
+</script>

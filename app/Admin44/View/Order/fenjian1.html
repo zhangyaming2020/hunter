@@ -1,0 +1,150 @@
+<include file="Public:header" />
+<style>
+	.explain_col{ overflow: hidden; padding: 20px;}
+	.explain_col li{ float: left;}
+	.btn{ width: 80px; height: 30px; }
+</style>
+<!--商品列表-->
+<div class="pad_lr_10" >
+	
+	 <form name="searchform" method="get" >
+	 	<input type="hidden" name="m" value="admin" />
+        <input type="hidden" name="c" value="Order" />
+        <input type="hidden" name="a" value="fenjian1" />  
+	    <table width="100%" cellspacing="0" class="search_form">
+	        <tbody>
+	            <tr>
+	                <td>                            
+	                <div class="explain_col">
+	                <ul style="overflow: hidden;">
+	                	<li> 
+	                		分类：<select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>
+	                		<input type="hidden" name="cate_id" id="J_cate_id" value="{$search.cate_id}" />
+	                		支付时间： 
+	         <input type="text" name="time_start1" id="time_start1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_start1}">
+	                    至  <input type="text" name="time_end1" id="time_end1" class="date" size="20" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{$time_end1}">
+	                    	<input type="submit" name="search" class="btn" value="搜索" />
+	                	</li>	
+	                </ul>
+	                </div>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+    </form>	
+	
+<div class="explain_col daochu">                  
+<a href="{:U('Order/goods_export_fj1',array('cate_id'=>$search_cate_id,'time_start1'=>$search['time_start1'],'time_end1'=>$search['time_end1']))}">导出数据</a>
+<a href="{:U('Order/fenjian1da',array('cate_id'=>$search_cate_id,'time_start1'=>$search['time_start1'],'time_end1'=>$search['time_end1']))}" style="margin-top:10px;">打印</a>
+<!--<button onClick="window.print()">打印</button>-->
+</div>
+ 
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">   
+   <!-- <?php  echo strtotime(date('Y-m-d'));?>-->
+    <table width="100%" cellspacing="0">
+        <tr>
+        	<th width=50>商品ID</th>
+        	<th width=50>商品编号</th>
+            <th width=50>小类</th>
+            <th width=50>商品名称</th>
+            <th width="60">订单数量</th>   
+            <th width="80">单位</th>
+            <th width="60">规格（计量）</th>     
+            <th width="60">总重量</th>     
+        </tr>     
+        <volist name="res" id="vo"> 
+            <tr>
+            	<td width="60" align="center">{$vo['jid']}</td> 
+            	<td width="60" align="center">{$vo['product_id']}</td>
+                <td width="150" align="center">{:item_info($vo['jid'],'cate')}</td>
+                <td width="150" align="center">{:item_info($vo['jid'],'title')}</td>
+                <td width="60" align="center">{$vo['z_nums']}</td>
+                <td width="60" align="center">{$vo['jid'] |item_info=###,'unit' |unit_type=###,1}</td>
+                <td width="60" align="center">{$vo['ji']}</td>
+                <td width="60" align="center">{$vo['nums_duo']}</td>
+            </tr>
+        </volist>      
+    </table>
+    
+    </div>
+    <!--<div class="songkebor">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>-->
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="/theme/admin/js/jquery/plugins/listTable.js"></script>
+<script type="text/javascript" src="__PUBLIC_ADMIN__js/laydate.js"></script>
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate.css">
+<link type="text/css" rel="stylesheet" href="__PUBLIC_ADMIN__css/laydate(1).css" id="LayDateSkin">
+<script>
+$(function(){
+	$('.J_tablelist').listTable();
+});
+
+$(document).ready(function(){
+	$('#btn').click(function(){
+		$('#registerForm').ajaxSubmit(function(data){
+			alert(data);
+		});
+		return false;
+	});
+});
+
+$('.J_cate_select').cate_select({top_option:lang.all}); //分类联动
+
+!function(){
+	laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+	laydate({elem: '#demo'});//绑定元素
+}();
+
+//日期范围限制
+var start = {
+    elem: '#start',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(), //设定最小日期为当前日期
+    max: '2099-06-16', //最大日期
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+         end.min = datas; //开始日选好后，重置结束日的最小日期
+         end.start = datas //将结束日的初始值设定为开始日
+    }
+};
+
+var end = {
+    elem: '#end',
+    format: 'YYYY-MM-DD',
+    min: laydate.now(),
+    max: '2099-06-16',
+    istime: true,
+    istoday: false,
+    choose: function(datas){
+        start.max = datas; //结束日选好后，充值开始日的最大日期
+    }
+};
+laydate(start);
+laydate(end);
+
+//自定义日期格式
+laydate({
+    elem: '#test1',
+    format: 'YYYY年MM月DD日',
+    festival: true, //显示节日
+    choose: function(datas){ //选择日期完毕的回调
+        alert('得到：'+datas);
+    }
+});
+
+//日期范围限定在昨天到明天
+laydate({
+    elem: '#hello3',
+    min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+    max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+});
+</script>
+
+</body>
+</html>

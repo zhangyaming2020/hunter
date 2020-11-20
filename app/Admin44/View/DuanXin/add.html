@@ -1,0 +1,76 @@
+<include file="Public:header" />
+<form id="info_form" action="{:u('DuanXin/add')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">{:L('article_basic')}</li>
+		</ul>
+		<div class="J_panes">
+			<div class="content_list pad_10">
+				<table width="100%" cellspacing="0" class="table_form">
+					<tr>
+						<th>姓名 :</th>
+						<td><input type="text" name="name" class="input-text" size="30" value=""></td>
+					</tr>
+		            <tr>
+						<th>手机 :</th>
+						<td><input type="text" name="mobile" class="input-text" size="30" value=""></td>
+					</tr>
+		            <tr>
+						<th>{:L('publish')} :</th>
+		 				<td>
+		                	<label><input type="radio" name="status" class="radio_style" value="1"  checked="checked"> {:L('yes')} </label>&nbsp;&nbsp;
+							<label><input type="radio" name="status" class="radio_style" value="0"> {:L('no')}</label>
+						</td>
+					</tr>
+				</table>
+			</div>
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"><br /><br /><br /></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" id="id" value="{$info.id}" />
+</form>
+<include file="Public:footer" />
+<script src="__PUBLIC_ADMIN__js/jquery/plugins/iColorPicker.js"></script>
+<script src="__PUBLIC_ADMIN__js/jquery/plugins/colorpicker.js"></script>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<script>
+    function add_file()
+    {
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+    }
+    function del_file_box(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+    function del_album(id)
+    {
+        var url = "{:U('article/delete_album')}";
+        $.get(url+"&album_id="+id, function(data){
+            if(data==1){
+                $('.album_'+id).remove();
+            };
+        });
+    }
+    function add_attr()
+    {
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+    }
+    function del_attrs(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+    function del_attr(id,obj)
+    {
+        var url = "{:U('article/delete_ext')}";
+        $.get(url+"&ext_id="+id, function(data){
+            if(data==1){
+                $(obj).parent().parent().remove();
+            };
+        });
+    }
+</script>
+</body>
+</html>

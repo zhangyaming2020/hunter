@@ -1,0 +1,163 @@
+<include file="Public:header" />
+<!--商品列表-->
+<style>
+	.explain_col{ overflow: hidden; padding: 20px;}
+	.explain_col li{ width: 50%; float: left;}
+</style>
+<div class="pad_lr_10" >
+    <form name="searchform" method="post" action="{:u('order/personlist')}">
+	<!--<div class="explain_col">   
+        名 称：
+        <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" />
+        <input type="submit" name="search" class="btn" value="搜索" />               
+        <a href="{:U('Order/goods_export_person1')}">导出</a>
+        
+    </div>-->
+     <div class="explain_col" style="text-align:left;">
+                	 <ul style="overflow: hidden;">
+                	 	<li>
+                	名 称 ：
+                    <input name="keyword" type="text" class="input-text" size="25" value="{$keyword}" style="width: 50%;" /></li>
+                    
+                  <li>  订单编号：
+					 <input name="keywording" type="text" class="input-text" size="25" value="" style="width: 50%;" /></li>
+					</ul>
+                    <!--<div class="bk8"></div>-->
+        
+              <!--  　  顾客ID：
+
+                    <input name="idhao" type="text" class="input-text" size="25" value="" />--> 
+                 <ul style="overflow: hidden; margin-top: 18px;" >
+                	 	<li>
+                    电 话 ：
+
+                          <input name="tel" type="text" class="input-text" size="25" value="" style="width: 50%;"  /> </li>
+                 <li>    下单时间：
+
+                          <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$time_start}">
+                   至 <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$time_end}">
+                    </li>
+                   <li style="margin-top: 20px; margin-left: 45px;"><input type="submit" name="search" class="btn" value="搜索" /> </li>
+                    </ul>
+                    
+					              
+                    <!--<a href="{:U('Order/goods_export_person1')}">导出</a>-->
+                </div>
+    </form>
+    
+    <div class="explain_col">
+    <form action="{:U('order/personlistda')}" method="post">
+     <input type="hidden" name="keyword" value="{$keyword}" />
+     <input class="songkeboripu" type="submit" value="打印数据表" />
+    </form>
+    </div>
+    
+    <form action="{:U('order/goods_export_person1')}" method="post" id="form1">
+    <div class="songkebor">
+  		<!--<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/goods_export_person')}" data-name="id" data-msg="是否确认!" value="数据导出" />-->
+        <input class="songkeboripu" type="submit" value="数据导出" />
+     </div>
+    <div style="margin: 10px 0 10px 28px;"><input type="checkbox" id="checkall_t" class="J_checkall"> 
+    　全部</div>
+    <volist name="list" id="vo">
+    <div class="table_list" style="border:2px dotted #ccc; padding:0 15px; margin:10px 0;">
+    <input type="checkbox" class="J_checkitem" name="id[]" id="id" value="{$vo.id}" style=" margin: 10px;">{$vo.id}
+    <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+        <tr>
+            <th width="100" style="text-align:right;">订单编号：</th>
+          <td style="text-align:left;">{$vo['dingdan']}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">姓名：</th>
+            <td style="text-align:left;">{$member_name[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">电话：</th>
+            <td style="text-align:left;">{$member_mobile[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">地址：</th>
+            <td style="text-align:left;">{$member_address[$vo['aid']]}</td>
+        </tr>
+        <tr>
+            <th style="text-align:right;">下单时间：</th>
+            <td style="text-align:left;">{$vo['addtime']|date="Y-m-d h:i:s",###}</td>
+        </tr>
+       <tr>
+            <th style="text-align:right;">备注：</th>
+            <td style="text-align:left;">{$vo['memos']}</td>
+        </tr>
+        
+          <tr>
+            <th style="text-align:right;">配送费：</th>
+            <td style="text-align:left;">￥{:C('pin_freight')}</td>
+        </tr>
+    </table>
+    <table width="100%" cellspacing="0" style="margin: 15px 0;">
+    <thead>
+        <tr>
+            <th width=50>商品</th>
+            <th width=50>数量</th>
+            <th width=50>单位</th>
+      		<th width="80">价格</th>
+            <th width="60">金额</th>    
+        </tr>
+    </thead>
+    <tbody>
+    	<volist name="vo['total']" id="vs">
+        <tr align="center">
+            <td width="200">{$item_title[$vs['jid']]}<if condition="$vs['did'] neq 0">({$item_guige[$vs['did']]})</if></td>
+            <td width="100">{$vs['nums']}</td>
+            <td width="100"><if condition="$vs['did'] neq 0">{$item_guige[$vs['did']]}<else />{$item_unit[$vs['jid']]}</if></td>
+            <td width="100">￥{$vs['prices']}</td>
+            <td width="100">￥<?php echo number_format($vs['nums']*$vs['prices'],2);?></td>
+        </tr>
+        </volist>
+        
+     
+        
+    </tbody>
+	</table>
+	    <tr>
+            <th style="text-align:right;">合计：</th>
+            <td style="text-align:left;">￥<if condition=" $vo['totalprices'] gt C('pin_start_price')">{$vo['totalprices']}<else />{$vo['totalprices']+C('pin_freight')}</if></td>
+        </tr>
+	</div>
+    </volist>
+    </form>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script>
+//$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+<script src="/theme/admin/js/jquery/plugins/listTable.js"></script>
+<script>
+$(function(){
+	$('.J_tablelist').listTable();
+});
+$(document).ready(function(){
+    $('#btn').click(function(){
+		$('#registerForm').ajaxSubmit(function(data){
+			alert(data);
+		});
+		return false;
+    });
+});
+</script>
+
+</body>
+</html>

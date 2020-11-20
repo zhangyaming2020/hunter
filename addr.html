@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+		p{margin-left:5px; font-size:14px;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=2Ob1Cq4Ox2VLz1Dz1SHoHyjhECGsNWPr"></script>
+	<title>百度地图</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	        //获取点的信息
+	        var sContent = 
+	        '<ul style="margin:0 0 5px 0;padding:0.2em 0">'  
+	        +'<li style="line-height: 26px;font-size: 15px;">'  
+	        +'<span style="width: 350px;font-size:16px;display: inline-block;color:#D2693C">南昌胡乐庚健身服务有限公司</span></li>'  
+	        +'<li style="line-height: 26px;font-size: 14px;color:black;">'  
+	        +'<span style="width: 45px;display: inline-block;color:black;">地址：</span>南昌市东湖区永外正街217号四栋一单元</li>' 
+	        +'<li style="line-height: 26px;font-size: 14px;color:black;">'
+	        +'<span style="width: 45px;display: inline-block;color:black;">坐标：</span>115.915645,28.697428</li>'
+	        +'<li style="line-height: 26px;font-size: 14px;color:black;">'
+	        +'<span style="width: 45px;display: inline-block;color:black;">电话：</span>17307082963</li>' 
+	        +'</ul>';
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(115.915645,28.697428);
+	var marker = new BMap.Marker(point);
+	marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+	var styleJson = [
+		 {
+		   "featureType": "all",
+		   "elementType": "geometry",
+		   "stylers": {
+					 "hue": "#007fff",
+					 "saturation": 89
+		   }
+		 },
+		 {
+		   "featureType": "water",
+		   "elementType": "all",
+		   "stylers": {
+					 "color": "#ffffff"
+		   }
+		 }
+	 ]
+	map.setMapStyle({styleJson:styleJson});
+	map.centerAndZoom(point, 15);
+	map.addOverlay(marker);
+		map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+	map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+	map.addControl(new BMap.MapTypeControl());
+	map.centerAndZoom(point, 14); 
+	var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+	stCtrl.setOffset(new BMap.Size(20, 20));
+	map.addControl(stCtrl);//添加全景控件
+	marker.addEventListener("click", function(){          
+	   this.openInfoWindow(infoWindow);
+	   //图片加载完毕重绘infowindow
+	   document.getElementById('imgDemo').onload = function (){
+		   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+	   }
+	});
+</script>

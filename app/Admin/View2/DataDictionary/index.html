@@ -1,0 +1,87 @@
+
+<html >
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=UTF-8">
+<title>光耀信息科技 众聊数据库结构说明 (适用版本v2.7.3)</title>
+<link href="http://book.ecmoban.com/images/style.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+<style>.content div{width:38px;text-align:center;position:relative;float:left;margin-right:3px;background:yellow}
+ul{position:absolute;width:30px;}
+.content ul li{list-style:none;text-align:center;}
+</style>
+<body>
+
+<div class="menu">
+<h3>数据结构说明</h3>
+</div>
+<div class="content" style="width:100%;">
+<volist name="res" id="val" key="k">
+<h4>{$k}.{$val.table_name} {$val['sub'][0]['column_comment']}表</h4>
+<table width="100%" border="1" cellpadding="0" cellspacing="0">
+<tr style="background:#F1F1F1;">
+<th style="width:10%">字段</th>
+<th style="width:10%">类型</th>
+<th style="width:10%">Null/默认</th>
+<th>注释</th>
+</tr>
+<volist name="val['sub']" id="v" key="ke">
+<tr>
+<td>{$v.column_name}</td>
+<td>{$v.column_type}</td>
+<td><if condition="$v['is_nullable'] eq 'NO'">否 /<else/>是 /</if></td>
+<td><if condition="$ke eq 1">自增ID<else/>{$v.column_comment}</if></td>
+</tr>
+</volist>
+
+</table>
+</volist>
+<!--<volist name="fid" id="val">
+<div>
+<li style="background:#F1F1F1;width:100px;">{$val.name}</li>
+<volist name="val['sub']" id="v">
+<li style="background:#F1F1F1;width:100px;">{$v.name}</li>
+</volist>
+</div>
+</volist>
+
+<volist name="fid" id="val">
+<div>{$val.name}
+<ul>
+<volist name="val['sub']" id="v">
+<li>{$v.name}</li><!--
+<li>gfg</li>
+<li>gfgf</li>
+</volist>-->
+</ul>
+</div>
+</volist>
+<!--<div>343
+<ul>
+<li>gvrg</li>
+<li>gfg</li>
+<li>gfgf</li>
+</ul>
+</div>
+
+<div>343
+<ul>
+<li>gvrg</li>
+<li>gfg</li>
+<li>gfgf</li>
+</ul>
+</div>-->
+<!--<div>434
+<li>gvrg</li>
+<li>gfg</li>
+<li>gfgf</li>
+</div><div>34343
+<li>gvrg</li>
+<li>gfg</li>
+<li>gfgf</li>
+</div>
+</div>-->
+<!--<div class="menu"></div>-->
+
+</body>
+</html>

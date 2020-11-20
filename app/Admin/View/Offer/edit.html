@@ -1,0 +1,120 @@
+<!--添加管理员-->
+<div class="dialog_content">
+	<div id="tabs">
+		<form id="info_form" name="info_form" action="{:U('offer/edit')}" method="post">
+			<input type="hidden" name="id" value="{$info.id}">
+			<input type="hidden" name="report_id" value="{$info.report_id}">
+			<input type="hidden" name="resume_id" value="{$info.resume_id}">
+			<input type="hidden" name="project_id" value="{$info.project_id}">
+			<input type="hidden" name="custom_id" value="{$info.custom_id}">
+			<input type="hidden" name="accessoryFile" id="accessoryName" value="{$info.accessoryfile}">
+			<div id="tabs-1">
+				<div class="form_default" style="padding:0; BORDER: #ccc 1px solid;">
+					<p>
+						<label for="moneyYKJ">&nbsp;</label>
+						<input type="checkbox" name="moneyYKJ" id="moneyYKJ" value="1">服务费一口价&nbsp;&nbsp;
+						<a href="javascript:;" id="whatYKJ" original-title="即某个offer不按照合同签定的年薪提成，而直接给出这个offer的服务费价格，一次性付款。"><img src="/images/help.gif">什么一口价?</a>&nbsp;&nbsp;
+					</p>
+					<p>
+						<label for="money" id="moneyStr">offer年薪</label>
+						<input type="text" name="money" id="money" value="{$info.money}" class="sf" style="width:80px;">
+						<select name="oftaState">
+							<option value="">当前状态</option>
+							<option value="0"   <if condition="$info['oftastate'] eq 0">selected="selected"</if>>等待通知候选人</option>
+							<option value="1"  <if condition="$info['oftastate'] eq 1">selected="selected"</if>>候选人、客户协商中</option>
+						</select>
+					</p>
+	
+					<p>
+						<label for="cutaTelephone">原始附件</label>
+						<div class="ke-inline-block ">
+							<span class="ke-button-common">
+									<input type="button" class="ke-button-common ke-button upload_file" value="上传附件">
+							</span>
+						</div>
+						
+						<span id="accessoryList" style="margin-left:10px;">{$info.accessoryfile}</span>
+					</p>
+	
+					<p>
+						<label for="oftaSendDate">下达日期</label>
+						<input type="text" name="sendDate" id="oftaSendDate" value="{$info.senddate|date='Y-m-d H:i:s',###}"   onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						
+						&nbsp;&nbsp;保证期：
+						<input type="text" name="guaranteeEndDate" id="oftaGuaranteeEndDate"  value="{$info.guaranteeenddate|date='Y-m-d H:i:s',###}"  onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+						
+					</p>
+					<p>
+						<label for="contract_id">所属合同</label>
+						<select name="contract_id">
+							<option value="0">请选择合同</option>
+	
+							<volist name="contract" id="val">
+							<option value="{$val.id}" <if condition="$info['contract_id'] eq $val['id']">selected="selected"</if>>{$val.cotaname}</option>
+							</volist>
+	
+						</select>
+					</p>
+	
+					<p>
+						<label for="oftaRemarker">offer备注</label>
+						<textarea name="oftaRemarker" class="mf"  style="width:380px; height:50px;">{$info.oftaremarker}</textarea>
+					</p>
+	
+				</div>
+	
+			</div>
+		</form>
+	</div>
+</div>
+<form style="display:none">
+        <input type="file" id="img" name="file">
+</form>
+<script type="text/javascript">
+$.formValidator.initConfig({formid:"info_form",autotip:true});
+$('#cotaName').formValidator({onshow:lang.please_input+"合同名称",onfocus:lang.please_input+"合同名称"}).inputValidator({min:1,onerror:lang.please_input+"合同名称"});
+$('#cotaPaperSaveLocation').formValidator({onshow:lang.please_input+"合同存放位置",onfocus:lang.please_input+"合同存放位置"}).inputValidator({min:1,onerror:lang.please_input+"合同存放位置"});
+$('#cotaPaperSaveDate').formValidator({onshow:lang.please_input+"存放时间",onfocus:lang.please_input+"存放时间"}).inputValidator({min:1,onerror:lang.please_input+"存放时间"});
+$('#cotaCommissionPoint').formValidator({onshow:lang.please_input+"提成点数",onfocus:lang.please_input+"提成点数"}).inputValidator({min:1,onerror:lang.please_input+"提成点数"});
+
+$(function(){
+	validate_form();
+});
+function validate_form(){
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+		if(result.status == 1){
+				$.dialog.get(result.dialog).close();
+				$.pinphp.tip({content:result.msg});
+				//window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+}
+//附件上传
+$('.upload_file').click(function(){
+	$('input[name=file]').click();
+})
+$("input[name=file]").change(function(){
+	var fd = new FormData();
+	fd.append("img", $("input[name=file]").get(0).files[0]);
+		$.ajax({
+			url: "{:U('offer/attachment')}",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(result) { 
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				if(result['status']==1){
+					$('#accessoryList').html(result['data']);
+					$("input[name=accessoryFile]").val(result['data']);
+					
+				}
+			}
+		});
+	})
+</script>

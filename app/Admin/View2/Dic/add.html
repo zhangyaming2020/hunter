@@ -1,0 +1,54 @@
+<!--添加管理员-->
+<style>
+	input, select, textarea, button {
+    border: 1px solid #ccc;
+    padding: 5px;}
+    .onShow, .onFocus, .onError, .onCorrect, .onLoad, .onTime{
+    	margin-left:0px;
+    }
+</style>
+<div class="dialog_content"  data-id="add">
+    <form id="info_form" name="info_form" action="{:U('dic/add')}" method="post">
+    <input type="hidden" name="pid" value="{$pid}">
+    <input type="hidden" name="isSearch" id="isSearch" value="0">
+    	<div class="aui_content" style="padding: 20px 25px;">
+    		<p>请输入内容：</p>
+    		<p><input type="text" id="name" name="name" style="width:200px;"></p>
+    		
+    		<!--<p><label><input type="checkbox" name="is_default" id="isDefault">默认项</label></p>
+    	-->
+    	</div>
+</div>
+
+	</form>
+</div>
+<script>
+var check_name_url = "{:U('custom/ajax_check_name')}";
+$.formValidator.initConfig({formid:"info_form",autotip:true});
+$('#name').formValidator({onshow:lang.please_input+"内容",onfocus:lang.please_input+"内容"}).inputValidator({min:1,onerror:lang.please_input+"内容"});
+
+$(function(){
+	
+	validate_form();
+});
+function validate_form(store_id){
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			var duri="{:U('dic/detail', array('remark'=>$remark,'id'=>$pid))}";
+				$.get(duri,'', function(result){
+					if(result.status == 1){
+						$.dialog.get('detail').content(result.data);
+					}
+					return false;
+			});
+			return false;
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+}
+</script>

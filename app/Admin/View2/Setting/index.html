@@ -1,0 +1,342 @@
+<include file="Public:header" />
+<!--网站设置-->
+<style>
+	body{
+		background:#fff;
+	}
+</style>
+<br />
+<div class="breadcrumbs" style="margin:0 !important;">
+    	<a href="javascript:;" onclick="$('.tabmenu li').eq(0).click();">我的桌面</a>
+        <span>基本设置</span>
+</div>
+
+<br />
+<div class="pad_lr_10" style="display:none;">
+	<form id="info_form" action="{:u('setting/edit')}" method="post">
+	<table width="100%" class="table_form">
+        <tr>
+            <th width="150">版权所有 :</th>
+            <td><input type="text" name="setting[site_name]" class="input-text" size="50" value="{:C('pin_site_name')}"></td>
+        </tr>
+        <tr>
+            <th>{:L('site_name')}|{:L('seo_title')} :</th>
+            <td><input type="text" name="setting[site_title]" class="input-text" size="50" value="{:C('pin_site_title')}"></td>
+        </tr>
+        <tr>
+            <th>{:L('seo_keys')} :</th>
+            <td><input type="text" name="setting[site_keyword]" class="input-text" size="50" value="{:C('pin_site_keyword')}"></td>
+        </tr>
+        <tr>
+            <th>{:L('seo_desc')} :</th>
+            <td><textarea rows="3" cols="50" name="setting[site_description]">{:C('pin_site_description')}</textarea></td>
+        </tr>
+        <tr>
+            <th>{:L('site_icp')} :</th>
+            <td><input type="text" name="setting[site_icp]" class="input-text" size="50" value="{:C('pin_site_icp')}"></td>
+        </tr>
+        <tr>
+            <th>{:L('statistics_code')} :</th>
+            <td><textarea rows="3" cols="50" name="setting[statistics_code]">{:C('pin_statistics_code')}</textarea></td>
+        </tr>
+		<tr>
+            <th>网址 :</th>
+            <td><input type="text" name="setting[site_url]" class="input-text" size="50" value="{:C('pin_site_url')}">不带http://</td>
+        </tr>
+		<tr>
+            <th>邮箱 :</th>
+            <td><input type="text" name="setting[email]" class="input-text" size="50" value="{:C('pin_email')}"></td>
+        </tr>
+		<tr>
+            <th>电话 :</th>
+            <td><input type="text" name="setting[tel]" class="input-text" size="50" value="{:C('pin_tel')}"></td>
+        </tr>
+		<tr>
+            <th>手机 :</th>
+            <td><input type="text" name="setting[mobile]" class="input-text" size="50" value="{:C('pin_mobile')}"></td>
+        </tr>
+		<tr>
+            <th>QQ :</th>
+            <td><input type="text" name="setting[qq]" class="input-text" size="50" value="{:C('pin_qq')}"></td>
+        </tr>
+        <tr>
+            <th>QQ群 :</th>
+            <td><input type="text" name="setting[qq_group]" class="input-text" size="50" value="{:C('pin_qq_group')}"></td>
+        </tr>
+        
+          <tr>
+            <th>备注消息 :</th>
+            <td><input type="text" name="setting[beizhu]" class="input-text" size="50" value="{:C(pin_beizhu)}"></td>
+        </tr>
+        
+        
+        <tr>
+            <th>店铺类型 :</th>
+            <td><input type="text" name="setting[shoptype]" class="input-text" size="50" value="{:C('pin_shoptype')}"></td>
+        </tr>
+        <tr>
+            <th>营业时间 :</th>
+            <td><input type="text" name="setting[work_time]" class="input-text" size="10" value="{:C('pin_work_time')}"> 使用英文冒号隔开</td>
+        </tr>
+         <tr>
+            <th>店长提成率 :</th>
+            <td><input type="text" name="setting[d_ti]" class="input-text" size="5" value="{:C('pin_d_ti')}">       
+            </td>
+        </tr>
+         <tr>
+            <th>业务员提成率 :</th>
+            <td><input type="text" name="setting[y_di]" class="input-text" size="5" value="{:C('pin_y_di')}">       
+            </td>
+        </tr>
+		<tr>
+            <th>地址 :</th>
+            <td><input type="text" name="setting[address]" class="input-text" size="50" value="{:C('pin_address')}"></td>
+        </tr>
+        <tr>
+            <th>签到积分下线值  :</th>
+            <td><input type="text" name="setting[min_integral]" class="input-text" size="10" value="{:C('pin_min_integral')}"></td>
+        </tr>
+         <tr>
+            <th>签到积分上线值  :</th>
+            <td><input type="text" name="setting[max_integral]" class="input-text" size="10" value="{:C('pin_max_integral')}"</td>
+        </tr>
+         <tr>
+            <th>消费送积分比例  :</th>
+            <td><input type="text" name="setting[integralbili]" class="input-text" size="4" value="{:C('pin_integralbili')}">%</td>
+        </tr>
+         <tr>
+            <th>商城价与标准价比例  :</th>
+            <td><input type="text" name="setting[price_bili]" class="input-text" size="4" value="{:C('pin_price_bili')}">%</td>
+        </tr>
+        <tr>
+            <th>免费配送距离 :</th>
+            <td><input type="text" name="setting[distance]" class="input-text" size="10" value="{:C('pin_distance')}"> 公里</td>
+        </tr>
+        <tr>
+            <th>一般收费配送距离 :</th>
+            <td><input type="text" name="setting[commonly_distance]" class="input-text" size="10" value="{:C('pin_commonly_distance')}"> 公里</td>
+        </tr>
+         <tr>
+            <th>一般配送距离满免配送费:</th>
+            <td><input type="text" name="setting[is_qb]" class="input-text" size="4" value="{:C('pin_is_qb')}"> 元</td>
+        </tr>
+        <tr>
+            <th>一般配送距离收费:</th>
+            <td><input type="text" name="setting[freight]" class="input-text" size="4" value="{:C('pin_freight')}"> 元</td>
+        </tr>
+        <tr>
+            <th>远距离配送每公里收费 :</th>
+            <td><input type="text" name="setting[far_distance]" class="input-text" size="4" value="{:C('pin_far_distance')}"> 元</td>
+        </tr>
+        <tr>
+            <th>免费配送距离配送时间 :</th>
+            <td><input type="text" name="setting[delivery_time]" class="input-text" size="10" value="{:C('pin_delivery_time')}"> 秒</td>
+        </tr>
+        <tr>
+            <th>一般距离每公里配送时间 :</th>
+            <td><input type="text" name="setting[exceed_delivery_time]" class="input-text" size="10" value="{:C('pin_exceed_delivery_time')}"> 秒</td>
+        </tr>
+        <tr>
+            <th>配送区域 :</th>
+            <td><textarea rows="4" cols="50" name="setting[area]">{:C('pin_area')}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th>客服热线  :</th>
+            <td><input type="text" name="setting[customer]" class="input-text" size="50" value="{:C('pin_customer')}"></td>
+        </tr>
+       <!-- <tr>
+            <th>热门搜索1 :</th>
+            <td><input type="text" name="setting[hot_keyword1]" class="input-text" size="50" value="{:C('pin_hot_keyword1')}"></td>
+        </tr>
+        <tr>
+            <th>热门搜索2 :</th>
+            <td><input type="text" name="setting[hot_keyword2]" class="input-text" size="50" value="{:C('pin_hot_keyword2')}"></td>
+        </tr>
+        <tr>
+            <th>热门搜索3 :</th>
+            <td><input type="text" name="setting[hot_keyword3]" class="input-text" size="50" value="{:C('pin_hot_keyword3')}"></td>
+        </tr>
+        <tr>
+            <th>热门搜索4 :</th>
+            <td><input type="text" name="setting[hot_keyword4]" class="input-text" size="50" value="{:C('pin_hot_keyword4')}"></td>
+        </tr>
+        <tr>
+            <th>热门搜索5 :</th>
+            <td><input type="text" name="setting[hot_keyword5]" class="input-text" size="50" value="{:C('pin_hot_keyword5')}"></td>
+        </tr>-->
+        <!--<tr>
+            <th>刷客咨询QQ :</th>
+            <td><input type="text" name="setting[qq1]" class="input-text" size="50" value="{:C('pin_qq1')}"></td>
+        </tr>
+        <tr>
+            <th>商家咨询QQ :</th>
+            <td><input type="text" name="setting[qq2]" class="input-text" size="50" value="{:C('pin_qq2')}"></td>
+        </tr>
+        <tr>
+            <th>审核客服QQ :</th>
+            <td><input type="text" name="setting[qq3]" class="input-text" size="50" value="{:C('pin_qq3')}"></td>
+        </tr>
+        <tr>
+            <th>投诉建议QQ :</th>
+            <td><input type="text" name="setting[qq4]" class="input-text" size="50" value="{:C('pin_qq4')}"></td>
+        </tr>-->
+    	<tr>
+        	<th>{:L('site_status')} :</th>
+        	<td>
+            	<label><input type="radio" class="J_change_status" <if condition="C('pin_site_status') eq '1'">checked="checked"</if> value="1" name="setting[site_status]"> {:L('open')}</label> &nbsp;&nbsp;
+                <label><input type="radio" class="J_change_status" <if condition="C('pin_site_status') eq '0'">checked="checked"</if> value="0" name="setting[site_status]"> {:L('close')}</label>
+            </td>
+    	</tr>
+        <tr id="J_closed_reason" <if condition="C('pin_site_status') eq 1">class="hidden"</if>>
+        	<th>{:L('closed_reason')} :</th>
+        	<td><textarea rows="4" cols="50" name="setting[closed_reason]" id="closed_reason">{:C('pin_closed_reason')}</textarea></td>
+    	</tr>
+        <tr>
+        	<th></th>
+        	<td>
+        		<input type="hidden" name="menuid"  value="{$menuid}"/>
+        		<input type="submit" class="btn btn_submit" value="{:L('submit')}"/></td>
+    	</tr>
+	</table>
+	
+	
+	</form>
+</div>
+
+<div class="left">
+	<h1 class="pageTitle">基本设置</h1>
+	<div class="widgetbox">
+		<div class="content" style="border-top: 1px solid #ccc;">
+			<form id="info_form" action="{:u('setting/edit')}" method="post">
+				<table border="0" cellpadding="3" cellspacing="1" bgcolor="#dddddd" class="form_default">
+
+					<input type="hidden" name="geseId" id="geseId" value="1">
+					<tbody>
+						<tr>
+							<td width="150" align="right" bgcolor="#ffffff">公司名称：</td>
+							<td><input type="text" name="setting[site_name]" id="geseName" class="sf" maxlength="180" value="{:C('pin_site_name')}"></td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">系统LOGO：</td>
+							<td valign="middle" style="padding:10px 0;">
+								<img src="images/logo.png" id="logoimg" style="background-color: #000000;" width="181" height="54">
+								<br><br>
+
+								<input type="file" name="files" id="files" size="15" class="ifile" value="上传LOGO">
+								<br> LOGO大小：181x54像素 LOGO格式：png
+
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">简历判断重复：</td>
+							<td><label style="width:120px; text-align: left;padding-top:0;"><input type="radio" name="geseResumeRepeat" id="geseResumeRepeat" value="1" checked="">&nbsp;按邮箱</label>
+								<label style="width:120px; text-align: left;padding-top:0;"><input type="radio" name="geseResumeRepeat" id="geseResumeRepeat" value="2">&nbsp;按联系方式</label>
+								<label style="width:120px; text-align: left;padding-top:0;"><input type="radio" name="geseResumeRepeat" id="geseResumeRepeat" value="3">&nbsp;按邮箱或联系方式</label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">简历导入：</td>
+							<td bgcolor="#ffffff"><label for="geseNoImportContactResumts" style="width:100%; text-align: left;"><input type="checkbox" name="geseNoImportContactResumts" id="geseNoImportContactResumts" value="1" checked="">
+		                    	&nbsp;&nbsp;无联系方式的简历不予导入。</label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">客户所有者提成点：</td>
+							<td><input type="text" name="geseProjectUserPoint" id="geseProjectUserPoint" class="sf" maxlength="2" value="10">%</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">顾问提成点：</td>
+							<td><input type="text" name="geseConsultPoint" id="geseConsultPoint" class="sf" maxlength="2" value="10">%</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">助理顾问提成点：</td>
+							<td><input type="text" name="geseAssistPoint" id="geseAssistPoint" class="sf" maxlength="2" value="7">%</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">简历所有者提成点：</td>
+							<td><input type="text" name="geseResumeOwnerUserPoint" id="geseResumeOwnerUserPoint" class="sf" maxlength="2" value="0">%</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">顾问结算设置：</td>
+							<td>
+								<select name="geseSettleSetting" id="geseSettleSetting">
+									<option value="0" selected="">到款即结算</option>
+									<option value="1">保证期后结算</option>
+								</select>
+							</td>
+						</tr>
+						<!-- 
+		                <tr>
+		                    <td align="right" bgcolor="#ffffff">客户自动保护天数：</td>
+		                    <td><input type="text" name="geseCustomerProtectDay" id="geseCustomerProtectDay" class="sf" maxlength="5" value="90"/>&nbsp;&nbsp;<span style="color:#ccc;">(为0表示不限制)</span></td>
+		                </tr>
+		                <tr>
+		                	<td align="right" bgcolor="#ffffff">默认开发客户上限：</td>
+		                    <td><input type="text" name="geseDefaultCustomerLimit" id="geseDefaultCustomerLimit" class="sf" maxlength="5" value="500"/>&nbsp;&nbsp;<span style="color:#ccc;">(为0表示不限制)</span></td>
+		                </tr>
+		                <tr>
+		                	<td align="right" bgcolor="#ffffff">默认合作客户上限：</td>
+		                    <td><input type="text" name="geseDefaultCooperationCustomerLimit" id="geseDefaultCooperationCustomerLimit" class="sf" maxlength="5" value="200"/>&nbsp;&nbsp;<span style="color:#ccc;">(为0表示不限制)</span></td>
+		                </tr> -->
+						<tr>
+							<td align="right" bgcolor="#ffffff">每天非审核可查询简历数：</td>
+							<td><input type="text" name="geseDefaultDayViewResume" id="geseDefaultDayViewResume" class="sf" maxlength="5" value="2">&nbsp;&nbsp;<span style="color:#ccc;">(如果为0，而且已设置查看简历需要审核，则查看所有简历都需要审核，否则每个顾问每天查看设置数目的简历不需要审核，但是可以查询简历查看记录。)</span></td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">使用客户端登录：</td>
+							<td bgcolor="#ffffff"><label for="geseLoginNeedClient" style="width:100%; text-align: left;"><input type="checkbox" name="geseLoginNeedClient" id="geseLoginNeedClient" value="1">
+		                    	&nbsp;&nbsp;<span style="color:#ccc;">(必须使用远扬客户端才能登录系统，避免其他人员用任意浏览器访问系统，保证系统安全性。)</span></label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">指定MAC信息登录：</td>
+							<td bgcolor="#ffffff"><label for="geseLoginNeedMac" style="width:100%; text-align: left;"><input type="checkbox" name="geseLoginNeedMac" id="geseLoginNeedMac" value="1">
+		                    	&nbsp;&nbsp;<span style="color:#ccc;">(必须使用远扬客户端，而且是在<a href="javascript:;" onclick="openMac();">MAC信息设置</a>里录入的MAC电脑才能登录)</span></label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">查看简历需要审核：</td>
+							<td bgcolor="#ffffff"><label for="viewResumeIsAudit" style="width:100%; text-align: left;"><input type="checkbox" name="viewResumeIsAudit" id="viewResumeIsAudit" value="1" checked="">
+		                    	&nbsp;&nbsp;<span style="color:#ccc;">(查看非自己的简历需要向简历所有者进行申请审核。)</span></label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">显示排行榜：</td>
+							<td bgcolor="#ffffff"><label for="viewTopList" style="width:100%; text-align: left;"><input type="checkbox" name="viewTopList" id="viewTopList" value="1" checked="">
+		                    	&nbsp;&nbsp;<span style="color:#ccc;">(于系统顶部显示排行榜)</span></label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">自动提交错误信息：</td>
+							<td bgcolor="#ffffff"><label for="geseAutoSubmitErrorServer" style="width:100%; text-align: left;"><input type="checkbox" name="geseAutoSubmitErrorServer" id="geseAutoSubmitErrorServer" value="1" checked="">
+		                    	&nbsp;&nbsp;<span style="color:#ccc;">(自动提交至我们服务器的错误信息仅限于系统运行时的出错信息，以便于我们更好的解决系统存在的BUG。)</span></label>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" bgcolor="#ffffff">&nbsp;</td>
+							<td height="50" valign="bottom">
+								<input type="hidden" name="menuid"  value="{$menuid}"/>
+								<input type="submit" class="button button_blue" value="保存设置">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>
+<include file="Public:footer" />
+<script>
+$(function(){
+    $('.J_change_status').live('click', function(){
+        if($(this).val() == '0'){
+            $('#J_closed_reason').fadeIn();
+        }else{
+            $('#J_closed_reason').fadeOut();
+        }
+    });
+});
+</script>
+</body>
+</html>

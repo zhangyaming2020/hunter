@@ -1,0 +1,240 @@
+<include file="Public:header" />
+
+<!--添加商品-->
+
+<!--<div class="subnav">
+
+    <h1 class="title_2 line_x">添加商品</h1>
+
+</div>-->
+
+<form id="info_form" action="{:u('play/add')}" method="post" enctype="multipart/form-data">
+
+<div class="pad_lr_10">
+
+	<div class="col_tab">
+
+		<ul class="J_tabs tab_but cu_li">
+
+			<li class="current">基本信息</li>
+			<li>清单</li>
+            <li>购买须知</li>
+
+			<!--<li>SEO设置</li>-->
+
+        <!--    <li>附加属性</li>-->
+
+		</ul>
+
+		<div class="J_panes">
+
+        <div class="content_list pad_10">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+			<tr>
+
+				<th width="120">*分类：</th>
+
+                <td><select class="J_cate_select mr10" data-pid="154" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected=""></select><input type="hidden" name="cate_id" id="J_cate_id" value="" /></td>
+
+			</tr>
+            <tr class="store" style="display:none;">
+
+				
+			</tr>
+             <tr>
+				<th>标签 :</th>
+				<td>
+                	<input type="radio" name="label"  size="2" value="0">&nbsp;&nbsp;代金券&nbsp;&nbsp;
+                    <input type="radio" name="label"  size="2" value="1">&nbsp;&nbsp;团购券
+                </td>
+			</tr>
+
+            <tr>
+                <th>标签一 :</th>
+                <td>
+                <input type="checkbox" name="label1[]" <if condition="in_array('全场通用',explode('|',$info['label1']))">checked</if> value="全场通用" />&nbsp;&nbsp;全场通用&nbsp;&nbsp;
+                <input type="checkbox" name="label1[]" <if condition="in_array('免预约',explode('|',$info['label1']))">checked</if>  value="免预约" />&nbsp;&nbsp;免预约&nbsp;&nbsp;
+                <input type="checkbox" name="label1[]" <if condition="in_array('可叠加',explode('|',$info['label1']))">checked</if> value="可叠加" />&nbsp;&nbsp;可叠加&nbsp;&nbsp;
+                </td>
+            </tr>
+             <tr>
+                <th>标签二 :</th>
+                <td>
+                <input type="checkbox" name="label2[]" <if condition="in_array('过期自动退',explode(',',$info['label2']))">checked</if> value="过期自动退" />&nbsp;&nbsp;全场通用&nbsp;&nbsp;
+                <input type="checkbox" name="label2[]" <if condition="in_array('随时退',explode(',',$info['label2']))">checked</if>  value="随时退" />&nbsp;&nbsp;随时退&nbsp;&nbsp;
+               </td>
+            </tr>
+            <tr>
+				<th>*名称：</th>
+			  <td><input type="text" name="title" id="J_title" class="input-text" size="30"></td>
+			</tr>
+            <tr>
+
+				<th>*主图：</th>
+
+				<td><input type="file" name="img" /></td>
+
+ 			</tr>
+
+            <tr>
+				<th>价格：</th>
+				<td>
+                <input type="text" name="price" size="10" class="input-text" value="{$info.price}">
+                &nbsp;&nbsp;门店价：<input type="text" name="market_price" size="10" class="input-text" value="{$info.market_price}">
+                &nbsp;&nbsp;可叠加数量：<input type="text" name="unit" size="10" class="input-text" value="{$info.unit}">
+                </td>
+			</tr>
+			 <tr>
+		          <th>图文详情 :</th>
+				 <td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+                </tr>
+
+		</table>
+
+		</div>
+
+        
+        <div class="content_list pad_10 hidden">
+       		 <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="item_attr">
+			
+            <tbody class="add_item_attr">
+          	<tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="add_ext(this);"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>  
+                名称 : <input type="text" name="attr[name][]" value="{$attr_sx[0]['attr_name']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+               	份数 : <input type="text" name="attr[num][]" value="{$attr_sx[0]['attr_num']}" class="input-text" size="10">   &nbsp;&nbsp;&nbsp;
+                价格 : <input type="text" name="attr[price][]" value="{$attr_sx[0]['attr_price']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;     
+               	 <input type="hidden" name="attr[attr_id][]" value="{$attr_sx[0]['id']}" />
+                </td>
+            </tr>
+            </tbody>
+		</table>
+		</div>
+		<div class="content_list pad_10 hidden">
+
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+
+                <tr>
+				 <td><textarea name="notice" class="notice" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.notice}</textarea></td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+        </div>
+
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+
+	</div>
+
+</div>
+
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+
+</form>
+<table id="hidden_attr" style="display:none;">
+    <tbody class="add_item_attr">
+   
+    <tr>
+        <td align="left">
+        <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>  
+        名称 : <input type="text" name="attr[name][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+        份数 : <input type="text" name="attr[num][]" class="input-text" size="10">   &nbsp;&nbsp;&nbsp;
+        价格 : <input type="text" name="attr[price][]"class="input-text" size="10">&nbsp;&nbsp;&nbsp;     
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+
+<include file="Public:footer" />
+
+<script type="text/javascript">
+
+$('.J_cate_select').cate_select('请选择');
+$('.J_cate_select').change(function(){
+	var id =$(this).val();
+	var store={$store};
+	var now_store =store[id];
+	var str='<th width="120">*门店：</th><td><select name="store_id"><option value="">请选择</option>';
+	if(store!='undefined'){
+		for(var i=0;i<now_store.length;i++){
+			str +='<option value="'+now_store[i]['id']+'">'+now_store[i]['title']+'</option>';
+		}
+	}
+    str +='</td>';$('.store').html(str);$('.store').show();
+})
+$(function() { 		
+
+	
+	KindEditor.create('.menu', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	KindEditor.create('.info', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	
+	KindEditor.create('.notice', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	
+
+	
+
+	$('ul.J_tabs').tabs('div.J_panes > div');
+
+	
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'});
+
+});
+
+ function add_file()
+    {
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+    }
+    function del_file_box(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+     function add_ext()
+    {
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+    }
+    function del_attr(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+</script>
+
+</body>
+
+</html>

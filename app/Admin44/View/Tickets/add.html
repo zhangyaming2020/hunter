@@ -1,0 +1,345 @@
+<include file="Public:header" />
+
+<form id="info_form" action="{:u('tickets/add')}" method="post" enctype="multipart/form-data">
+
+<div class="pad_lr_10">
+
+	<div class="col_tab">
+
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+            <!--<li>展示图片</li>
+            <li>附加属性</li>-->
+
+		</ul>
+
+		<div class="J_panes">
+
+        <div class="content_list pad_10">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th width="120">所属分类：</th>
+                <td><select name="cate_id" id="cate_id" class="nation-sel dist">
+                    <option>请选择</option>
+                    <volist name="cate" id="zed">
+                        <option value="{$zed.id}">{$zed.title}</option>
+                    </volist>
+                </select></td>
+
+			</tr>
+        
+            <tr>
+				<th>门票类型：</th>
+			  	<td><input type="text" name="title" id="J_title" class="input-text" size="30"></td>
+			</tr>
+            <tr>
+                <th>门票分类：</th>
+                <td><select name="cate">
+                    <option>请选择</option>
+                    <volist name="res" id="val">
+                    <option value="{$val.id}">{$val.name}</option>
+                    </volist>
+                </select></td>
+            </tr>
+			</tr>
+            <tr>
+				<th>市场价：</th>
+				<td><input type="text" name="price" size="10" class="input-text" value="{$info.price}">&nbsp;&nbsp;元</td>
+				
+			</tr>
+
+			<tr>
+				<th>平台价：</th>
+				<td><input type="text" name="market_price" size="10" class="input-text" value="{$info.market_price}">&nbsp;&nbsp;元</td>
+				
+
+			</tr>
+			<!--<tr>-->
+				<!--<th>儿童价：</th>-->
+				<!--<td><input type="text" name="kids_price" size="10" class="input-text" value="{$info.kids_price}">&nbsp;&nbsp;元</td>-->
+				<!---->
+
+			<!--</tr>-->
+            <tr>
+                <th>退票时间：</th>
+                <td><input type="text" name="product_id" size="10" class="input-text" value="{$info.product_id}">&nbsp;</td>
+
+
+            </tr>
+            <tr>
+				<th>赠送积分：</th>
+				<td><input type="text" name="integral" size="10" class="input-text" value="{$info.integral}"></td>
+			</tr>
+            <tr>
+	          	<th>订票须知 :</th>
+				<td><textarea name="seo_desc" class="seo_desc" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.seo_desc}</textarea></td>
+			</tr>
+            <tr>
+	          	<th>允许退款 :</th>
+				<td>
+                    <span>
+                        <input type="radio" class="radioCheck" id="S_DomainRefund_1" value="1" name="S_DomainRefund"><label for="S_DomainRefund_1">是</label>
+                    </span>
+                    <span>
+                        <input type="radio" class="radioCheck" id="S_DomainRefund_0" checked="true" value="0" name="S_DomainRefund"><label for="S_DomainRefund_0">否</label>
+                    </span>
+				</td>
+			</tr>
+		</table>
+		</div>
+        <div class="content_list pad_10 hidden">
+            <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+
+                <tr>
+                    <th class="td_left" style="text-align: left;">
+                        <a class="btn" id="logo_upload_btn" href="javascript:;" style=" width: 80px; margin:10px 0;">上传商品副图</a>
+                    </th>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        </div>
+
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+
+	</div>
+
+</div>
+
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+
+</form>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+
+<include file="Public:footer" />
+
+<script type="text/javascript">
+
+$('.J_cate_select').cate_select('请选择');
+
+$(function() { 		
+
+	
+
+	KindEditor.create('.info', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	
+	KindEditor.create('.seo_desc', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	
+
+	
+
+//	$('ul.J_tabs').tabs('div.J_panes > div');
+
+	//自动获取标签
+
+	$('#J_gettags').live('click', function() {
+
+		var title = $.trim($('#J_title').val());
+
+		if(title == ''){
+
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+
+			return false;
+
+		}
+
+		$.getJSON('{:U("item/ajax_gettags")}', {title:title}, function(result){
+
+			if(result.status == 1){
+
+				$('#J_tags').val(result.data);
+
+			}else{
+
+				$.pinphp.tip({content:result.msg});
+
+			}
+
+		});
+
+	});
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'});
+	
+});
+
+
+
+function add_file()
+
+{
+
+    $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+
+}
+
+function del_file_box(obj)
+
+{
+
+	$(obj).parent().parent().remove();
+
+}
+
+function add_attr()
+
+{
+
+    $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+
+}
+
+function del_attr(obj)
+
+{
+
+	$(obj).parent().parent().remove();
+
+}
+
+</script>
+
+<table id="next_upload_file" style="display:none;">
+
+<tbody class="uplode_file">
+
+   <tr>
+
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+
+      <td><input type="file" name="imgs[]"></td>
+
+   </tr>
+
+</tbody>
+
+</table>
+
+<table id="hidden_attr" style="display:none;">
+
+<tbody class="add_item_attr">
+
+<tr>
+
+    <th width="200">
+
+    <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>属性名 :<input type="text" name="attr[name][]" class="input-text" size="20">
+
+    </th>
+
+    <td>属性值 :<input type="text" name="attr[value][]" class="input-text" size="30"></td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</body>
+
+<script>
+ var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+</script>
+</html>

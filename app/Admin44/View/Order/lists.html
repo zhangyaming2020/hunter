@@ -1,0 +1,64 @@
+
+<!--商品列表-->
+
+<div class="pad_lr_10" >
+
+<h2>订单详情</h2>
+
+
+  <div class="table_list" data-acturi="{:U('item/ajax_edit')}">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+		<tr>
+
+        <th>ID</th>
+        <th>商品名称</th>
+        <th>单价(元)</th>
+        <th>数量</th>
+        <th>价格(元)</th>
+      </tr>
+
+
+            <volist name="info['sub']" id="val" >
+            <tr>
+
+                <td>{$val.item_id}</td>
+
+                <td>{$val['item_name']}    </td>
+
+                <td>{$val.price}</td>
+                <td>{$val.number}</td>
+
+                <td>{$val['price'] * $val['number']}</td>
+            </tr>
+            </volist>
+           
+    </table>
+
+   	<h2>收货信息</h2>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">订单编号：</td>
+            <td style="text-align:left;">{$info.order_sn}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">姓名：</td>
+            <td  style="text-align:left;">{$info.name}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">电话：</td>
+            <td style="text-align:left;">{$info.tel}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">收货地址：</td>
+            <td style="text-align:left;">{:get_addr_name($info['place_id'])}{$info.ads}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">总金额：</td>
+            <td style="text-align:left;">&nbsp;  订单总额&nbsp;-&nbsp;优惠券金额&nbsp;=&nbsp;实付金额&emsp;：{$info['amount']} -{$info['coupons_amount']} ={$info['amount'] -$info['coupons_amount']}元</td>
+          </tr>
+          
+        </table>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,510 @@
+<include file="Public:header" />
+
+
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	.clearfix{clear:none !important;}
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+	<a href="javascript:;" class="reloadButton" onclick="parent.refresh_page();">刷新</a>
+
+	<!--<a href="javascript:;" class="addNewButton" id="exportResumes">导出简历</a>
+
+	<a href="javascript:;" class="addNewButton" id="addNewCopyButton">解析简历</a>-->
+	<a href="javascript:;"   style="color:#fff;"    class="J_showdialog  addNewButton" data-uri="{:U('Resume/add')}" data-title="新增简历" data-id="add" data-editor="1" data-width="783" data-height="500">新增简历</a>
+	<a href="javascript:;"  class="dialog_open  addNewButton" style="color:#fff;"   data-uri="{:U('Resume/doc_import_project')}" data-title="导入简历" data-id="doc_import" data-editor="1" data-width="783" data-height="550">导入简历</a>
+	<a href="javascript:;"  class="dialog_open  addNewButton" style="color:#fff;"   data-uri="{:U('Resume/import')}" data-title="导入EXCEL表格" data-id="edit" data-width="480" data-editor="1" data-height="365" id="importResumes">导入EXCEL表格</a>
+	<!--<a href="javascript:;" class="addNewButton" id="quickSearchResumeButton">临时查询窗口</a>-->
+	<ul class="submenu" id="resumeTabs">
+
+		<li class="current" dataid="1">
+			<a   class="dialog_open  addNewButton" style="cursor:pointer;"   data-uri="{:U('Resume/doc_import')}" data-title="导入简历" data-id="doc_import" data-editor="1" data-width="783" data-height="550">简历导入测试入口</a>
+		</li>
+
+		<li id="resumeFavorite" class="select">
+			<a href="javascript:;">简历收藏夹<span></span></a>
+		</li>
+	</ul>
+	<div id="resumeFavoriteDiv" style="display:none; width:auto; min-width:280px; position: absolute; background: #f7f7f7; BORDER: #ccc 1px solid; z-index: 300;">
+		<div style="padding:10px;">
+			<input type="hidden" id="favoriteResuId" value="0">
+			<input type="text" name="keyword" id="resumeFavoriteKeyword" value="" class="sf" style="width:120px;">&nbsp;<input type="button" id="searchFavorite" class="button button_white" value=" 查询 " style="height:30px;" onclick="searchFavorite()">&nbsp;<input type="button" id="createFavorite" class="button button_white" value="创建收藏夹" style="height:30px;">
+		</div>
+		<div id="resumeFavoriteResult"></div>
+	</div>
+
+	<div class="sTableOptions clearfixq">
+		<div class="clearfixq">
+			<form id="searchFrom">
+				<input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="resume" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="type" value="{$search['type']}" />
+				<input type="hidden" value="0" name="favoriteId" id="favoriteId">
+				<div id="apply_no_show">
+					<input type="hidden" name="sex" id="sexHidden" value="0">
+					<input type="hidden" name="sort" id="sortHidden" value="0">
+					<input type="hidden" name="owner_id" id="ownerHidden" value="0">
+					<input type="hidden" name="fuctions" id="fuctionHidden" value="">
+					<input type="hidden" name="trades" id="tradeHidden" value="">
+					<input type="hidden" name="locations" id="locationHidden" value="">
+					<input type="hidden" name="educations" id="educationHidden" value="">
+					<input type="hidden" name="fla" id="flaHidden" value="">
+					<div class="common_group w201 f_l mr_10 clearfixq pointer" id="tradetype">
+						<em class="icon_jobstype icon_hy f_l"></em>
+						<div class="centercon w155 clearfixq f_l">
+							<span class="selected_con c_8c8c8c w74 ellipsis" id="tradetype_txt">全部岗位</span>
+							<span class="countnumber countnumber_hide t_r f_r"></span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<div class="common_choose_layer_wrapper w424" style="display: none;">
+							<div class="common_choose_layer clearfix">
+								<div class="common_choose_layer_arrow"></div>
+								<div class="w420 clearfix">
+									<div class="selected_group_box clearfix" id="tradetype_dropdivselected_div" style="display: none;">
+										<div class="new_okbtn_box f_r">
+											<a class="new_commonbtn_02" id="tradetype_dropdivselected_ok" href="javascript:;">确定</a>
+										</div>
+										<div class="selected_group" id="tradetype_dropdivselected_group">
+											<p class="max_selected hide inline_block f_r">(最多可选5项)</p>
+										</div>
+									</div>
+									<div class="columns_chosebox relative clearfix">
+										<div class="tips_masklayer" id="tradetype_dropdivright_tip">
+											<div class="bg"></div><span>选择行业</span></div>
+										<div class="chose_left_wrap clearfix" id="tradetype_dropdivleft_wrap">
+											<div class="chose_posttype_left" style="position:relative;">
+												<div tabindex="0" class="scroll-pane clearfix jspScrollable" id="tradetype_dropdivleft_scroll" style="padding: 0px; width: 211px; height:360px; overflow-y: auto; overflow-x: hidden;" hidefocus="">
+													<p class="posttype_level_one_all posttype_level_one_allcities clearfix">
+														<span class="checkbox_txt checkbox_txt_checked bold">全部岗位</span>
+													</p>
+													<ul class="posttype_level_one type_level_one">
+													
+														<volist name="job" id="val">
+															<li id="tradetype_dropdivlli_{$val.id}" p="0" v="{$val.id}">
+																<a class="common_alist" href="javascript:;">{$val.name}</a>
+															</li>
+														</volist>
+													
+													</ul>
+												
+												</div>
+											</div>
+										</div>
+										<!-- 2 -->
+										<div class="chose_right_wrap chose_right_items clearfix" id="tradetype_dropdivright_wrap" style="clear:none !important;display: none; overflow-x: hidden; overflow-y: auto;">
+											<div id="tradetype_dropdivright_list">
+												<volist name="job" id="val">
+													<div class="hide clearfix" id="tradetype_dropdivrdiv_{$val.id}" v="{$val.id}" style="display: none;">
+														<div class="clearfix">
+												
+															<p class="chose_right_all clearfix" id="tradetype_classId_{$val.id}" v="{$val.id}" p="{$val.id}" title="{$val.name}">
+																<span class="checkbox_txt">{$val.name}</span>
+															</p>
+															<ul class="chose_right_list">
+																<volist name="job_sel[$val['id']]" id="v">
+																	<li class="clear" id="tradetype_classId_{$v.id}" title="{$v.name}" v="{$v.id}" p="{$v.pid}">
+																		<span class="checkbox_txt checkbox_txt_h28">{$v.name}</span>
+																	</li>
+																</volist>
+															</ul>
+														</div>
+													</div>
+												</volist>
+											</div>
+										</div>
+										<!-- 2 end -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="common_group w201 f_l mr_10 clearfixq pointer" id="locationtype">
+						<em class="icon_jobstype icon_dq f_l"></em>
+						<div class="centercon w155 clearfixq f_l">
+							<span class="selected_con c_8c8c8c ellipsis pointer w70" id="locationtype_txt">意向地区</span>
+							<span class="countnumber countnumber_hide t_r f_r"></span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<div class="common_choose_layer_wrapper w314" style="display: none;">
+							<div class="common_choose_layer clearfix">
+								<div class="common_choose_layer_arrow"></div>
+								<div class="w310 clearfix">
+									<div class="selected_group_box clearfix" id="locationtype_dropdivselected_div" style="display: none;">
+										<div class="new_okbtn_box f_r">
+											<a class="new_commonbtn_02" id="locationtype_dropdivselected_ok" href="javascript:;">确定</a>
+										</div>
+										<div class="selected_group" id="locationtype_dropdivselected_group">
+											<p class="max_selected hide inline_block f_r">(最多可选5项)</p>
+										</div>
+									</div>
+									<div class="clearfix">
+										<div class="tips_masklayer tips_masklayer_cities" id="locationtype_dropdivright_tip" style="left:160px; top:30px; width:120px;">
+											<div class="bg"></div><span>选择地区</span></div>
+										<div class="chose_citiestype_left_wrap f_l clearfix" id="locationtype_dropdivleft_wrap">
+											<div class="chose_posttype_left" style="position:relative; padding: 0px; height:360px;  overflow-x: hidden; overflow-y: auto;">
+												<div tabindex="0" class="clearfix" id="locationtype_dropdivleft_scroll" hidefocus="">
+													<p class="posttype_level_one_all posttype_level_one_allcities clearfix">
+														<span class="checkbox_txt checkbox_txt_checked bold">全部地区</span>
+													</p>
+													<ul class="posttype_level_one type_level_one">
+														<volist name="place['province']" id="val">
+														<li id="locationtype_dropdivlli_{$val.id}" p="0" v="{$val.id}">
+															<a class="common_alist" href="javascript:;">{$val.name}</a>
+														</li>
+														</volist>
+													</ul>
+												</div>
+											</div>
+										</div>
+										<!-- 2 -->
+										<div class="chose_posttype_right chose_citiestype_right posttype_level_two_box f_l chose_bgc_change" id="locationtype_dropdivright_wrap" style="clear:none !important;display: none; height:360px; overflow-x: hidden; overflow-y: auto;">
+											<div id="locationtype_dropdivright_list">
+												
+												<volist name="place['province']" id="val">
+												<div class="hide clearfix" class="{$val.id}" id="locationtype_dropdivrdiv_{$val.id}" v="{$val.id}" style="display: none;">
+													<div class="clearfix">
+														<p class="chose_right_all clearfix" id="locationtype_classId_{$val.id}" v="{$val.id}" p="{$val.id}" title="{$val.name}">
+															<span class="checkbox_txt">{$val.name}</span>
+														</p>
+														<ul class="chose_right_list">
+															<volist name="city[$val['id']]" id="v">
+															<li class="clear" id="locationtype_classId_{$v.id}" title="{$v.name}" v="{$v.id}" p="{$v.pid}">
+																<span class="checkbox_txt checkbox_txt_h28">{$v.name}</span>
+															</li>
+															</volist>
+												
+														</ul>
+													</div>
+												</div>
+												</volist>
+												
+												
+											</div>
+										</div>
+										<!-- 2 end -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="common_group w202 f_l mr_10 clearfixq pointer" id="education">
+						<em class="icon_jobstype icon_xl f_l"></em>
+						<div class="centercon w155 clearfixq f_l">
+							<span class="selected_con c_8c8c8c w141 ellipsis" id="education_txt">全部学历</span>
+							<span class="countnumber countnumber_hide t_r f_r"></span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<!-- common_choose_layer start -->
+						<div class="common_choose_layer_wrapper w206 hide" style="display: none;">
+							<div class="common_choose_layer clearfixq">
+								<div class="common_choose_layer_arrow common_choose_layer_arrow02"></div>
+								<div class="w202 clearfixq">
+									<div class="all_level_box"><span class="checkbox_txt checkbox_txt_checked bold">全部学历</span></div>
+									<div class="all_level_children">
+										<ul class="clearfixq" id="xl_children">
+										<volist name="educate" id="v" key="k">
+											<if condition="$v">
+												<li class="clear">
+													<span val="{$k-1}" class="checkbox_txt checkbox_txt_h28 <if condition="in_array($k-1,explode(',',$info['educations']))">checkbox_txt_checked_h28</if>">{$v}</span>
+												</li>
+											</if>
+										</volist>
+												
+										</ul>
+										
+										
+										
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- common_choose_layer end -->
+					</div>
+					<div class="common_group w86 f_l mr_10 clearfixq pointer" id="sexlayer">
+						<div class="centercon clearfixq f_l">
+							<span class="selected_con c_8c8c8c ellipsis" id="sex_txt">全部性别</span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<!-- common_choose_layer start -->
+						<div class="common_choose_layer_wrapper w92" style="display: none;">
+							<div class="common_choose_layer clearfixq">
+								<div class="common_choose_layer_arrow common_choose_layer_arrow02"></div>
+								<div class="w86 clearfixq">
+									<div class="all_level_box"><span class="checkbox_txt checkbox_txt_checked">全部性别</span></div>
+									<div class="all_level_children" id="sex_children">
+										<ul class="clearfixq">
+											<li class="clear"><span val="1" class="checkbox_txt checkbox_txt_h28">女</span></li>
+											<li class="clear"><span val="2" class="checkbox_txt checkbox_txt_h28">男</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- common_choose_layer end -->
+					</div>
+					<!--<div class="common_group w135 f_l mr_10 clearfixq pointer" id="sortlayer">
+						<div class="centercon clearfixq f_l">
+							<span class="selected_con ellipsis c_8c8c8c" id="sort_txt">默认排序</span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<!-- common_choose_layer start 
+						<div class="common_choose_layer_wrapper w140" style="display: none;">
+							<div class="common_choose_layer clearfixq">
+								<div class="common_choose_layer_arrow common_choose_layer_arrow02"></div>
+								<div class="w135 clearfixq">
+									<div class="all_level_box"><span class="checkbox_txt checkbox_txt_checked">全部排序</span></div>
+									<div class="all_level_children" id="sort_children">
+										<ul class="clearfixq">
+											<li class="clear"><span val="0" class="checkbox_txt checkbox_txt_h28">默认排序</span></li>
+											<li class="clear"><span val="1" class="checkbox_txt checkbox_txt_h28">按跟进时间排序</span></li>
+											<li class="clear"><span val="2" class="checkbox_txt checkbox_txt_h28">按创建时间排序</span></li>
+											<li class="clear"><span val="3" class="checkbox_txt checkbox_txt_h28">按更新时间排序</span></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					common_choose_layer end -->
+					<div class="common_group w135 f_l mr_10 clearfixq pointer" id="ownerlayer">
+						<div class="centercon clearfixq f_l">
+							<span class="selected_con ellipsis c_8c8c8c" id="owner_txt"><?php echo $search['uname']?$search['uname']:'简历所有者';?></span>
+						</div>
+						<em class="icon_deaultarrow f_r"></em>
+						<!-- common_choose_layer start -->
+						<div class="common_choose_layer_wrapper w140" style="display: none;">
+							<div class="common_choose_layer clearfixq">
+								<div class="common_choose_layer_arrow common_choose_layer_arrow02"></div>
+								<div class="w135 clearfixq">
+									<div class="all_level_box"><span class="checkbox_txt checkbox_txt_checked">全部</span></div>
+									<div class="all_level_children" id="owner_children">
+										<ul class="clearfixq">
+											
+											<li class="clear"><span val="0" class="checkbox_txt checkbox_txt_h28">所有员工</span></li>
+											<volist name="admin" id="val">
+											<li class="clear">
+												<span val="{$val.id}" class="checkbox_txt checkbox_txt_h28 <if condition="$search['owner_id'] eq $val['id']">checkbox_txt_checked_h28</if>">{$val.nickname}</span>
+											</li>
+											</volist>
+											
+	
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- common_choose_layer end -->
+					</div>
+					
+				</div>
+				<!-- apply_no_show finished -->
+				<div class="common_group w92 f_l mr_10 relative clearfixq" id="txtResumeNo_div">
+					<input class="common_keywordsinput c_8c8c8c f_l" id="txtResumeNo" name="no" style="width:72px;" type="text" value="简历编号">
+				</div>
+				<div class="common_group w70 f_l mr_10 relative clearfixq" id="txtAgemin_div">
+					<input class="common_keywordsinput c_8c8c8c f_l" id="agemin" name="agemin" style="width:50px;"  type="text" value="最小年龄">
+				</div>
+				<div class="common_group w70 f_l mr_10 relative clearfixq" id="txtAgemax_div">
+					<input class="common_keywordsinput c_8c8c8c f_l" id="agemax" name="agemax" style="width:50px;"  type="text" value="最大年龄">
+				</div>
+				<div class="common_group f_l mr_10 relative clearfixq" style="width:280px;" id="txtKeyWords_div">
+					<input class="common_keywordsinput c_8c8c8c" style="width:145px;" name="resuname" id="resumeSearchKeyword" type="text" value="{$search.resuname}" placeholder="可输入简历或沟通记录关键字">
+					<div style="padding:5px 8px 0 165px; float: left;">
+						<label><input type="radio" name="keyAccurate" value="1">精确</label>
+						<label><input type="radio" name="keyAccurate" value="0" checked="">模糊</label>
+					</div>
+					<em class="icon_deaultarrow f_r" style="cursor: pointer;" id="keywordFieldSelectBtn" title="选择查询字段与设定不同字段的关键字"></em>
+					<!-- common_choose_layer start -->
+					<div class="common_choose_layer_wrapper" style="width:250px; display:none;" id="keywordFieldSelectDiv">
+						<div class="common_choose_layer clearfixq">
+							<div class="common_choose_layer_arrow common_choose_layer_arrow02"></div>
+							<div class="clearfixq">
+								<div class="all_level_children">
+									<div class="all_level_box">
+										选择查询字段与关键字
+										<div class="new_okbtn_box f_r">
+											<a class="new_commonbtn_02" href="javascript:;" onclick="$('#keywordFieldSelectDiv').hide();">确定</a>
+										</div>
+									</div>
+									<ul class="clearfixq">
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="name" checked="checked"> 姓名</label></li>
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="contact" checked="checked"> 联系方式</label></li>
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="email" checked="checked"> 邮箱</label></li>
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="tags" checked="checked"> 自定义标签</label> <span style="float:right; margin-right:3px; color:green;">关键字：<input type="text" name="tagsKeyword" value="" style="width:80px; border: 1px solid #666; padding:0px; height:16px;"></span></li>
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="content" checked="checked"> 简历内容</label></li>
+										<li class="clear"><label><input type="checkbox" name="keywordFields" value="curCompany" checked="checked"> 当前公司</label> <span style="float:right; margin-right:3px; color:green;">关键字：<input type="text" name="curCompanyKeyword" value="" style="width:80px; border: 1px solid #666; padding:0px; height:16px;"></span></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- common_choose_layer end -->
+				</div>
+				<a href="javascript:;" style="float:left;margin-top:10px;" id="keyHelp" original-title="关键字可以搜索：<br></a><font style='color:#f00;'>姓名/联系方式/联系邮箱/自定义标签/当前公司/简历内容</font><br/>如果要同时满足多个词，请用空格分隔，如多个词只需满足一个，请用|分隔。如：建筑 总经理|施工员 相当于筛选:(建筑 总经理)或者(建筑 施工员)<br/><font style='color:#f00;'>如需完全匹配某字符串，不想让系统自动分词，请用引号包含该字符串，如：&quot;财务总监&quot;</font>"><img src="../../images/help.gif"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="<if condition="$search['resume_id']">button<else />submit</if>" id="searchFromBtn" class="searchButton" style="float:left; cursor: pointer; height:35px;" value=" 查询 ">
+			</form>
+		</div>
+		<div class="pp">
+		        
+		        <a class="button series_delete delete"   data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('resume/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" ><span>{:L('delete')}</span></a>
+        		 <a class="button recover" style="display:none;"><span>恢复</span></a>
+		        
+		</div>
+	</div>
+	<!-- 
+		<div title="自定义显示栏位" id="resuFieldBtn" style="position: absolute;left:-2px; cursor: pointer; padding:16px; background:url(/images/settings-32.png) 0 0 no-repeat;"></div>
+		 -->
+	<div id="listpage" style="min-height:500px;">
+
+		<input type="hidden" id="keywordencode" value="">
+		<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td align="center" width="50"><input type="checkbox" class="J_checkall checkall"></td>
+					<td width="50" style="min-width:24px;" align="center">编号</td>
+					<td>姓名</td>
+					<td width="25">性别</td>
+					<td>电话</td>
+					<td>邮箱</td>
+
+					<td width="25">学历</td>
+					<!--<td width="25">专业</td>-->
+					<td width="70">出生年份</td>
+
+					<td>应聘职位</td>
+					<td width="80">意向地区</td>
+					<td width="140">所在单位</td>
+					<td width="50">所有者</td>
+					<td width="100">创建时间</td>
+					<td width="60">操作</td>
+				</tr>
+			</thead>
+			<tbody>
+			<volist name="list" id="val">
+			<tr>
+				<?php $type=$val['type'];$name=basename($val['org_name']);$name=explode('.', $name);$name=$val['pdf_name']?($val['pdf_name']):($name[0].'.htm');$val['info']=$val['info']?$val['info']:($type=='pdf'?$val['info']:file_get_contents('./uploads/resume/'.$val['pdf_name'].'.html')); ?>
+					 <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+					<td align="center">{$val.id}</td>
+					<td style="min-width:200px;">
+						<a href="javascript:;"  class="dialog_open" style="color: #069;"  data-uri="{:U('resume/detail', array('id'=>$val['id']))}" data-title="{$val.resuname}" data-id="resume_detail" data-width="1200" data-height="500">{$val.resuname}<if condition="$val['type'] eq 0"><span style="color: green;font-size: 12px;">(未完善)</span></if></a><if condition="in_array($val['file_type'],array('doc','docx'))"><a href="/uploads/htm/{$name}" target="_blank" style="cursor:pointer;">【预览】</a></if>
+						<if condition="$val['progress'][0]['content']">
+							<p style="color:#777;">【最近沟通】{$val['progress'][0]['content']|mb_substr=0,15,'utf-8'}……（
+								<?php $admin=M('admin')->where(array('id'=>$val['progress'][0]['creator_id']))->field('id,nickname')->find();?>
+								[<?php echo $admin['nickname'];?>] {$val['progress'][0]['add_time']|date='Y-m-d',###} {$val['progress'][0]['add_time']|date='H:i',###})<a  href="javascript:;" style="cursor:pointer;color:#069;" class="J_showdialog"  data-uri="{:U('progress/index', array('resume_id'=>$val['id'],'type'=>2,'uid'=>$admin['id']))}" data-title="{$admin['nickname']}-{$val.resuname}" data-id="index" data-width="500" data-height="">【更多沟通】</a>
+							</p>
+						</if>
+					</td>
+					<td><if condition="$val['sex'] eq 1">男<elseif condition="$val['sex'] eq 0" />女<else />未知</if></td>
+					
+					
+					<td>
+						<if condition="$val['resucontactinfo'] eq '联系方式'">
+							无
+						<else />
+						{$val.resucontactinfo|default="暂无"}
+						</if>
+						
+					</td>
+					<td>
+						<if condition="$val['resuemail'] eq '联系邮箱'">
+							暂无
+						<else />
+						{$val.resuemail|default="暂无"}
+						</if>
+						
+					</td>
+					<td>
+						<?php  $edu=explode(',',$val['educations']);$edu_name='';?>
+						<?php if($edu){?>
+							<?php foreach($edu as $k=>$v){?>
+								<?php $edu_name.=$educate[$v].',';?>
+							<?php }?>
+							<?php $edu_name=mb_substr($edu_name,0,-1);?>
+						<?php }?>
+							{$edu_name}
+					</td>
+
+					<!--<td></td>-->
+					<td>
+						<if condition="$val['resubirthdaystr'] and $val['resubirthdaystr'] neq '出生年份'">
+							{$val['resubirthdaystr']}
+							<else />
+						<?php $pattern = '/(.*)(?)("'.$year.'")/';$info=strip_tags($val['info'],'</span>');preg_match($pattern,$info,$s);?>
+						{$s[2]}
+						</if>
+						
+					</td>
+					<td>
+						<if condition="$val['job_first']">
+							{$val.job_first}
+						<else />
+						<?php $pattern = "/[\x7f-\xff]+/";preg_match_all($pattern,$val['resuname'],$s);?>
+						<?php echo end($s[0]);?>
+						</if>
+					</td>
+					<td>
+					<if condition="$val['locations']">
+					<?php  $place_ids=explode(';',$val['locations']);$place_ids&&$locations_name=implode(',',M('place')->where(array('id'=>array('in',$place_ids)))->getField('name',true));?>
+    				{$locations_name|default='未知 '}
+					
+					<else />
+					<?php $pattern = '/(意向|期望|优先考虑|推荐)(.*)(?)("'.$p_str.'")/';preg_match_all($pattern, $val['info'], $matches); ?>		
+					{$matches[3][0]|default='未知'}
+					</if>
+					</td>
+					<td>
+						<if condition="$val['resucurcompany'] and $val['resucurcompany'] neq '当前公司'">
+							{$val['resucurcompany']}
+							<else />
+							<?php $pattern = '/("'.$p_str.'")(.*)(?)(公司|集团)/';$str=(in_array($val['file_type'],array('doc','docx'))&&$val['pdf_name'])?file_get_contents('./uploads/htm/'.$val['pdf_name']):$val['info'];$info=strip_tags($str);preg_match($pattern,$info,$s); ?>
+							{$s[0]|substr=0,50}
+							
+						</if>
+					</td>
+
+					<td>{$val.username}</td>
+					<td>{$val.add_time|date='Y/m/d',###}  {$val.add_time|date='H:i',###}</td>
+					<if condition="$val['owner_id'] eq $_SESSION['admin']['id'] or $_SESSION['admin']['id'] eq 1">
+					<td>
+
+						<a href="javascript:;"   style="color: #069;cursor:pointer;"    class="J_showdialog" data-uri="{:U('Resume/edit',array('id'=>$val['id']))}" data-title="编辑简历" data-id="edit" data-editor="1" data-width="783" data-height="500">编辑</a>
+	
+						<a href="javascript:void(0);" style="color: #069;cursor:pointer;" class="J_confirmurl" data-uri="{:u('resume/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a></td>
+
+					</td>
+					</if>
+				</tr>
+				</volist>
+			</tbody>
+		</table>
+
+		<br clear="all">
+		<div class="pagination">
+		{$page}
+		</div><!--left-->
+	</div>
+</div>
+<include file="Public:footer" />
+<script type="text/javascript" src="/theme/admin/hunter/js/customs/resume.js"></script>
+<script>
+
+initResumeInputEducationAndSex();
+initResumeSelectDivs();
+initResumeSearchEducationAndSex();
+</script>
+

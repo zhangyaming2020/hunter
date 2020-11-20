@@ -1,0 +1,59 @@
+<link href="/theme/admin/css/setting.css" rel="stylesheet"/>
+<div class="subnav">
+
+    <div class="content_menu ib_a">
+
+    	
+        
+    </div>
+
+</div>
+<div class="pad_10">
+	<div class="off_on_box">
+		<h3 class="title fb">签到送积分</h3>
+		<p class="font">开启后，商城的每位新老用户若当天签到(当天仅限一次),皆可获得相应的商城积分，会员下单时可使用账户的积分来抵扣订单金额。</p>
+		<div class="off_on_btn">
+			<span class="tip">已关闭</span>
+			<i class="dot"></i>
+		</div>
+	</div>
+	<div class="off_on_con hidden">
+    <form id="info_form" action="{:u('setting/edit')}" method="post">
+		<table>
+			<tbody>
+				<tr>
+					<td align="right">签到送积分：</td>
+					<td>
+						<input type="text"  name="setting[sign_integral]" value="{:C('pin_sign_integral')}"  placeholder="请设置赠送的积分数量"> 分
+					</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						<input type="submit" class="btn w150" value="保存">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+      </form>
+	</div>
+</div>
+<!--网站设置-->
+<include file="Public:footer" />
+<script> 
+	$(".off_on_btn").click(function(event) {
+	$(this).toggleClass('on');
+	if($(this).hasClass('on')==true){
+		$('.dot').animate({'left':'71px'},'slow');
+		$('.tip').html('已开启');
+		$('.off_on_con').show(1000);
+		$.pinphp.tip({content:'购物送积分正在开启'});
+	}
+	else{
+		$('.dot').animate({'left':'2px'},'slow');
+		$('.tip').html('已关闭');
+		$('.off_on_con').hide(1000);
+		$.pinphp.tip({content:'购物送积分正在关闭'});
+	}
+})
+</script>

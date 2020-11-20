@@ -1,0 +1,95 @@
+<include file="Public:header" />
+<!--文章列表-->
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="Inventory" />
+                <input type="hidden" name="a" value="sale_tu" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;日期 :
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$date}">
+                &nbsp;&nbsp;
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+   
+    <div class="J_tablelist table_list" data-acturi="{:U('Inventory/ajax_edit')}">
+       <div id="container" style="width:100%;height:100%"></div>
+    </div>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/highcharts.js"></script>
+<script>
+     $(function () {
+		$('#container').highcharts({
+			chart: {
+	            renderTo: 'container',
+	            type: 'column',
+	            margin: 75,
+	            options3d: {
+	                enabled: true,
+	                alpha: 15,
+	                beta: 15,
+	                depth: 50,
+	                viewDistance: 25
+	            }
+	        },
+			title: {
+				text: '销售统计图',
+				x: -20 //center
+			},
+			subtitle: {
+				text: '（{$date}）',
+				x: -20
+			},
+			xAxis: {
+				categories: ['订单总金额（已支付）', '订单总数（已支付）', '平均客单价（已支付）']
+			},
+			yAxis: {
+				title: {
+//					text: '金额(元) 数量(笔)'
+				},
+				min:0
+//				tickPositions: [0,50000,100000,150000,200000,250000,300000,350000,400000] // 指定竖轴坐标点的值
+			},
+			tooltip: {
+				crosshairs: true,
+	            shared: true
+			},
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'middle',
+				borderWidth: 0
+			},
+			series: [{
+				name: '总计',
+				data: [{$price},{$count},{$ping}]
+			}]
+		});
+	});
+</script>
+</body>
+</html>

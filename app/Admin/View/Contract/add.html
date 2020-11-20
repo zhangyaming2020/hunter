@@ -1,0 +1,186 @@
+<!--添加管理员-->
+<div class="dialog_content">
+	<div id="tabs">
+		<form id="info_form" name="info_form" action="{:U('contract/add')}" method="post">
+			<input type="hidden" name="custom_id" id="cotaId" value="{$custom_id}">
+			<input type="hidden" name="electronicDocumentFile" value="0">
+			<input type="hidden" name="scanDocumentFile" value="">
+			<input type="hidden" name="pushUserName" value="">
+			<div id="tabs-1">
+				<div class="form_default" style="padding:0; height:500px; BORDER: #ccc 1px solid;">
+					<p>
+						<label for="cutaTelephone">合同名称</label>
+						<input type="text" name="cotaName" id="cotaName" value="" class="sf" maxlength="80" style="width:280px;">
+					</p>
+	
+					<p>
+						<label for="cutaTelephone">合同(电子档)</label>
+						<div class="ke-inline-block ">
+							<span class="ke-button-common">
+									<input type="button" class="ke-button-common ke-button uploadElectronicDocument" value="上传电子档">
+							</span>
+						</div>
+						<span  class="electronicDocumentFile"></span>
+					</p>
+					<p>
+						<label for="cutaTelephone">合同(扫描件)</label>
+						<div class="ke-inline-block ">
+							<span class="ke-button-common">
+									<input type="button" class="ke-button-common ke-button uploadScanDocumentFile" value="上传扫描件"></span>
+									<span class="scanDocumentFile"></span>
+							</div>
+						<input type="button" id="uploadScanDocument" value="上传扫描件" style="display: none;">
+						<span id="scanDocumentList" style="margin-left:10px;"></span>
+					</p>
+	
+					<p>
+						<label for="cutaTelephone">合同存放位置</label>
+						<input type="text" name="cotaPaperSaveLocation" id="cotaPaperSaveLocation" value="" maxlength="100" class="sf" style="width:300px;">
+					</p>
+					<p>
+						<label for="cutaName">存放人</label>
+						<input type="button" id="pushUserName" class="button button_white" value="选择存放人..."> &nbsp;&nbsp;存放时间：
+						<input type="text" name="paperSaveDate" id="cotaPaperSaveDate" class="date sf" style="width:120px;" onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="">
+						
+					</p>
+					<p>
+						<label for="cutaTelephone">提成点数</label>
+						<input type="text" name="cotaCommissionPoint" id="cotaCommissionPoint" value="0" class="sf" maxlength="3" style="width:80px;">%
+					</p>
+					<p>
+						<label for="cutaTelephone">完成付款比例</label>
+						<input type="text" name="cotaOnePoint" id="cotaOnePoint" value="0" class="sf" style="width:80px;" maxlength="3">% &nbsp;&nbsp;尾款比例
+						<input type="text" name="cotaTwoPoint" id="cotaTwoPoint" value="0" class="sf" style="width:80px;" maxlength="3">%
+					</p>
+					<p>
+						<label for="cutaTelephone">合同有效期</label>
+						<input type="text" name="validity" id="cotaValidity" value="" class="sf" style="width:150px;" maxlength="10"  onClick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="">
+					
+					
+					</p>
+					<p>
+						<label for="cutaTelephone">合同备注</label>
+						<input type="text" name="cotaRemarker" id="cotaRemarker" value="" class="sf" style="width:380px;">
+					</p>
+				</div>
+	
+			</div>
+		</form>
+		<div id="menuContent" class="menuContent" style="position: absolute; height: 200px; border: 1px solid rgb(204, 204, 204); left: 130px; top: 285px; display: none; overflow-y: scroll; background: rgb(247, 247, 247);">
+			<ul id="users" class="ztree" style="margin-top:0; width:180px;">
+				<volist name="admin" id="val">
+				<li>
+					<a  style="cursor:pointer;" class="level1"  data-id="{$val.id}" data-title="{$val.username}">
+						<button type="button" hidefocus="true" id="users_2_ico" title="" treenode_ico="" class="ico_docu" style="width:0px;height:0px;"></button>
+						<span id="users_2_span">{$val.username}</span>
+					</a>
+				</li>
+				</volist>
+			</ul>
+		</div>
+	</div>
+	
+	
+</div>
+
+<scri
+	</form>
+</div>
+<form style="display:none">
+        <input type="file" id="img" name="scan">
+</form>
+
+<form style="display:none">
+        <input type="file" id="img" name="electronic">
+</form>
+<script>
+$('#cotaValidity').click(function(){
+	$('#laydate_box').css("top","416.5px");
+})
+var v=parseInt(100-$('#cotaCommissionPoint').val());
+$.formValidator.initConfig({formid:"info_form",autotip:true});
+$('#cotaName').formValidator({onshow:lang.please_input+"合同名称",onfocus:lang.please_input+"合同名称"}).inputValidator({min:1,onerror:lang.please_input+"合同名称"});
+$('#cotaPaperSaveLocation').formValidator({onshow:lang.please_input+"合同存放位置",onfocus:lang.please_input+"合同存放位置"}).inputValidator({min:1,onerror:lang.please_input+"合同存放位置"});
+$('#cotaPaperSaveDate').formValidator({onshow:lang.please_input+"存放时间",onfocus:lang.please_input+"存放时间"}).inputValidator({min:1,onerror:lang.please_input+"存放时间"});
+$('#cotaCommissionPoint').formValidator({onshow:lang.please_input+"提成点数",onfocus:lang.please_input+"提成点数"}).inputValidator({min:1,onerror:lang.please_input+"提成点数"});
+$('#cotaTwoPoint').formValidator({onshow:lang.please_input+"尾款比例",onfocus:lang.please_input+"尾款比例"}).inputValidator({min:1,onerror:"和完成付款比例之和须为100"});
+
+$(function(){
+	validate_form();
+});
+function validate_form(){
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		$.pinphp.tip({content:result.msg, icon:'alert'});
+		$.dialog.get('add').close();
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+		} 
+	}
+}
+$('#pushUserName').on("click", function(e) {　　　　　　　　
+     e = e || event;
+     stopFunc(e);　　　　　　
+ });　
+ document.onclick = function(e) {　　　　　　　　
+     $("#menuContent").hide();
+};
+$('#pushUserName').click(function(){
+ 	$("#menuContent").show();
+ })
+function stopFunc(e) {　　　　　　
+     e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;　　　　
+}
+ //电子档上传
+$('.uploadElectronicDocument').click(function(){
+	$('input[name=electronic]').click();
+})
+$("input[name=electronic]").change(function(){
+	var fd = new FormData();
+	fd.append("img", $("input[name=electronic]").get(0).files[0]);
+		$.ajax({
+			url: "{:U('contract/attachment')}",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(result) { 
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				if(result['status']==1){
+					$('.electronicDocumentFile').html(result['data']);
+					$("input[name=electronicDocumentFile]").val(result['data']);
+					
+				}
+			}
+		});
+	})
+ //扫描件上传
+$('.uploadScanDocumentFile').click(function(){
+	$('input[name=scan]').click();
+})
+$("input[name=scan]").change(function(){
+	var fd = new FormData();
+	fd.append("img", $("input[name=scan]").get(0).files[0]);
+		$.ajax({
+			url: "{:U('contract/attachment')}",
+			type: "POST",
+			processData: false,
+			contentType: false,
+			data: fd,
+			success: function(result) { 
+				$.pinphp.tip({content:result.msg, icon:'alert'});
+				if(result['status']==1){
+					$('.scanDocumentFile').html(result['data']);
+					$("input[name=scanDocumentFile]").val(result['data']);
+					
+				}
+			}
+		});
+	})
+//选择存放入
+$(".level1").click(function(){
+	$("#pushUserName").val($(this).attr('data-title'));
+	$("input[name=pushUserName]").val($(this).attr('data-id'));
+})
+</script>

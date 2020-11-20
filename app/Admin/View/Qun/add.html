@@ -1,0 +1,125 @@
+<!--添加管理员-->
+<div class="dialog_content"  data-id="add">
+    <div id="tabs" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all">
+    
+    <form id="info_form" name="info_form" action="{:U('qun/add')}" method="post">
+    <input type="hidden" name="cutaId" value="0">
+    <input type="hidden" name="isSearch" id="isSearch" value="0">
+    <div id="tabs-1" class="ui-tabs-panel ui-widget-content ui-corner-bottom">
+        <div class="form_default" style="padding:0; height:230px; OVERFLOW-Y: auto;">
+                <p>
+                    <label for="cucoName">群名称</label>
+                    <input type="text" name="name" id="name" class="sf" style="width:168px;">
+                    <select name="cate_id" id="cate_id">
+                      <option value="0">群类型</option>
+                      <volist name="tag" id="val">
+                      <option value="{$val.id}">{$val.name}</option>	
+                      </volist>
+                    </select>
+                </p>
+                <p>
+                <label for="cutaProvince">所在地区</label>
+				<select class="J_cate_place_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$spid}"></select>
+				<input type="hidden" name="pid" id="J_pid" />
+				</p>
+				
+	        	<p>
+	                <label for="type" class="nopadding">审核</label>
+	                <input type="radio" name="status" value="0" checked=""> 待审核  &nbsp;&nbsp;&nbsp;&nbsp; 
+	                	<input type="radio" name="status" value="1" checked> 通过
+	        	</p>
+                <p id="ad_image" class="bill_media">
+			      <label for="cutaProvince">群logo</label>
+		          <input type="text" name="img" id="J_img" class="input-text fl mr10" size="30">
+          		   <div id="J_upload_img" class="upload_btn"><span>{:L('upload')}</span></div>
+		    	</p>
+        	</div>
+        </div>
+    </form>
+    </div>
+</div>
+
+<scri
+	</form>
+</div>
+<script src="__PUBLIC_ADMIN__js/fileuploader.js"></script>
+<script>
+var check_name_url = "{:U('custom/ajax_check_name')}";
+$.formValidator.initConfig({formid:"info_form",autotip:true});
+$('#name').formValidator({onshow:lang.please_input+"群名称",onfocus:lang.please_input+"群名称"}).inputValidator({min:1,onerror:lang.please_input+"群名称"});
+$('#cutaTelephone').formValidator({onshow:lang.please_input+"总机电话",onfocus:lang.please_input+"总机电话"}).inputValidator({min:1,onerror:lang.please_input+"总机电话"});
+$('#cucoName').formValidator({onshow:lang.please_input+"联系人",onfocus:lang.please_input+"联系人"}).inputValidator({min:1,onerror:lang.please_input+"联系人"});
+$('#cucoFunction').formValidator({onshow:lang.please_input+"称谓",onfocus:lang.please_input+"称谓"}).inputValidator({min:1,onerror:lang.please_input+"称谓"});
+
+$("#cutaName").formValidator({onshow:lang.please_input+'公司名称',onfocus:lang.please_input+'公司名称'}).inputValidator({min:1,onerror:lang.please_input+'公司名称'}).ajaxValidator({
+	    type : "get",
+		url : check_name_url,
+		datatype : "json",
+		async:'false',
+		success : function(result){	
+              if(result.status == 0){
+                  return false;
+			}else{
+                  return true;
+			}
+		},
+		onerror : '企业名称已存在',
+		onwait : lang.connecting_please_wait
+	});
+$(function(){
+	validate_form();
+});
+function validate_form(store_id){
+	
+	$('#info_form').ajaxForm({success:complate,dataType:'json'});
+	function complate(result){
+		if(result.status == 1){
+			$.dialog.get(result.dialog).close();
+			$.pinphp.tip({content:result.msg});
+			window.location.reload();
+		} else {
+			$.pinphp.tip({content:result.msg, icon:'alert'});
+		}
+	}
+	 //上传图片
+    var img_uploader = new qq.FileUploaderBasic({
+        allowedExtensions: ['jpg','gif','jpeg','png','bmp','pdg'],
+        button: document.getElementById('J_upload_img'),
+        multiple: false,
+        action: "{:U('qun/ajax_upload_img')}",
+        inputName: 'img',
+        forceMultipart: true, //用$_FILES
+        messages: {
+            typeError: lang.upload_type_error,
+            sizeError: lang.upload_size_error,
+            minSizeError: lang.upload_minsize_error,
+            emptyError: lang.upload_empty_error,
+            noFilesError: lang.upload_nofile_error,
+            onLeave: lang.upload_onLeave
+        },
+        showMessage: function(message){
+            $.pinphp.tip({content:message, icon:'error'});
+        },
+        onSubmit: function(id, fileName){
+            $('#J_upload_img').addClass('btn_disabled').find('span').text(lang.uploading);
+        },
+        onComplete: function(id, fileName, result){
+            $('#J_upload_img').removeClass('btn_disabled').find('span').text(lang.upload);
+            if(result.status == '1'){
+                $('#J_img').val(result.data);
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'error'});
+            }
+        }
+    });
+	
+}
+//tab切换
+$('.ui-state-default').click(function(){
+	var index=$(this).index();
+	$(this).addClass('ui-state-active').siblings().removeClass('ui-state-active');
+	$('.ui-tabs-panel').siblings().hide();
+	$('.ui-tabs-panel').eq(index).show();
+})
+$('.J_cate_place_select').cate_select({top_option:lang.all,field:'J_pid',target_class:'J_cate_place_select'}); //分类联动
+</script>

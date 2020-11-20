@@ -1,0 +1,65 @@
+<include file="Public:header" />
+<!--商品列表-->
+<div class="pad_lr_10" >
+    <form name="searchform" method="post" action="{:u('order/index')}">
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+           
+        </tbody>
+    </table>
+    </form>
+     <script>Window.onload=window.print(); </script>
+    <div class="J_tablelist table_list" data-acturi="{:U('order/ajax_edit')}">   
+    <volist name="res" id="vo">
+     <?php  if(!empty($vo['all'])){ ; ?>
+     <div style="height:8px; overflow:hidden;"></div>
+    <h3>大类：{$vo['name']}</h3>
+     <div style="height:8px; overflow:hidden;"></div>
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=50>小类</th>
+                <th width=50>商品名称</th>
+                <th width="80">规格</th>
+                <th width="60">订单数量</th>
+                <th width="80">目前库存</th>
+                <th width="60">需采购</th> 
+                <th width="80">实际采购</th>
+                <th width="80">单价</th>
+                <th width="80">总金额</th>
+                <th width="80">备注</th>  
+            </tr>
+        </thead>
+    	<tbody>        
+            <volist name="vo['all']" id="val" >
+            <tr>
+                <td>{$shop_types[$shop_cid[$val['jid']]]}</td>
+                <td>{$gwc_title[$val['jid']]}</td>
+                <td><if condition="$val['did'] neq 0">{$gwc_value[$val['did']]}<else />{$shop_value[$val['jid']]}</if></td>
+                <td><volist name="val['total']" id="sub">{$sub.nums}</volist></td>
+                <td>&nbsp;</td>
+                <td><volist name="val['total']" id="sub">{$sub.nums}</volist></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            </volist>        
+    	</tbody>
+    </table>
+    
+     <?php };?>
+    </volist>
+    </div>
+    <!--<div class="songkebor">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('order/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>-->
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+
+
+</body>
+</html>

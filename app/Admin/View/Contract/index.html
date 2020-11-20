@@ -1,0 +1,114 @@
+<if condition="$search['custom_id']">
+	<else />
+	<include file="Public:header" />
+</if>
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+	<a href="javascript:;" class="reloadButton" onclick="pageReload();">刷新</a>
+	<if condition="$search['custom_id']">
+	<a   href="javascript:;"  style="color:#fff;"    class="J_showdialog  addNewButton"  data-uri="{:U('contract/add',array('custom_id'=>$search['custom_id']))}" data-title="新增合同" data-id="contract_add" data-width="610" data-height="500">新增合同</a>
+	
+	</if>
+	
+	<ul class="submenu" id="contractState">
+		<li class="current" dataid="-1">
+			<a href="javascript:;">全部</a>
+		</li>
+		<li dataid="0">
+			<a href="javascript:;">待审核</a>
+		</li>
+		<li dataid="1">
+			<a href="javascript:;">已审核</a>
+		</li>
+		<li dataid="-2">
+			<a href="javascript:;">已过期</a>
+		</li>
+		<li dataid="-3">
+			<a href="javascript:;">已作废</a>
+		</li>
+	</ul>
+
+	<div class="sTableOptions">
+		<div class="form_default">
+			<form id="customerContractSearchFrom">
+				<input type="hidden" name="state" id="contract_state" value="-1"> 关键字：
+				<input type="text" name="keyword" id="contractSearchKeyword" class="sf" style="width:180px;">
+				<input type="button" id="searchFromBtn" class="button button_red" value=" 查询 ">
+			</form>
+		</div>
+	</div>
+	<!--sTableOptions-->
+	<div id="customerContractPage">
+
+		<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td width="30" align="center">编号</td>
+					<td>合同名称</td>
+					<td width="150">所属客户</td>
+					<td width="50" align="center">提成点</td>
+					<td width="60" align="center">付款比例</td>
+					<td width="100" align="center">合同有效期</td>
+					<td width="50" align="center">状态</td>
+					<td width="60" align="center">审核人</td>
+					<td width="150" align="center">审核时间</td>
+					<td width="50" align="center">创建者</td>
+					<td width="150">创建时间</td>
+				</tr>
+			</thead>
+			<tbody>
+			<volist name="list" id="val">
+				<tr>
+					<td align="center">{$val.id}</td>
+					<td>
+						<a   href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('contract/detail', array('id'=>$val['id']))}" data-title="{$val.cotaname}" data-id="detail_<?php echo time();?>" data-width="1000" data-height="439">{$val.cotaname}</a>
+					</td>
+					<td>
+						<a  href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('custom/detail', array('type'=>1,'id'=>$val['custom_id']))}" data-title="{$val.cutaname}" data-id="detail_<?php echo time();?>" data-width="1000" data-height="500">{$val.cutaname}</a>
+					</td>
+					<td align="center">{$val.cotacommissionpoint}%</td>
+					<td align="center">{$val.cotaonepoint}% , {$val.cotatwopoint}%</td>
+					<td align="center">{$val.validity|date='Y-m-d H:i',###}</td>
+					<td align="center"><span class="contract_brown">{$status[$val['status']]}</span></td>
+					<td align="center">管理员</td>
+					<td align="center">{$val.validity|date='Y-m-d H:i:s',###}</td>
+					<td align="center">{$val.username}</td>
+					<td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+				</tr>
+
+			</volist>
+
+			</tbody>
+		</table>
+
+		<br clear="all">
+			<div class="<if condition=" $search[ 'custom_id'] or $search[ 'resume_id'] ">ajax_pagination<else />pagination</if>">
+				<if condition="$list">
+					{$page}
+					<else /> 暂未数据
+				</if>
+			</div>
+			<!--left-->
+	</div>
+</div>
+
+<if condition="$search['custom_id']">
+	<else />
+	<include file="Public:footer" />
+</if>

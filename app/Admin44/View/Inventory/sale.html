@@ -1,0 +1,96 @@
+<include file="Public:header" />
+<!--文章列表-->
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="Inventory" />
+                <input type="hidden" name="a" value="sale" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;分类：
+                <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected="{$search.selected_ids}"></select>
+        		<input type="hidden" name="cate_id" id="J_cate_id" value="{$search.cate_id}" />
+                &nbsp;&nbsp;日期：
+                <input type="text" name="time_start" id="time_start" class="date" size="12" value="{$time_start}">
+                -
+                <input type="text" name="time_end" id="time_end" class="date" size="12" value="{$time_end}">
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+
+    <div class="explain_col">  
+	     <!--<form id="addform" action="{:U('Inventory/upload')}" method="post" enctype="multipart/form-data">
+	        <input style=" width:65px;" type="file" name="excelData" value=""  datatype="*4-50" />
+	        <input type="submit" class="btn btn-primary Sub" value="导入" />
+	     </form>-->
+    	<a href="{:U('Inventory/goods_sale',array('cate_id'=>$cate_id,'time_start'=>$time_start,'time_end'=>$time_end))}" class="btn btn-primary Sub" >导出</a>
+    </div>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('article/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <!--<th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>-->
+                <th width="30">序号</th>
+                <th align="left">商品编号</th>
+                <th>分类</th>
+                <th align="left"><span data-tdtype="order_by" data-field="title">商品名</span></th>
+                <!--<th>商品价格</th>-->
+                <th>销量（重量）</th>
+                <th>商品单位</th>
+                <th>日期</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+	            <tr>
+	                <td align="center">{$i}</td>
+	                <td align="center">{$val.product_id}</td>
+					<td align="center"><b>{:item_info($val['jid'],'cate')}</b></td>
+	              	<td align="center">{$val['jid'],'title' |item_info=### |jie_string=###}</td>
+	                <!--<td align="center">{:item_info($val['jid'],'price')}</td>-->
+	                <td align="center">{$val.sales}</td>
+	                <td align="center"><b>{$val['jid'],'unit' |item_info=### |unit_type=###}</b></td>
+	                <td align="center">{$date|date="Y-m-d",###}</td>
+	            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <!--<label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('article/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />-->
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+<script>
+$('.J_cate_select').cate_select({top_option:lang.all});
+Calendar.setup({
+    inputField : "time_start",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+Calendar.setup({
+    inputField : "time_end",
+    ifFormat   : "%Y-%m-%d",
+    showsTime  : false,
+    timeFormat : "24"
+});
+</script>
+</body>
+</html>

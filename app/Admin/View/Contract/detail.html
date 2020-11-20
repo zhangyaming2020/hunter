@@ -1,0 +1,247 @@
+<!--添加管理员-->
+<div class="dialog_content" style="padding:10px; OVERFLOW-Y: auto;">
+	<div id="tabs" class="tabs2 ui-tabs ui-widget ui-widget-content ui-corner-all">
+		<div id="tabs-1" style="padding:10px; OVERFLOW-Y: auto;">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr>
+						<td valign="top" style="padding-right:10px;">
+							<switch name="info.status">
+							<case value="0">
+							<div style="margin-bottom: 10px;">
+							
+								<button class="button button_white" id="editContract">编辑</button>
+							
+								<button class="button button_red" id="signBtn"  data-status="1" data-id="{$info['id']}"  data-reviewer="{$admin_id}" data-time="<?php echo time();?>"  data-uri="{:U('contract/edit')}" data-title="消息" data-msg="你确认要审核此合同吗？">
+									审核
+								</button>
+							
+								<div class="ke-inline-block "><iframe name="kindeditor_upload_iframe_1550037954835" style="display:none;"></iframe>
+									<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="kindeditor_upload_iframe_1550037954835" action="/servlet/uploader?kindeditor=true"><span class="ke-button-common"><input type="button" class="ke-button-common ke-button" value="新增合同附件"></span><input type="file" class="ke-upload-file" name="accessoryFile" tabindex="-1" style="width: 96px;"></form>
+								</div><input type="button" id="uploadAccessory" value="新增合同附件" style="display: none;">
+							
+							</div>
+							</case>
+							<case value="1">
+							<div style="margin-bottom: 10px;">
+							
+								<div class="ke-inline-block "><iframe name="kindeditor_upload_iframe_1550038053179" style="display:none;"></iframe>
+									<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="kindeditor_upload_iframe_1550038053179" action="/servlet/uploader?kindeditor=true"><span class="ke-button-common"><input type="button" class="ke-button-common ke-button" value="新增合同附件"></span><input type="file" class="ke-upload-file" name="accessoryFile" tabindex="-1" style="width: 96px;"></form>
+								</div><input type="button" id="uploadAccessory" value="新增合同附件" style="display: none;">
+							
+							</div>
+							</case>
+							
+							</switch>
+							<table width="100%" class="sTable2" id="followlist" cellspacing="0" cellpadding="0">
+								<thead>
+									<tr>
+										<td width="60">创建人</td>
+										<td width="100">创建日期</td>
+										<td>附件名</td>
+										<td width="60">下载次数</td>
+									</tr>
+								</thead>
+								<tbody>
+	
+									<tr>
+										<td>管理员</td>
+										<td>2019-1-8 16:1</td>
+										<td style="word-break:break-all;">
+	
+											<a href="javascript:accessoryPreview('80f5f4cd-9fed-4fb8-a995-04035d7dd0f9','简历下载5.30.txt');">简历下载5.30.txt</a>
+	
+											&nbsp;&nbsp;
+											<a href="/accessory/download/80f5f4cd-9fed-4fb8-a995-04035d7dd0f9" title="下载" target="_blank">下载</a>
+	
+										</td>
+										<td>0</td>
+									</tr>
+	
+									<tr>
+										<td>管理员</td>
+										<td>2019-1-8 16:1</td>
+										<td style="word-break:break-all;">
+	
+											<a href="javascript:accessoryPreview('c7b1d1a5-1302-4d24-a209-ec072728cb55','牧通人才网产品及服务2018.doc');">牧通人才网产品及服务2018.doc</a>
+	
+											&nbsp;&nbsp;
+											<a href="/accessory/download/c7b1d1a5-1302-4d24-a209-ec072728cb55" title="下载" target="_blank">下载</a>
+	
+										</td>
+										<td>0</td>
+									</tr>
+	
+								</tbody>
+							</table>
+	
+							<table width="100%" border="0" cellspacing="0" cellpadding="5" class="sTable2" style="margin-top:5px;">
+								<tbody>
+									<tr>
+										<td align="right" width="80">合同名称：</td>
+										<td colspan="2" style="font-size:14px; font-weight: bold;">{$info.cotaname}</td>
+										<td>状态：<span class="contract_brown">{$status[$info['status']]}</span></td>
+									</tr>
+									<tr>
+										<td align="right" width="80">存放位置：</td>
+										<td colspan="3">{$info.cotapapersavelocation|default='未知'}</td>
+									</tr>
+									<tr>
+										<td align="right">存放人：</td>
+										<td><if condition="$info.pushusername"><?php echo M('admin')->where(array('id'=>$info['pushusername']))->getField('username');?></if></td>
+										<td align="right">存放时间：</td>
+										<td>{$info.papersavedate|date='Y-m-d H:i:s',###}</td>
+									</tr>
+									<tr>
+										<td align="right">提成点数：</td>
+										<td>{$info.cotacommissionpoint}%</td>
+										<td align="right">付款比例：</td>
+										<td>{$info.cotaonepoint}% , {$info.cotatwopoint}%</td>
+									</tr>
+									<tr>
+										<td align="right" width="80">合同有效期：</td>
+										<td colspan="3">{$info.validity|date='Y-m-d H:i:s',###}</td>
+									</tr>
+									<tr>
+										<td align="right">创建时间：</td>
+										<td>{$info.add|date='Y-m-d H:i:s',###}</td>
+										<td align="right">创建人：</td>
+										<td>{$info.username}</td>
+									</tr>
+	
+									<tr>
+										<td align="right">合同备注：</td>
+										<td colspan="3">{$info.cotaremarker}</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<if condition="in_array($info['status'],array(0,1))">
+		<span style="text-align: center; margin:5px 0; width:100%; float: left;">
+		<button class="button button_blue" id="invalid"   data-reviewer="{$admin_id}" data-time="<?php echo time();?>"  data-status="3" data-id="{$info['id']}"   data-uri="{:U('contract/edit')}" data-title="消息" data-msg="此操作不可恢复，你确定要将此合同作废吗？">合同作废
+		</button></span>
+		</if>
+	</div>
+</div>
+<script>
+$('.wrap').toggle(function(){
+	$(this).attr('src',"__PUBLIC_ADMIN__images/nolines_minus.gif");
+	$(this).parents('tr').next().show();
+},function(){
+    $(this).parents('tr').next().hide();
+    $(this).attr('src',"__PUBLIC_ADMIN__images/nolines_plus.gif");
+})
+//tab键切换
+$('.ui-state-default').click(function(){
+	var index=$(this).index();
+	var url=$(this).find('a').attr('data-uri');
+	if(url){
+		$.get(url,'',function(msg){
+			$('.ui-tabs-panel').eq(index).html(msg['data']);
+			reloadButton();page_click();
+		});
+	}
+	$(this).addClass('ui-state-active').siblings('.ui-state-default').removeClass('ui-state-active');
+	$('.ui-tabs-panel').eq(index).show().siblings('.ui-tabs-panel').hide();
+})
+//页码点击
+function page_click(){
+	$('.ajax_pagination a').click(function(){
+		if($(this).hasClass('current')==false){
+			var Request = new Object();
+			var url=$(this).attr('href');
+			Request = GetRequest(url);
+			var p= Request['p'];
+			ajax_index(p,url);return false;
+		}
+		
+	})
+}
+//获取地址参数
+function GetRequest(url) {
+   var theRequest = new Object();
+   if (url.indexOf("?") != -1) {
+      var str = url.substr(1);
+      strs = str.split("&");
+      for(var i = 0; i < strs.length; i ++) {
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+      }
+   }
+   return theRequest;
+}
+//异步更新数据
+function reloadButton(p){
+	$('.reloadButton').click(function(){
+		var p=p?p:1;
+		var index=$('.ui-state-active').index();
+		var url=$('.ui-state-active').find('a').attr('data-uri');
+		var _body=$('.ui-tabs-panel').eq(index);
+		if(url){
+			$.get(url,{p:p},function(msg){
+				_body.html(msg['data']);reloadButton();page_click();
+			});
+		}
+	})
+	
+}
+//异步搜索或点击链接
+function ajax_index(p,url){
+	var p=p?p:1;
+	var index=$('.ui-state-active').index();
+		var _body=$('.ui-tabs-panel').eq(index);
+		if(url){
+			$.get(url,{p:p},function(msg){
+				_body.html(msg['data']);reloadButton();page_click();
+			});
+		}
+}
+$('#signBtn,#invalid').click(function(){
+	dialog_open($(this),'');
+})
+
+
+//会话框
+function dialog_open(dom_self,con){
+	var self = dom_self,
+	uri = self.attr('data-uri'),
+	reviewer=self.attr('data-reviewer'),
+	review_time=self.attr('data-time'),
+	status=self.attr('data-status'),
+	title = (self.attr('data-title') != undefined) ? self.attr('data-title') : lang.confirm_title,
+	data=con+'&reviewer='+reviewer+'&review_time='+review_time+'&status='+status+'&id='+self.attr('data-id');
+	msg = self.attr('data-msg');
+	var acttype="ajax";
+	$.dialog({
+		title:title,
+		content:msg,
+		padding:'10px 20px',
+		lock:true,
+		ok:function(){
+			if(acttype == 'ajax'){
+				$.post(uri,data,function(result){
+					if(result.status == 1){
+						$.pinphp.tip({content:result.msg});
+						if(callback != undefined){
+							eval(callback+'(self)');
+						}else{
+							if(refresh==1){
+								window.location.reload();
+							}
+						}
+					}else{
+						$.pinphp.tip({content:result.msg, icon:'error'});
+					}
+				});
+			}else{
+				location.href = uri;
+			}
+		},
+		cancel:function(){
+		}
+	});
+}
+</script>

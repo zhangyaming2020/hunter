@@ -1,0 +1,132 @@
+
+<if condition="$search['project_id']">
+	<else />
+	<include file="Public:header" />
+</if>
+<script type="text/javascript" src="/theme/admin/hunter/js/customs/resume.js"></script>
+<style>
+	body{
+		background:white;
+	}
+	.dialog_open{color:#069}
+	.clearfix{clear:none !important;}
+.ajax_pagination a { display: inline-block; padding: 5px 10px; color: #333; border: 1px solid #bbb; background: url(../images/buttonbg5.png) repeat-x bottom left; }
+.ajax_pagination a { -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; }
+.ajax_pagination a { -moz-box-shadow: 1px 1px 0 #f7f7f7; -webkit-box-shadow: 1px 1px 0 #f7f7f7; box-shadow: 1px 1px 0 #f7f7f7; }
+.ajax_pagination a:hover { -moz-box-shadow: inset 1px 1px 3px #eee; -webkit-box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a:hover { text-decoration: none; background: #eee; box-shadow: inset 1px 1px 3px #eee; }
+.ajax_pagination a.disabled { color: #999; border: 1px solid #ccc; }
+.ajax_pagination a.disabled:hover { background: url(../images/buttonbg5.png) repeat-x bottom left; -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+.ajax_pagination a.current { background: #333 url(../images/buttonbg3.png) repeat-x top left; color: #fff; border: 1px solid #405a87; }
+.ajax_pagination a.current:hover { -moz-box-shadow: none; -webkit-box-shadow: none; box-shadow: none; }
+
+</style>
+<div class="left">
+	<a href="javascript:;" class="reloadButton" <if condition="$search['project_id']"><else />onclick="parent.refresh_page();"</if>>刷新</a>
+	<if condition="$search['project_id']">
+	<a href="javascript:;"   style="color:#fff;" data-editor="1"    class="J_showdialog  addNewButton" data-uri="{:U('report/add',array('project_id'=>$search['project_id']))}" data-title="新增报告" data-id="add" data-width="610" data-height="300">新增报告</a>
+	
+	</if>
+	
+	
+	
+	
+	<ul class="submenu report_index" id="reportState">
+		<!--<li id="selectObj" class="select">
+			<a href="javascript:;">我的推荐报告<span></span></a>
+		</li>-->
+		<span id="reportmenudata" style="border:none;">
+			<li class="<if condition="$search['status'] eq -1">current</if>" dataid="-2"><a href="{:U('report/index',array('status'=>-1))}">全部({$all})</a></li>
+			<volist name="status" id="val">
+				<li dataid="0" <if condition="$search['status'] eq $i-1">class="current"</if>><a href="{:U('report/index',array('status'=>$i))}">{$val}({$nums[$i-1]['nums']?$nums[$i-1]['nums']:0})</a></li>
+			</volist>
+			
+		</span>
+	</ul>
+	<div class="sTableOptions">
+		<div class="form_default">
+			<form id="projectReportSearchFrom">
+				<input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="report" />
+                <input type="hidden" name="a" value="index" />
+				<input type="hidden" name="state" id="report_state" value="-2"> 项目名称/客户名称/候选人名称关键字：
+				<input type="text" name="keyword" value="{$search.keyword}" id="reportSearchKeyword" class="sf" style="width:180px;">
+				<!--<select name="sort" id="sort">
+					<option value="0">默认排序</option>
+					<option value="1">按跟进时间排序</option>
+					<option value="2">按项目排序</option>
+				</select>-->
+				<input type="<if condition="$search['project_id']">button<else />submit</if>" id="searchFromBtn" class="button button_red" value=" 查询 ">
+			</form>
+		</div>
+	</div>
+	<!--sTableOptions-->
+	<div id="projectReportPage">
+
+		<table width="100%" class="sTable2" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td width="30" align="center">编号</td>
+					<td style="min-width:100px;" align="center">推荐报告</td>
+					<td style="min-width:100px;">客户</td>
+					<td width="60" align="center">客户所有者</td>
+					<td style="min-width:100px;">项目</td>
+					<td width="60" align="center">项目所有者</td>
+					<td width="50" align="center">期望薪金</td>
+					<td width="40" align="center">推荐人</td>
+					<td width="120">推荐时间</td>
+					<td width="50" align="center">负责人</td>
+					<td width="60" align="center">当前状态</td>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="val"> 
+					<?php $cus_id=M('project')->where(array('id'=>$val['pro_id']))->getField('custom_id');$cus_name="未知";$cus_id&&$cus_name=M('custom')->where(array('id'=>$cus_id))->getField('cutaname');$pro_name=M('project')->where(array('id'=>$val['pro_id']))->getField('prtaname');$res_name=M('resume')->where(array('id'=>$val['res_id']))->getField('resuname');?>
+				<tr>
+					<td align="center">{$val.id}</td>
+					<td>
+						<a href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="{:U('report/detail', array('project_id'=>$val['project_id'],'status'=>$val['status'],'id'=>$val['id']))}" data-title="<?php echo $res_name;?>" data-id="detail" data-width="860" data-height="492"><?php echo $res_name;?></a>
+						<if condition="$val['progress'][0]['content']">
+							<p style="color:#777;">{$val['progress'][0]['content']}（
+								<?php echo M('admin')->where(array('id'=>$val['progress'][0]['creator_id']))->getField('username');?> {$val['progress'][0]['add_time']|date='Y-m-d',###} {$val['progress'][0]['add_time']|date='H:i',###}）
+							</p>
+						</if>
+					</td>
+					<td>
+						<a   href="javascript:;" style="cursor:pointer;color:#069;" class="dialog_detail"  data-uri="/index.php?m=admin&c=custom&a=detail&type=1&id=<?php echo $cus_id;?>" data-title="<?php echo $cus_name;?>" data-id="detail" data-width="1000" data-height="500"><?php echo $cus_name;?></a>
+					</td>
+					<td align="center">admin</td>
+					<td>
+						<a href="javascript:;"   style="cursor:pointer;color:#069;" class="dialog_open"  data-uri="/index.php?m=admin&c=project&a=detail&id={$val['pro_id']}&custom_id=<?php echo $cus_id;?>" data-title="<?php echo $pro_name;?>" data-id="project_detail" data-width="1000" data-height="500"><?php echo $pro_name;?></a>
+					</td>
+					<td align="center">管理员</td>
+					<td align="center">{$val.rereexpectmoney}K</td>
+					<td align="center">管理员</td>
+					<td>{$val.add_time|date='Y-m-d H:i:s',###}</td>
+					<td align="center">管理员</td>
+					<td align="center">
+
+						<font color="{$status_color[$val['status']]}">{$status[$val['status']]}..</font>
+
+					</td>
+				</tr>
+				</volist>
+
+				
+			</tbody>
+		</table>
+
+		<br clear="all">
+		<div class="<if condition="$search['project_id']">ajax_pagination<else />pagination</if>">
+		<if condition="$list">
+		{$page}
+		<else />
+		暂未数据
+		</if>
+		</div><!--left-->
+	</div>
+</div>
+<if condition="$search['project_id']">
+	<else />
+	<include file="Public:footer" />
+</if>

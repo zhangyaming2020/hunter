@@ -1,0 +1,574 @@
+<include file="Public:header" />
+
+<form id="info_form" action="{:u('hotel/add')}" method="post" enctype="multipart/form-data">
+
+<div class="pad_lr_10">
+
+	<div class="col_tab">
+
+		<ul class="J_tabs tab_but cu_li">
+
+			<li class="current">基本信息</li>
+
+            <li>展示图片</li>
+
+			<!--<li>SEO设置</li>-->
+
+            <li>附加属性</li>
+
+		</ul>
+
+		<div class="J_panes">
+
+        <div class="content_list pad_10">
+
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+			<tr>
+
+				<th width="120">*所属分类：</th>
+
+                <td><select class="J_item_cate_select mr10" data-pid="147" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected=""></select><input type="hidden" name="cate_id" id="J_cate_id" value="" /></td>
+
+			</tr>
+            <tr>
+                <th width="120">城市/区域 :</th>
+                <td>
+                    <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$place_selected_ids}"></select>
+                    <input type="hidden" name="place_id" id="place_id" value="" >
+
+                </td>
+            </tr>
+
+            <tr>
+                <th>酒店类型 :</th>
+                <td>
+                    <select name="attr_id" id="ass" >
+                        <option >选择类型</option>
+                        <volist name="attr" id="attr">
+                            <option value="{$attr['id']}">{$attr['name']}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+				<th>*商品名称：</th>
+			  <td><input type="text" name="title" id="J_title" class="input-text" size="30"></td>
+			</tr>
+
+
+
+            <tr>
+
+				<th>*商品主图：</th>
+
+				<td><input type="file" name="img" /></td>
+
+ 			</tr>
+ 		<!--	<tr>
+				<th>推荐图片：</th>
+				<td><input type="file" name="recommend_img" /></td>
+ 			</tr>-->
+			<!--<tr>-->
+				<!--<th>链接地址 :</th>-->
+				<!--<td><input type="text" name="url" class="input-text" size="50"></td>-->
+			<!--</tr>-->
+            <!--<tr>-->
+
+            <!--<th>链接地址内容：</th>-->
+
+            <!--<td><textarea name="intro" cols="80" rows="5"></textarea></td>-->
+
+            <!--</tr>-->
+            <!--<tr>
+				<th>商品标签 :</th>
+				<td>
+                	<input type="text" name="tags" id="J_tags" class="input-text" size="50">
+                    <input type="button" value="{:L('auto_get')}" id="J_gettags" name="tags_btn" class="btn">
+                </td>
+			</tr>-->
+			  <!--<tr>-->
+				<!--<th>商品标签 :</th>-->
+				<!--<td>-->
+                	<!--<input type="text" name="label" id="J_tags" class="input-text" size="10">-->
+                <!--</td>-->
+			<!--</tr>-->
+            <tr>
+				<th>属性 ：</th>
+			<td><input type="checkbox" name="tj" value="1"  />首页推荐
+			&nbsp;&nbsp;
+			</td>
+			</tr>
+            <tr>
+                <th>设施：</th>
+                <td>&nbsp;<input type="checkbox" name="rm" value="1"   />wifi
+                    &nbsp;&nbsp;&nbsp;<input type="checkbox" name="xp" value="1"   />停车场
+                    &nbsp;&nbsp;&nbsp;<input type="checkbox" name="yj" value="1"   />会议室
+                    &nbsp;&nbsp;&nbsp;<input type="checkbox" name="ct" value="1"   />餐厅</td>
+            </tr>
+            <tr>
+				<th>价格：</th>
+				<td><input type="text" name="price" size="10" class="input-text" value="{$info.price}"></td>
+			</tr>
+
+			<!--<tr>-->
+				<!--<th>市场价格：</th>-->
+				<!--<td><input type="text" name="market_price" size="10" class="input-text" value="{$info.market_price}"></td>-->
+			<!--</tr>-->
+
+            <!--<tr>-->
+				<!--<th>设施：</th>-->
+				<!--<td><input type="text" name="integral" size="10" class="input-text" value="{$info.integral}"></td>-->
+			<!--</tr>-->
+			<!--<tr>-->
+				<!--<th>库存状态</th> -->
+				<!--<td><input type="radio" name="inv_status" value="1" checked="checked"  /> 库存商品&nbsp;&nbsp;&nbsp;-->
+					<!--<input type="radio" name="inv_status" value="0"  />非库存商品-->
+				<!--</td>-->
+			<!--</tr>-->
+			<!--<tr>
+				<th>是否赠品</th> 
+				<td><input type="radio" name="type" value="1" checked="checked"  />否 &nbsp;&nbsp;&nbsp;
+					<input type="radio" name="type" value="2"  />是
+				</td>
+			</tr>-->
+            <!--<tr>-->
+				<!--<th>商品库存：</th>-->
+				<!--<td><input type="text" name="inventory" size="10" class="input-text" value="{$info.inventory}"></td>-->
+			<!--</tr>-->
+			<tr>
+				<th>联系电话：</th>
+				<td><input type="text" name="quota" size="20" class="input-text" value="{$info.quota}"></td>
+			</tr>
+			 <!--<tr>-->
+				<!--<th>最早离店：</th>-->
+				<!--<td><input type="text" name="origin" size="20" class="input-text" value="{$info.origin}"></td>-->
+			<!--</tr>-->
+            <tr>
+                <th>评分：</th>
+                <td><input type="text" name="score" size="20" class="input-text" value="{$info.score}"></td>
+            </tr>
+			<!--<tr>
+				<th>可关联的优惠券：</th>
+				<td>
+			<volist name="yhq" id="val">
+				<input type="checkbox" name="yhq_id[]" value="{$val['id']}"/>{$val['title']}
+			</volist>		
+				</td>
+			</tr>-->
+
+			<tr>
+		          <th>酒店介绍 :</th>
+						<td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+			</tr>
+            <tr>
+                <th>酒店提示 :</th>
+                <td><textarea name="hotel" class="hotel" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+            </tr>
+            <tr>
+                <th>周边交通 :</th>
+                <td><textarea name="traffic" class="traffic" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+            </tr>
+            <tr>
+                <th>订单说明 :</th>
+                <td><textarea name="seo_desc" class="seo_desc" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.seo_desc}</textarea></td>
+            </tr>
+            <tr>
+                <th>地址：</th>
+                <td><input type="text" name="unit" size="60" class="input-text" value="{$info.unit}"></td>
+            </tr>
+		</table>
+
+
+		</div>
+
+            <div class="content_list pad_10 hidden">
+
+                <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                    <tbody class="uplode_file">
+
+                    <tr>
+                        <th class="td_left" style="text-align: left;">
+                            <a class="btn" id="logo_upload_btn" href="javascript:;" style=" width: 80px; margin:10px 0;">上传商品副图</a>
+                        </th>
+                    </tr>
+                    <tr>
+                    <tr>
+
+                    </tr>
+                        <td>
+                            <div id="logo_upload_area" style='width:80%'>
+                                <div id='photos_area' class="photos_area clearfix">
+                                    <?php  if (isset($info['imgs'])) {
+				                                      foreach ($info['imgs'] as $v) {
+				                         ?>
+                                    <div class='item'>
+                                        <input type='hidden' name='imgss[]' value='{$v}'/>
+                                        <img src='{:attach($v,'item')}'  width='100px' height='100px'/>
+                                        <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+                                    </div>
+                                    <?php }   }   ?>
+
+                                </div>
+                        </td>
+                    </tr>
+
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        <div class="content_list pad_10 hidden">
+
+
+
+            <table class="table_form" cellpadding="0" cellspacing="0">
+                <tbody>
+                <tr>
+                    <th>*房型名称 :</th>
+                    <td>
+                        <input type="text" name="attr_name" class="input-text" size="10">
+                    </td>
+                </tr>
+                <tr>
+                    <th>*床铺类型 :</th>
+                    <td>
+                        <input type="text" name="attr_value" class="input-text" size="10">
+                    </td>
+                </tr>
+                <tr>
+                    <th>房间图片 :</th>
+                    <td>
+                        <input type="file" name="imgsss" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>价格 :</th>
+                    <td>
+                        <input type="text" name="attr_price" class="input-text" size="10">  元
+                    </td>
+                </tr>
+                <tr>
+                    <th>原价 :</th>
+                    <td>
+                        <input type="text" name="attr_oldprice" class="input-text" size="10">  元
+                    </td>
+                </tr>
+                <tr>
+                    <th>房间设施 :</th>
+                    <td>
+                        <label for="wf"><input type="checkbox" id="wf" name="wf" value="1">免费WIFI</label>
+                        <label for="ch"><input type="checkbox" id="ch" name="ch" value="1">窗户</label>
+                        <label for="kt"><input type="checkbox" id="kt" name="kt" value="1">空调</label>
+                        <label for="dsj"><input type="checkbox" id="dsj" name="dsj" value="1">电视机</label>
+                        <label for="zc"><input type="checkbox" id="zc" name="zc" value="1">早餐</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>赠送积分 :</th>
+                    <td>
+                        <input type="text" name="attr_integral" class="input-text" size="10">  分
+                    </td>
+                </tr>
+                <tr>
+                    <th>房间数量 :</th>
+                    <td>
+                        <input type="text" name="attr_num" class="input-text" size="10">  间
+                    </td>
+                </tr>
+                <tr>
+                    <th>备注 :</th>
+                    <td>
+                        <textarea name="attr_remark" rows="" cols=""></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <th>预定须知 :</th>
+                    <td>
+                        <textarea name="attr_ydxz" rows="" cols=""></textarea>
+                    </td>
+                </tr>
+                <input type="hidden" name="item_id" value="{$info.id}" />
+                </tbody>
+            </table>
+		</div>
+
+        </div>
+
+		<div class="mt10"><input type="submit" value="{:L('submit')}" class="btn btn_submit"></div>
+
+	</div>
+
+</div>
+
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+
+</form>
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<include file="Public:footer" />
+
+<script type="text/javascript">
+//    $('.J_cate_select').cate_select({top_option:'请选择',field:'J_cate_id',target_class:'J_cate_select'});
+//    $('.J_cate_select').cate_select({top_option:lang.all,field:'place_id',target_class:'J_cate_select'}); //分类联动
+    $('.J_cate_select').cate_select({top_option:lang.all,field:'place_id',target_class:'J_cate_select'}); //分类联动
+
+    $('.J_item_cate_select').cate_select({top_option:lang.all,field:'J_cate_id',target_class:'J_item_cate_select'}); //分类联动
+$(function() { 		
+
+	$('.J_item_cate_select').blur(function(){
+	 var a= $('#J_cate_id').val();
+   		$.post('{:U("cates")}',{id:a},function(d){
+            if(d.length>0){
+                var ht='';
+                for(var cc=0,cc;cc<d.length;cc++){
+                    ht += '<option value="'+d[cc].id+'">'+d[cc].name+'</option>';
+                }
+                $('#ass').empty().append(ht);
+            }
+		})
+	})
+
+	KindEditor.create('.info', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	
+	KindEditor.create('.seo_desc', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+    KindEditor.create('.traffic', {
+
+        uploadJson : '{:U("attachment/editer_upload")}',
+
+        fileManagerJson : '{:U("attachment/editer_manager")}',
+
+        allowFileManager : true
+
+    });
+    KindEditor.create('.hotel', {
+
+        uploadJson : '{:U("attachment/editer_upload")}',
+
+        fileManagerJson : '{:U("attachment/editer_manager")}',
+
+        allowFileManager : true
+
+    });
+    var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgss[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+
+
+
+
+    $('ul.J_tabs').tabs('div.J_panes > div');
+
+	//自动获取标签
+
+	$('#J_gettags').live('click', function() {
+
+		var title = $.trim($('#J_title').val());
+
+		if(title == ''){
+
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+
+			return false;
+
+		}
+
+		$.getJSON('{:U("hotel/ajax_gettags")}', {title:title}, function(result){
+
+			if(result.status == 1){
+
+				$('#J_tags').val(result.data);
+
+			}else{
+
+				$.pinphp.tip({content:result.msg});
+
+			}
+
+		});
+
+	});
+
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'});
+
+});
+
+
+
+function add_file()
+
+{
+
+    $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+
+}
+
+function del_file_box(obj)
+
+{
+
+	$(obj).parent().parent().remove();
+
+}
+
+function add_attr()
+
+{
+
+    $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+
+}
+
+function del_attr(obj)
+
+{
+
+	$(obj).parent().parent().remove();
+
+}
+
+</script>
+
+<table id="next_upload_file" style="display:none;">
+
+<tbody class="uplode_file">
+
+   <tr>
+
+      <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+
+      <td><input type="file" name="imgs[]"></td>
+
+   </tr>
+
+</tbody>
+
+</table>
+
+<table id="hidden_attr" style="display:none;">
+
+<tbody class="add_item_attr">
+
+<tr>
+
+    <th width="200">
+
+    <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>属性名 :<input type="text" name="attr[name][]" class="input-text" size="20">
+
+    </th>
+
+    <td>属性值 :<input type="text" name="attr[value][]" class="input-text" size="30"></td>
+
+</tr>
+
+</tbody>
+
+</table>
+<script>
+	var arr = [['2017-08-09','2017-08-09','2017-08-09'],['10.00','20.00','30.00']]
+	console.log('data:'+arr[0][1]+'price'+arr[1][1])
+</script>
+</body>
+
+</html>

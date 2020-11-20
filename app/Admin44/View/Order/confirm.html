@@ -1,0 +1,121 @@
+<include file="Public:header" />
+<div class="pad_lr_10" >
+
+<h2>订单详情</h2>
+
+
+  <div class="table_list" data-acturi="{:U('item/ajax_edit')}">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>ID</th>
+            <th>商品名称</th>
+            <th>单价(元)</th>
+            <th>数量</th>
+            <th>价格(元)</th>
+        </tr>
+        <volist name="info['sub']" id="val" >
+        <tr>
+            <td>{$val.item_id}</td>
+            <td>{$val['item_name']}    </td>
+            <td>{$val.price}</td>
+            <td>{$val.number}</td>
+            <td>{$val['price'] * $val['number']}</td>
+        </tr>
+        </volist>
+    </table>
+
+   	<h2>收货信息</h2>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">订单编号：</td>
+            <td style="text-align:left;">{$info.order_sn}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">姓名：</td>
+            <td  style="text-align:left;">{$info.name}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">电话：</td>
+            <td style="text-align:left;">{$info.tel}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">收货地址：</td>
+            <td style="text-align:left;">{:get_addr_name($info['place_id'])}{$info.ads}</td>
+          </tr>
+          <tr>
+            <td width="17%" class="dingdanwenzi" style="text-align:right;">总金额：</td>
+            <td style="text-align:left;">&nbsp;  {$info.amount}</td>
+          </tr>
+          
+        </table>
+    <h2>配送信息</h2>
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="22%" class="dingdanwenzi" style="text-align:right;">配送方式：</td>
+                <td  style="text-align:left;"><label><input type="radio" name="pp" value="1" checked>配送员配送</label>&emsp;<label><input type="radio" name="pp" value="2">物流快递</label></td>
+              </tr>
+            <tr class="man">
+                <td width="17%" class="dingdanwenzi" style="text-align:right;">配送员：</td>
+                <td style="text-align:left;">
+                    <select class="input-text fl mr10 post_man" style="height:100%;width:150px" name="express_man_id">
+                        <option value="">请选择</option>
+                        <volist name="list" id="ice">
+                        <option value="{$ice.id}">{$ice.nickname}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr class="express">
+                <td width="22%" class="dingdanwenzi" style="text-align:right;">快递公司名称：</td>
+                <td  style="text-align:left;"><input class="input-text fl mr10" style="width:260px" id="express_name"></td>
+            </tr>
+            <tr class="express">
+                <td width="22%" class="dingdanwenzi" style="text-align:right;">快递单号：</td>
+                <td style="text-align:left;"><input class="input-text fl mr10" style="width:260px" id="express_sn"></td>
+            </tr>
+            <tr>
+                <td width="22%" class="dingdanwenzi" style="text-align:right;">注意：</td>
+                <td style="text-align:left;">配送员和快递公司两者选一个填写</td>
+            </tr>
+        </table>
+        <div style="display: none">
+            <form name="express" method="post" action="{:U('Order/order_change')}">
+				<input name="order_sn" value="{$info.order_sn}">
+            </form>
+        </div>
+
+  </div>
+</div>
+<include file="Public:footer" />
+<script>
+    $(function () {
+        $('.express').hide();
+        $('input[name="pp"]').click(function () {
+            if($(this).val()==1){
+                $('.express').hide();$('.man').show();
+            }else{
+                $('.express').show();$('.man').hide();
+            }
+        })
+        $('.d-state-highlight').click(function () {
+            var type = $('input[name="pp"]:checked').val();
+            if(type==1){
+                if($('.post_man option:selected').val()){
+                    $('form[name="express"]').append('<input name="express_man_id" value="'+$('.post_man option:selected').val()+'"><input name="type" value="'+type+'">').submit();
+                }else {
+                    alert('请选择配送员');
+                }
+            }else{
+                if($('#express_name').val()&&$('#express_sn').val()){
+                    $('form[name="express"]').append('<input name="express_name" value="'+$('#express_name').val()+'"><input name="express_sn" value="'+$('#express_sn').val()+'"><input name="type" value="'+type+'">').submit();
+                }else{
+                    alert('请填写完整快递名称或单号');
+                }
+            }
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

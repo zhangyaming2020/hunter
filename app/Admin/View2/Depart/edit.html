@@ -1,0 +1,48 @@
+
+<div class="dialog_content">
+    <form id="info_form" action="{:U('depart/edit')}" method="post">
+        <input type="hidden" name="id" value="{$info.id}">
+        <table width="100%" class="table_form">
+            <tr>
+                <th width="120">{:L('article_cate_parent')} :</th>
+                <td>
+                    <select class="J_cate_place_select mr10" data-pid="0" data-uri="{:U('depart/ajax_getchilds')}" data-selected="{$spid}"></select>
+                    <input type="hidden" name="pid" id="J_pid" />
+                </td>
+            </tr>
+            <tr>
+                <th>名称 :</th>
+                <td><input type="text" name="name" id="name" class="input-text" size="30" value="{$info.name}"></td>
+            </tr>
+            
+
+            <tr>
+                <th>{:L('enabled')} :</th>
+                <td>
+                    <label><input type="radio" name="status" value="1" <if condition="$info['status'] eq 1">checked</if> > {:L('yes')}</label>&nbsp;&nbsp;
+                    <label><input type="radio" name="status" value="0" <if condition="$info['status'] eq 0">checked</if> > {:L('no')}</label>
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<script>
+    $(function(){
+      
+
+        $('#info_form').ajaxForm({success:complate,dataType:'json'});
+        function complate(result){
+            if(result.status == 1){
+                $.dialog.get(result.dialog).close();
+                $.pinphp.tip({content:result.msg});
+                window.location.reload();
+
+            } else {
+                $.pinphp.tip({content:result.msg, icon:'alert'});
+            }
+        }
+        $('.J_cate_place_select').cate_select({top_option:lang.all,field:'J_pid',target_class:'J_cate_place_select'}); //分类联动
+    });
+</script>

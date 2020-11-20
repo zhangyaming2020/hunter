@@ -1,0 +1,673 @@
+<include file="Public:header" />
+
+<!--编辑商品-->
+
+<form id="info_form" action="{:u('tickets/edits')}" method="post" enctype="multipart/form-data">
+
+    <div class="pad_lr_10">
+
+        <div class="col_tab">
+
+            <ul class="J_tabs tab_but cu_li">
+
+                <li class="current">基本信息</li>
+
+                <li>景区须知</li>
+
+
+                <li>展示图片</li>
+                <!--<li>附加属性</li>-->
+
+            </ul>
+
+            <div class="J_panes">
+
+                <div class="content_list pad_10">
+
+                    <table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+
+                        <!--<tr>-->
+
+                        <!--<th width="120">所属分类：</th>-->
+
+                        <!--<td><select class="J_cate_select mr10" data-pid="145" data-uri="{:U('item_cate/ajax_getchilds', array('type'=>0))}" data-selected=""></select><input type="hidden" name="cate_id" id="J_cate_id" value="" /></td>-->
+
+
+
+                        <!--</tr>-->
+						 <tr>
+
+                            <th>景点类型：</th>
+
+                            <td>
+                            <select name="spot_type_id">
+                            <volist name="spot_type" id="val">
+                            <option value="{$val.id}" <if condition="$val['id'] eq $info['spot_type_id']">selected="selected"</if>>{$val.name}</option>
+                            </volist>
+                            </select>
+                            </td>
+
+                        </tr>
+                        <tr>
+
+                            <th>景点名称：</th>
+
+                            <td><input type="text" name="title" id="J_title" class="input-text" size="30" value="{$info.title}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th width="120">城市/区域 :</th>
+
+                            <td>
+
+                                <select class="J_cate_select mr10" data-pid="0" data-uri="{:U('place/ajax_getchilds')}" data-selected="{$place_selected_ids}"></select>
+
+                                <input type="hidden" name="place_id" id="place_id" value="{$info.place_id}">
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>景点地址：</th>
+
+                            <td><input type="text" name="short_title" id="J_origin" class="input-text" size="30" value="{$info.short_title}"></td>
+
+                        </tr>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>开放时间：</th>
+
+                            <td><input type="text" name="origin" size="10" class="input-text" value="{$info.origin}"> 例：9.00-10.00</td>
+
+
+
+                        </tr>
+
+                        <tr>
+
+                            <th>景区级别：</th>
+
+                            <td>
+
+                                <select name="cate" >
+
+                                    <option>请选择</option>
+
+                                    <option <if condition="$info.cate eq '1A'">selected="selected"</if> value="1A">1A</option>
+
+                                    <option <if condition="$info.cate eq '2A'">selected="selected"</if> value="2A">2A</option>
+
+                                    <option <if condition="$info.cate eq '3A'">selected="selected"</if> value="3A">3A</option>
+
+                                    <option <if condition="$info.cate eq '4A'">selected="selected"</if> value="4A">4A</option>
+
+                                    <option <if condition="$info.cate eq '5A'">selected="selected"</if> value="5A">5A</option>
+
+                                </select>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>服务保障：</th>
+
+                            <td><input type="text" name="alias" size="10" class="input-text" value="{$info.alias}"></td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>景区主图 :</th>
+
+                            <td>
+
+                                <notempty name="info['img']"><img src="{:attach($info['img'], 'item')}" width="100" height="100"/><br /></notempty>
+
+
+
+                                <input type="file" name="img" />
+
+                            </td>
+
+                        </tr>
+
+                        <!--<tr>-->
+
+                        <!--<th>景区介绍：</th>-->
+
+                        <!--<td><input type="text" name="integral" size="10" class="input-text" value="{$info.integral}"></td>-->
+
+                        <!--</tr>-->
+<!--
+                        <tr>
+
+                            <th>景区须知：</th>
+
+                            <td><textarea name="seo_desc" cols="80" rows="5">{$info.seo_desc}</textarea></td>
+
+                        </tr>-->
+
+                        <tr>
+
+                            <th>景区介绍 :</th>
+
+                            <td><textarea name="info" class="seo_desc" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+                        </tr>
+
+
+
+                        <tr>
+
+                            <th>允许退款 :</th>
+
+                            <td>
+
+                    <span>
+
+                        <input type="radio" class="radioCheck" id="S_DomainRefund_1" value="1" name="S_DomainRefund"><label for="S_DomainRefund_1">是</label>
+
+                    </span>
+
+                                <span>
+
+                        <input type="radio" class="radioCheck" id="S_DomainRefund_0" checked="true" value="0" name="S_DomainRefund"><label for="S_DomainRefund_0">否</label>
+
+                    </span>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+				 <div class="content_list pad_10 hidden">
+    
+                        <table width="100%" cellpadding="2" cellspacing="1">
+    
+                            <tbody>
+    
+                            <tr>
+    
+                                <td><textarea name="seo_desc" class="seo_desc" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.seo_desc}</textarea></td>
+    
+                            </tr>
+                            </tbody>
+    
+                        </table>
+    
+                </div>
+                <div class="content_list pad_10 hidden">
+
+                    <style>
+
+                        .addpic {}
+
+                        .addpic li { float:left; text-align:center; margin:0 0 10px 20px;}
+
+                        .addpic a { display:block;}
+
+                    </style>
+
+                    <ul class="addpic">
+
+                        <a class="btn" id="logo_upload_btn" href="javascript:;"  style=" width: 80px; margin:10px 0;">上传商品副图</a>
+
+                        <div id="logo_upload_area" style='width:80%'>
+
+                            <div id='photos_area' class="photos_area clearfix">
+
+
+
+                                <volist name="img_list" id="val">
+
+                                    <div class='item'>
+
+                                        <input type='hidden' name='imgs[]' value="{$val['url']}"/>
+
+                                        <img src="{:attach($val['url'],'item')}"  width='100px' height='100px'/>
+
+                                        <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>
+
+                                    </div>
+
+                                </volist>
+
+
+
+                            </div>
+
+
+
+                    </ul>
+
+                    <div class="cb"></div>
+
+                    <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                        <tbody class="uplode_file">
+
+                        <!--<tr>
+
+                            <th width="100" align="left"><a href="javascript:void(0);" class="blue" onclick="add_file();"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>上传文件 :</th>
+
+                            <td><input type="file" name="imgs[]"></td>
+
+                        </tr>-->
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+
+
+
+            </div>
+
+            <div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"></div>
+
+        </div>
+
+    </div>
+
+    <input type="hidden" name="menuid"  value="{$menuid}"/>
+
+    <input type="hidden" name="id" value="{$info.id}" />
+
+</form>
+
+
+
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+
+<include file="Public:footer" />
+
+
+
+<script type="text/javascript">
+
+
+
+    $('.J_cate_select').cate_select({top_option:lang.all,field:'place_id',target_class:'J_cate_select'}); //分类联动
+
+
+
+    $(function() {
+
+
+
+
+
+
+
+        KindEditor.create('.info', {
+
+
+
+            uploadJson : '{:U("attachment/editer_upload")}',
+
+
+
+            fileManagerJson : '{:U("attachment/editer_manager")}',
+
+
+
+            allowFileManager : true
+
+
+
+        });
+
+
+
+        KindEditor.create('.seo_desc', {
+
+
+
+            uploadJson : '{:U("attachment/editer_upload")}',
+
+
+
+            fileManagerJson : '{:U("attachment/editer_manager")}',
+
+
+
+            allowFileManager : true
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+//	$('ul.J_tabs').tabs('div.J_panes > div');
+
+
+
+        //自动获取标签
+
+
+
+        $('#J_gettags').live('click', function() {
+
+
+
+            var title = $.trim($('#J_title').val());
+
+
+
+            if(title == ''){
+
+
+
+                $.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+
+
+
+                return false;
+
+
+
+            }
+
+
+
+            $.getJSON('{:U("item/ajax_gettags")}', {title:title}, function(result){
+
+
+
+                if(result.status == 1){
+
+
+
+                    $('#J_tags').val(result.data);
+
+
+
+                }else{
+
+
+
+                    $.pinphp.tip({content:result.msg});
+
+
+
+                }
+
+
+
+            });
+
+
+
+        });
+
+
+
+        $.formValidator.initConfig({formid:"info_form",autotip:true});
+
+
+
+        $("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'});
+
+
+
+    });
+
+
+
+
+
+
+
+    function add_file()
+
+
+
+    {
+
+
+
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+
+
+
+    }
+
+
+
+    function del_file_box(obj)
+
+
+
+    {
+
+
+
+        $(obj).parent().parent().remove();
+
+
+
+    }
+
+
+
+    function add_attr()
+
+
+
+    {
+
+
+
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+
+
+
+    }
+
+
+
+    function del_attr(obj)
+
+
+
+    {
+
+
+
+        $(obj).parent().parent().remove();
+
+
+
+    }
+
+
+
+</script>
+
+
+
+<table id="next_upload_file" style="display:none;">
+
+
+
+    <tbody class="uplode_file">
+
+
+
+    <tr>
+
+
+
+        <th width="100"><a href="javascript:void(0);" onclick="del_file_box(this);" class="blue"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>上传文件 :</th>
+
+
+
+        <td><input type="file" name="imgs[]"></td>
+
+
+
+    </tr>
+
+
+
+    </tbody>
+
+
+
+</table>
+
+
+
+<table id="hidden_attr" style="display:none;">
+
+
+
+    <tbody class="add_item_attr">
+
+
+
+    <tr>
+
+
+
+        <th width="200">
+
+
+
+            <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>属性名 :<input type="text" name="attr[name][]" class="input-text" size="20">
+
+
+
+        </th>
+
+
+
+        <td>属性值 :<input type="text" name="attr[value][]" class="input-text" size="30"></td>
+
+
+
+    </tr>
+
+
+
+    </tbody>
+
+
+
+</table>
+
+
+</body>
+
+
+
+</html>
+<include file="Public:footer" />
+<script>
+$('ul.J_tabs').tabs('div.J_panes > div');
+</script>
+
+<script>
+ var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+</script>

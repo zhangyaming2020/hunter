@@ -1,0 +1,75 @@
+<include file="Public:header" />
+<!--文章列表-->
+
+<div class="pad_lr_10" >
+    <form name="searchform" method="get" >
+    <table width="100%" cellspacing="0" class="search_form">
+        <tbody>
+        <tr>
+            <td>
+            <div class="explain_col">
+                <input type="hidden" name="m" value="admin" />
+                <input type="hidden" name="c" value="DuanXin" />
+                <input type="hidden" name="a" value="index" />
+                <input type="hidden" name="menuid" value="{$menuid}" />
+                &nbsp;&nbsp;关健字 :
+                <input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" />
+                <input type="submit" name="search" class="btn" value="{:L('search')}" />
+            </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </form>
+    
+    <div class="explain_col">  
+	     <form id="addform" action="{:U('DuanXin/upload')}" method="post" enctype="multipart/form-data">
+	        <input style=" width:65px;" type="file" name="excelData" value=""  datatype="*4-50" />
+	        <input type="submit" class="btn btn-primary Sub" value="导入" />
+	    	<!--<a href="{:U('DuanXin/goods_export')}" class="btn btn-primary Sub" >导出</a>-->
+	     </form>
+    </div>
+
+    <div class="J_tablelist table_list" data-acturi="{:U('DuanXin/ajax_edit')}">
+    <table width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th width=25><input type="checkbox" id="checkall_t" class="J_checkall"></th>
+                <th width="30">序号</th>
+                <th width="30">ID</th>
+                <th align="left">姓名</th>
+                <th align="left">手机号</th>
+                <th width="80">状态</th>
+                <th width="80">{:L('operations_manage')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <volist name="list" id="val" >
+            <tr>
+                <td align="center"><input type="checkbox" class="J_checkitem" value="{$val.id}"></td>
+                <td align="center">{$p*20-20+$i}</td>
+                <td align="center">{$val.id}</td>
+                <td align="left"><span data-tdtype="edit" data-field="name" data-id="{$val.id}" class="tdedit" style="color:{$val.colors};">{$val.name}</span></td>
+              	<td align="center">{$val.mobile}</td>
+                <td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__PUBLIC_ADMIN__images/toggle_<if condition="$val.status eq 0">disabled<else/>enabled</if>.gif" /></td>
+                <td align="center">
+                	<a href="{:u('DuanXin/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}">{:L('edit')}</a> | 
+                	<a href="javascript:void(0);" class="J_confirmurl" data-acttype="ajax" data-uri="{:u('DuanXin/delete', array('id'=>$val['id']))}" data-msg="{:sprintf(L('confirm_delete_one'),$val['title'])}">{:L('delete')}</a></td>
+            </tr>
+            </volist>
+        </tbody>
+    </table>
+
+    <div class="btn_wrap_fixed">
+        <label class="select_all"><input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+        <input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('DuanXin/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+        <div id="pages">{$page}</div>
+    </div>
+
+    </div>
+</div>
+<include file="Public:footer" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC_ADMIN__js/calendar/calendar-blue.css"/>
+<script src="__PUBLIC_ADMIN__js/calendar/calendar.js"></script>
+</body>
+</html>

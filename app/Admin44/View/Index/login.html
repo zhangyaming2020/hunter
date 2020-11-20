@@ -1,0 +1,40 @@
+
+<!DOCTYPE html >
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+<title>登录</title>
+<link href="http://demo.mycodes.net/denglu/donghualogin/css/bootstrap.min.css" title="" rel="stylesheet" />
+
+<link title="orange" href="http://demo.mycodes.net/denglu/donghualogin/css/login.css" rel="stylesheet" type="text/css"/>
+
+
+</head>
+<body>
+  
+  <div style="height:1px;"></div>
+  <div class="login">
+     <header>
+	    <h1>众聊后台管理系统</h1>
+	 </header>
+	 <div class="sr">
+	    <form action="{:U('index/login')}" method="post" id="myform" style="width: 350px;">
+		    <div class="name">
+				<label>
+				<i class="sublist-icon glyphicon glyphicon-user"></i>
+				</label>
+				<input type="text" name="username" placeholder="这里输入登录名" class="name_inp">
+			</div>
+			 <div class="name">
+				<label>
+				<i class="sublist-icon glyphicon glyphicon-pencil"></i>
+				</label>
+				<input type="text" name="password"  placeholder="这里输入登录密码" class="name_inp">
+			</div>
+			<button type="submit" name="do" class="dl">登录</button>
+		</form>
+	 </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<include file="Public:header" />
+<!--编辑商品-->
+<form id="info_form" action="{:u('play/edit')}" method="post" enctype="multipart/form-data">
+<div class="pad_lr_10">
+	<div class="col_tab">
+		<ul class="J_tabs tab_but cu_li">
+			<li class="current">基本信息</li>
+            <li>清单</li>
+			<!--<li>SEO设置</li>-->
+            <li>购买须知</li>
+		</ul>
+		<div class="J_panes">
+        <div class="content_list pad_10">
+		<table width="100%" cellpadding="2" cellspacing="1" class="table_form">
+			<tr>
+				<th width="120">所属分类 :</th>
+                <td>
+                <select name="cate_id" class="J_cate_select">
+                <volist name="shop_type" id="val">
+                <option value="{$val.id}" <if condition="$info['cate_id'] eq $val['id']">selected="selected"</if>>{$val.name}</option>
+                </volist>
+                 </select>
+                </td>
+			</tr>
+             <tr class="store">
+             <th width="120">门店 :</th>
+             <td>
+			<select name="store_id">
+            <volist name="now_stores" id="val">
+            <option value="{$val.id}" <if condition="$info['store_id'] eq $val['id']">selected="selected"</if>>{$val.title}</option>
+            </volist>
+            </select>
+			</td>
+			</tr>
+             <tr>
+				<th>标签 :</th>
+				<td>
+                	<input type="radio" name="label" <if condition="$info['label'] eq 0">checked</if>  size="2" value="0">&nbsp;&nbsp;代金券&nbsp;&nbsp;
+                    <input type="radio" name="label" <if condition="$info['label'] eq 1">checked</if>  size="2" value="1">&nbsp;&nbsp;团购券
+                </td>
+			</tr>
+            
+            <tr>
+                <th>标签一 :</th>
+                <td>
+                <input type="checkbox" name="label1[]" <if condition="in_array('全场通用',explode('|',$info['label1']))">checked</if> value="全场通用" />&nbsp;&nbsp;全场通用&nbsp;&nbsp;
+                <input type="checkbox" name="label1[]" <if condition="in_array('免预约',explode('|',$info['label1']))">checked</if>  value="免预约" />&nbsp;&nbsp;免预约&nbsp;&nbsp;
+                <input type="checkbox" name="label1[]" <if condition="in_array('可叠加',explode('|',$info['label1']))">checked</if> value="可叠加" />&nbsp;&nbsp;可叠加&nbsp;&nbsp;
+                </td>
+            </tr>
+             <tr>
+                <th>标签二 :</th>
+                <td>
+                <input type="checkbox" name="label2[]" <if condition="in_array('过期自动退',explode(',',$info['label2']))">checked</if> value="过期自动退" />&nbsp;&nbsp;全场通用&nbsp;&nbsp;
+                <input type="checkbox" name="label2[]" <if condition="in_array('随时退',explode(',',$info['label2']))">checked</if>  value="随时退" />&nbsp;&nbsp;随时退&nbsp;&nbsp;
+               </td>
+            </tr>
+             <tr>
+				<th>热门 :</th>
+				<td>
+                	<input type="radio" name="rm" <if condition="$info['rm'] eq 0">checked</if>  size="2" value="0">&nbsp;&nbsp;否&nbsp;&nbsp;
+                    <input type="radio" name="rm" <if condition="$info['rm'] eq 1">checked</if>  size="2" value="1">&nbsp;&nbsp;是
+                </td>
+			</tr>
+            <tr>
+				<th>名称 :</th>
+				<td><input type="text" name="title" id="J_title" class="input-text" size="60" value="{$info.title}"></td>
+			</tr>
+			
+			
+            <tr>
+				<th>主图 :</th>
+				<td>
+					<notempty name="info['img']"><img src="{:attach($info['img'], 'item')}" width="100" height="100"/><br /></notempty>
+					<!--<notempty name="info['img']"><img src="{:attach(get_thumb($info['img'], '_m'), 'item')}" width="100" height="100"/><br /></notempty>-->
+					<input type="file" name="img" />
+				</td>
+ 			</tr>
+             <tr>
+				<th>价格：</th>
+				<td>
+                <input type="text" name="price" size="10" class="input-text" value="{$info.price}">
+                &nbsp;&nbsp;门店价：<input type="text" name="market_price" size="10" class="input-text" value="{$info.market_price}">
+                &nbsp;&nbsp;可叠加数量：<input type="text" name="unit" size="10" class="input-text" value="{$info.unit}">
+                </td>
+			</tr>
+			<tr>
+		          <th>图文详情 :</th>
+					<td><textarea name="info" class="info" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.info}</textarea></td>
+
+			</tr>
+			
+		</table>
+		</div>
+            <div class="content_list pad_10 hidden">
+              <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="item_attr">
+			
+            <tbody class="add_item_attr">
+          <tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="add_ext(this);"><img src="__STATIC__/css/bgimg/tv-expandable.gif" /></a>  
+                名称 : <input type="text" name="attr[name][]" value="{$attr_sx[0]['attr_name']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+               	份数 : <input type="text" name="attr[num][]" value="{$attr_sx[0]['attr_num']}" class="input-text" size="10">   &nbsp;&nbsp;&nbsp;
+                价格 : <input type="text" name="attr[price][]" value="{$attr_sx[0]['attr_price']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;     
+               	 <input type="hidden" name="attr[attr_id][]" value="{$attr_sx[0]['id']}" />
+                </td>
+            </tr>
+            <if condition="$attr_sx">
+            <volist name="attr_sx" id="val" offset="1">
+             <tr>
+                <td align="left">
+                <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>  
+                名称 : <input type="text" name="attr[name][]" value="{$val['attr_name']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+               	份数 : <input type="text" name="attr[num][]" value="{$val['attr_num']}" class="input-text" size="10">   &nbsp;&nbsp;&nbsp;
+                价格 : <input type="text" name="attr[price][]" value="{$val['attr_price']}" class="input-text" size="10">&nbsp;&nbsp;&nbsp;     
+                	 <input type="hidden" name="attr[attr_id][]" value="{$val['id']}" />
+                </td>
+            </tr>
+            </volist>
+            </if>
+            </tbody>
+		</table>
+            </div>
+        
+        <!--多属性设置-->
+        <div class="content_list pad_10 hidden">
+		 <table width="100%" cellpadding="2" cellspacing="1" class="table_form" id="first_upload_file">
+
+                <tbody class="uplode_file">
+
+                <tr>
+				 <td><textarea name="notice" class="notice" style="width:80%;height:400px;visibility:hidden;resize:none;">{$info.notice}</textarea></td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+		</div>
+        
+        
+        
+        </div>
+		<div class="mt10"><input type="submit" value="{:L('submit')}" id="dosubmit" name="dosubmit" class="btn btn_submit" style="margin:0 0 10px 100px;"></div>
+	</div>
+</div>
+<input type="hidden" name="menuid"  value="{$menuid}"/>
+<input type="hidden" name="id" value="{$info.id}" />
+</form>
+<table id="hidden_attr" style="display:none;">
+    <tbody class="add_item_attr">
+   
+    <tr>
+        <td align="left">
+        <a href="javascript:void(0);" class="blue" onclick="del_attr(this);"><img src="__STATIC__/css/bgimg/tv-collapsable.gif" /></a>  
+        名称 : <input type="text" name="attr[name][]" class="input-text" size="10">&nbsp;&nbsp;&nbsp;
+        份数 : <input type="text" name="attr[num][]" class="input-text" size="10">   &nbsp;&nbsp;&nbsp;
+        价格 : <input type="text" name="attr[price][]"class="input-text" size="10">&nbsp;&nbsp;&nbsp;     
+        </td>
+    </tr>
+    </tbody>
+</table>
+<script src="__PUBLIC_ADMIN__js/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="/theme/default/wap/plupload/plupload.full.min.js"></script>
+<include file="Public:footer" />
+
+<script type="text/javascript">
+
+$('.J_cate_select').change(function(){
+	var id =$(this).val();
+	var store={$store};
+	var now_store =store[id];
+	var str='<th width="120">*门店：</th><td><select name="store_id"><option value="">请选择</option>';
+	if(store!='undefined'){
+		for(var i=0;i<now_store.length;i++){
+			str +='<option value="'+now_store[i]['id']+'">'+now_store[i]['title']+'</option>';
+		}
+	}
+    str +='</td>';$('.store').html(str);$('.store').show();
+})
+$(function() {	
+	KindEditor.create('.info', {
+		uploadJson : '{:U("attachment/editer_upload")}',
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+		allowFileManager : true
+	});
+	KindEditor.create('.notice', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+	KindEditor.create('.menu', {
+
+		uploadJson : '{:U("attachment/editer_upload")}',
+
+		fileManagerJson : '{:U("attachment/editer_manager")}',
+
+		allowFileManager : true
+
+	});
+    var uploader = new plupload.Uploader({
+        runtimes: 'gears,html5,html4,silverlight,flash',
+        browse_button: 'logo_upload_btn',
+        url: "{:U('item/ajax_upload_img')}",
+        flash_swf_url: 'plupload/Moxie.swf',
+        silverlight_xap_url: 'plupload/Moxie.xap',
+        filters: {
+            max_file_size: '25mb',
+            mime_types: [
+                {title: "files", extensions: "jpg,png,gif,jpeg"}
+            ]
+        },
+        multi_selection: true,
+        init: {
+            FilesAdded: function(up, files) {
+                $("#btn_submit").attr("disabled", "disabled").addClass("disabled").val("正在上传...");
+                var item = '';
+                plupload.each(files, function(file) { //遍历文件
+                    item += "<div class='item' id='" + file['id'] + "'><div class='progress'><span class='bar'></span><span class='percent'>0%</span></div></div>";
+                });
+                $("#photos_area").append(item);
+                uploader.start();
+            },
+            UploadProgress: function(up, file) { //上传中，显示进度条
+                var percent = file.percent;
+                $("#" + file.id).find('.bar').css({"width": percent + "%"});
+                $("#" + file.id).find(".percent").text(percent + "%");
+            },
+            FileUploaded: function(up, file, info) {
+                var data = eval("(" + info.response + ")");
+                var datasrc=data.src;
+                data.src='data/attachment/item/'+datasrc;
+
+                $("#" + file.id).html("<input type=hidden name='imgs[]' value='" + datasrc + "'><img src='" + data.src + "' alt='" + data.name + "' width='100px' height='100px'>\n\
+            <div class='operate'><i class='toleft'>左移</i><i class='toright'>右移</i><i class='del'>删除</i></div>")
+
+                $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                if (data.error != 0) {
+                    alert(data.error);
+                }
+            },
+            Error: function(up, err) {
+                if (err.code == -601) {
+                    alert("请上传jpg,png,gif,jpeg,zip或rar！");
+                    $("#btn_submit").removeAttr("disabled").removeClass("disabled").val("提 交");
+                }
+            }
+        }
+    });
+    uploader.init();
+    //左右切换和删除图片
+    $(function() {
+        $(document).delegate(".toleft","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_left = item.prev(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_left.length == 0) {
+                    item.insertAfter($("#photos_area").children(".item:last"));
+                } else {
+                    item.insertBefore(item_left);
+                }
+            }
+
+        })
+        $(document).delegate(".toright","click", function() {
+            var item = $(this).parent().parent(".item");
+            var item_right = item.next(".item");
+            if ($("#photos_area").children(".item").length >= 2) {
+                if (item_right.length == 0) {
+                    item.insertBefore($("#photos_area").children(".item:first"));
+                } else {
+                    item.insertAfter(item_right);
+                }
+            }
+        })
+        $(document).delegate(".del","click", function() {
+            $(this).parent().parent(".item").remove();
+        })
+    })
+	$('ul.J_tabs').tabs('div.J_panes > div');
+	//自动获取标签
+	$('#J_gettags').live('click', function() {
+		var title = $.trim($('#J_title').val());
+		if(title == ''){
+			$.pinphp.tip({content:lang.article_title_isempty, icon:'alert'});
+			return false;
+		}
+		$.getJSON('{:U("play/ajax_gettags")}', {title:title}, function(result){
+			if(result.status == 1){
+				$('#J_tags').val(result.data);
+			}else{
+				$.pinphp.tip({content:result.msg});
+			}
+		});
+	});
+	$.formValidator.initConfig({formid:"info_form",autotip:true});
+	$("#J_title").formValidator({onshow:'请填写商品名称',onfocus:'请填写商品名称'}).inputValidator({min:1,onerror:'请填写商品名称'}).defaultPassed();
+});
+function get_child_cates(obj,to_id)
+{
+	var parent_id = $(obj).val();
+	if( parent_id ){
+		$.get('?m=play&a=get_child_cates&g=admin&parent_id='+parent_id,function(data){
+				var obj = eval("("+data+")");
+				$('#'+to_id).html( obj.content );
+	    });
+    }
+}
+
+ function add_file()
+    {
+        $("#next_upload_file .uplode_file").clone().insertAfter($("#first_upload_file .uplode_file:last"));
+    }
+    function del_file_box(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+     function add_ext()
+    {
+        $("#hidden_attr .add_item_attr").clone().insertAfter($("#item_attr .add_item_attr:last"));
+    }
+    function del_attr(obj)
+    {
+        $(obj).parent().parent().remove();
+    }
+</script>
+</body>
+</html>

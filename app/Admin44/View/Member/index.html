@@ -1,0 +1,164 @@
+<include file="Public:header" />
+<!--会员列表-->
+<div class="pad_10">
+	<form name="searchform" method="get">
+		<table width="100%" cellspacing="0" class="search_form">
+			<tbody>
+				<tr>
+					<td>
+						<div class="explain_col">
+							<input type="hidden" name="m" value="admin" />
+							<input type="hidden" name="c" value="member" />
+							<input type="hidden" name="a" value="index" />
+							<input type="hidden" name="menuid" value="{$menuid}" /> &nbsp;关键字 :
+							<input name="keyword" type="text" class="input-text" size="25" value="{$search.keyword}" /> 							&nbsp;&nbsp;{:L('status')}:
+							<select name="status">
+								<option value="">-{:L('all')}-</option>
+								<option value="1" <if condition="$search.status eq 1">selected</if>>正常会员</option>
+								<option value="0" <if condition="$search.status heq '0'">selected</if>>未启用会员</option>
+							</select>
+							<!--&nbsp;&nbsp;会员级别:
+							<select name="vips" >
+								<option value="">-{:L('all')}-</option>
+								<option value="0" <if condition="$search.vips heq '0'">selected</if>>普通用户</option>
+			                	<option value="1" <if condition="$search.vips eq 1">selected</if>>vip会员</option>
+			                	<option value="2" <if condition="$search.vips eq 2">selected</if>>银卡会员</option>
+			                	<option value="3" <if condition="$search.vips eq 3">selected</if>>金卡会员</option>
+			                	<option value="4" <if condition="$search.vips eq 4">selected</if>>白金卡会员</option>
+			                	<option value="5" <if condition="$search.vips eq 5">selected</if>>钻石卡会员</option>
+							</select>
+							-->
+							<input type="submit" class="btn" value="搜索" />
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+
+	<div class="explain_col">
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="">
+					<form id="addform" action="{:U('member/upload')}" method="post" enctype="multipart/form-data">
+						<span class="daoruzi">正常会员导入：</span>
+						<input type="file" style=" width:65px;" name="excelData" value="" datatype="*4-50" nullmsg="" />
+						<input type="submit" class="btn btn-primary Sub" value="导入" />
+					<a href="{:U('member/dao_member1',array('type'=>'normal'))}"><span class="daoruzi">正常会员导出 </span></a>
+					</form> 
+				</td>
+				<td> 
+					<form id="addform" action="{:U('member/uploadh')}" method="post" enctype="multipart/form-data">
+						<span class="daoruzi">黑名用户导入： </span>
+						<input type="file" style=" width:65px;" name="excelData" value="" datatype="*4-50" nullmsg="" />
+						<input type="submit" class="btn btn-primary Sub" value="导入" />
+						<a href="{:U('member/dao_member1',array('type'=>'black'))}"><span class="daoruzi">黑名用户导出 </span></a>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="J_tablelist table_list" data-acturi="{:U('member/ajax_edit')}">
+		<table width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th width=20>
+						<input type="checkbox" id="checkall_t" class="J_checkall">
+					</th>
+					<!--<th width="55"><span data-tdtype="order_by" data-field="id">ID</span></th>-->
+					<!--<th width="15">头像</th>-->
+					<th width="101" align="left"><span data-tdtype="order_by" data-field="id">会员ID</span></th>
+					
+					<th width="110" align="left"><span data-tdtype="order_by" data-field="product_id">会员昵称</span></th>
+					<th width="110" align="left">头像</th>
+					<th width="84" align="left">手机</th>
+					<th width="115"><span data-tdtype="order_by" data-field="status">{:L('status')}</span></th>
+					<th width="85" align="left"><span data-tdtype="order_by" data-field="prices">余额</span></th>
+					<th width="175">{:L('operations_manage')}</th>
+				</tr>
+			</thead>
+
+			<volist name="list" id="val">
+				<tr>
+					<td align="center">
+						<input type="checkbox" class="J_checkitem" value="{$val.id}">
+					</td>
+					<td align="center">{$val.id}</td>
+					<td align="center"><span data-tdtype="edit" data-field="nickname" data-id="{$val.id}" class="tdedit">{$val['nickname']|default='暂未设置'}</span></td>
+					<td align="center">
+                    	<img src="{$val['avatar']}" width="50" height="50">
+                    </td>
+					<td align="center">{$val.mobile|default='暂未设置'}</td>
+					<td align="center"><img data-tdtype="toggle" data-id="{$val.id}" data-field="status" data-value="{$val.status}" src="__STATIC__/images/toggle_<if condition=" $val.status eq 0 ">disabled<else/>enabled</if>.gif" /></td>
+					<td align="center"><span data-tdtype="edit" data-field="balance" data-id="{$val.id}" class="tdedit">{$val.balance}</span>|
+						<a href="javascript:;" class="J_showdialog" data-uri="{:u('member/balance', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="详情-余额" data-id="edit" data-width="620" data-height="330">详情</a></td>                   
+					<td align="center">
+						<a href="javascript:;" class="J_showdialog" data-uri="{:u('member/edit', array('id'=>$val['id'], 'menuid'=>$menuid))}" data-title="编辑-{$val.nickname}" data-id="edit" data-width="520" data-height="330">编辑</a> |
+
+						<a href="javascript:void(0);" class="J_confirmurl" data-uri="{:u('member/delete', array('id'=>$val['id']))}" data-acttype="ajax" data-msg="{:sprintf(L('confirm_delete_one'),$val['nickname'])}">{:L('delete')}</a></td>
+
+				</tr>
+
+			</volist>
+
+		</table>
+
+	</div>
+	<div class="songkebor">
+
+		<label class="select_all">
+			<input type="checkbox" name="checkall" class="J_checkall">{:L('select_all')}/{:L('cancel')}</label>
+
+		<input type="button" class="btn" data-tdtype="batch_action" data-acttype="ajax" data-uri="{:U('member/delete')}" data-name="id" data-msg="{:L('confirm_delete')}" value="{:L('delete')}" />
+
+		<div id="pages">{$page}</div>
+
+	</div>
+</div>
+
+<include file="Public:footer" />
+
+</body>
+
+</html>
+
+<link rel="stylesheet" type="text/css" href="__STATIC__/js/calendar/calendar-blue.css" />
+<script type="text/javascript" src="__STATIC__/js/calendar/calendar.js"></script>
+<script>
+	$(".xianru").change(function(){
+	   var id = $(this).data('id');
+	   var xian_id = $(this).val();
+//	   alert(id+','+xian_id);
+	   $.ajax({
+	   	type:"get",
+	   	url:"?m=admin&c=member&a=ajax_xian_ru&id="+id+"&xian_id="+xian_id,
+	   	async:true,
+	   	success:function(data){
+	   		if(data == 2){
+	   			alert('请检查网络状态！');
+	   		}
+	   	}
+	   });
+	});
+</script>
+<?php
+    function vip_jb($status){
+    	if($status == 0){
+    		$vip = "普通会员";
+    	}else if($status == 1){
+    		$vip = "VIP会员";
+    	}else if($status == 2){
+    		$vip = "银卡会员";
+    	}else if($status == 3){
+    		$vip = "金卡会员";
+    	}else if($status == 4){
+    		$vip = "白金卡会员";
+    	}else if($status == 5){
+    		$vip = "钻石卡会员";
+    	}
+    	
+    	return $vip;
+    }	
+?>
